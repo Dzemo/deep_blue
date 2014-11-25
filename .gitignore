@@ -2,6 +2,6 @@
 doc/*
 phpdoc.bat
 log/*
-images/generation/*
 config.php
 css/styles.css
+sftp-config.json

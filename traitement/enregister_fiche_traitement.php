@@ -53,18 +53,10 @@
 	{
 		$erreurs[] = ['numero' => 0, 'type' => 'val_abs', 'msg' => '<strong>Date</strong> de plongé manquante ou invalide (Format JJ/MM/AAAA attendu)'];
 	}
-	if(!filter_input(INPUT_POST, 'heure', FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^\s*\d\d\s*$/")))){
-		$erreurs[] = ['numero' => 0, 'type' => 'val_abs', 'msg' => '<strong>Heure</strong> de plongé manquante ou invalide (Format HH attendu)'];
-	}
-	if(!filter_input(INPUT_POST, 'minute', FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^\s*\d\d\s*$/")))){
-		$erreurs[] = ['numero' => 0, 'type' => 'val_abs', 'msg' => '<strong>Minute</strong> de plongé manquante ou invalide (Format MM attendu)'];
-	}
 	if(count($erreurs) == 0){
 		//Si pas d'erreur jusque la et donc sur date/heure/minute, on calcul le timestamps du match
 		list($jour, $mois, $annee) = explode('/',trim($_POST['date']));
-		$heure = trim($_POST['heure']);
-		$minute = trim($_POST['minute']);
-		$timestamp = mktime(intval($heure), intval($minute), 0,intval($mois), intval($jour), intval($annee));
+		$timestamp = mktime(intval($mois), intval($jour), intval($annee));
 		$ficheSecurite->setTimestamp($timestamp);
 	}
 	

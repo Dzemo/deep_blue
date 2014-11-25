@@ -46,6 +46,16 @@
 		$msg .="Erreur lors de la validation du formulaire Embarcation: Libelle invalide ou manquant";
 	}
 
+	//Maxpersonne
+	if(filter_input(INPUT_POST, 'embarcation_maxpersonne', FILTER_VALIDATE_INT)){
+		$embarcation_maxpersonne = intval($_POST['embarcation_maxpersonne']);
+		$embarcation->setMaxpersonne($embarcation_maxpersonne);
+	}
+	else{
+		$msgType = "erreur";
+		$msg .=";Erreur lors de la validation du formulaire Embarcation: Pas de contenance maximum précisé";
+	}
+
 	//Commentaire
 	if(isset($_POST['embarcation_commentaire']) && strlen($_POST['embarcation_commentaire']) > 0){
 		$embarcation_commentaire = filter_var($_POST['embarcation_commentaire'], FILTER_SANITIZE_STRING);
@@ -66,7 +76,7 @@
 
 	//Erreur ? on envoie et on quitte
 	if(strlen($msg) != 0){
-		header('Location: '.$GLOBALS['dns'].'index.php?page=administration&msg='.$msg.'&msgType='.$msgType.'&active=2');
+		header('Location: '.$GLOBALS['dns'].'index.php?page=administration&msg='.$msg.'&msgType='.$msgType);
 		die();
 	}
 
@@ -79,7 +89,7 @@
 		//erreur bdd
 		$msgType = "erreur";
 		$msg .="Erreur lors de l'accès à la base de données";
-		header('Location: '.$GLOBALS['dns'].'index.php?page=administration&msg='.$msg.'&msgType='.$msgType.'&active=2');
+		header('Location: '.$GLOBALS['dns'].'index.php?page=administration&msg='.$msg.'&msgType='.$msgType);
 		die();
 	}
 	else{
@@ -92,7 +102,7 @@
 		//Renvoi vers l'administration avec un message
 		$msgType = "succes";
 		$msg .="Embarcation ".$embarcation->getLibelle()." ".$operationMsg." avec succès";
-		header('Location: '.$GLOBALS['dns'].'index.php?page=administration&msg='.$msg.'&msgType='.$msgType.'&active=2');
+		header('Location: '.$GLOBALS['dns'].'index.php?page=administration&msg='.$msg.'&msgType='.$msgType);
 		die();
 	}
 	

@@ -71,9 +71,9 @@
 		$site = filter_var($_POST['site'], FILTER_SANITIZE_STRING);
 		$ficheSecurite->setSite($site);
 	}
-	else{
+	/*else{ // MIS EN COMMENTAIRE LE 26/11/14 par FLAVIO | Cause : Site est non obligatoire à la création
 		$erreurs[] = ['numero' => 0, 'type' => 'val_abs', 'msg' => '<strong>Site</strong> de plongé manquant'];
-	}
+	}*/
 	
 	//Récupération du directeur de plongé
 	if(filter_input(INPUT_POST, 'directeur_plonge_id', FILTER_VALIDATE_INT)){
@@ -355,8 +355,8 @@
 				}
 				else{
 					//Plongé autonome, minimum 3 plongeurs
-					if(count($palanque->getPlongeurs()) < 3){
-						$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Il faut au minium <stong>3</strong> plongeurs pour une plongé '.typePlongeToString($palanque->getTypePlonge())];
+					if(count($palanque->getPlongeurs()) > 3){
+						$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Il faut au maximum <stong>3</strong> plongeurs pour une plongé '.typePlongeToString($palanque->getTypePlonge())];
 					}
 				}
 				

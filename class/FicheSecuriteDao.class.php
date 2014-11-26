@@ -94,7 +94,6 @@
 				$ficheSecurite->getEmbarcation() == null || $ficheSecurite->getEmbarcation()->getId() == null ||
 				$ficheSecurite->getTimestamp() == null ||
 				$ficheSecurite->getEtat() == null || strlen($ficheSecurite->getEtat()) == 0 ||
-				$ficheSecurite->getSite() == null || strlen($ficheSecurite->getSite()) == 0 ||
 				$ficheSecurite->getVersion() === null)
 				return null;
 			$ficheSecurite->incrementeVersion();

@@ -35,8 +35,16 @@
 		 * Constante d'une plongé effectuant un baptême
 		 */
 		const plongeBapteme = "BAPTEME";
+		/**
+		 * Constante de la profondeur par défaut
+		 */
+		const plongeDefaultProf = "20";
+		/**
+		 * Constante de la profondeur par défaut
+		 */
+		const plongeDefaultDuree = "40";
 		///////////////////////
-		// Constantes Fun  //
+		// Constantes Fin  //
 		// Variables Debut //
 		///////////////////////
 		/**

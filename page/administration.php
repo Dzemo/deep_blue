@@ -349,7 +349,7 @@
 					<tr>
 						<td class="align_right">Actif </td>
 						<td class="align_left">
-							<input type="checkbox" name="utilisateur_actif" value="actif" <?php if($u && $u->getActif()) echo "checked";?>>
+							<input type="checkbox" name="utilisateur_actif" value="actif" <?php if($u && $u->getActif() || $u == null) echo "checked";?>>
 						</td>
 					</tr>
 				</table>

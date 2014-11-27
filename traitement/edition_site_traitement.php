@@ -1,7 +1,9 @@
 <?php
 	require_once("../session.php");
 	require_once("../utils/DateStringUtils.php");
-
+	
+	header('Content-Type: text/plain; charset=utf-8');
+	
 	//////////////////////////////////////////////////////
 	//Vérification qu'un moniteur est bien connecté //
 	//////////////////////////////////////////////////////

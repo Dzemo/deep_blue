@@ -33,7 +33,7 @@ function printListFiche($arrayFichesSecurite) {
 	      			echo "<td>".$fiche->getNom()."</td>";
 					echo "<td>".$fiche->getDate()."</td>";
 					echo "<td>".$fiche->getTime()."</td>";
-					echo "<td>".($fiche->getSite() != null ? $fiche->getSite() : "")."</td>";
+					echo "<td>".($fiche->getSite() != null ? $fiche->getSite()->getNom() : "")."</td>";
 					echo "<td>".$fiche->getEmbarcation()->getLibelle()."</td>";
 					echo "<td class='responsableColor bold'>".$fiche->getDirecteurPlonge()->getPrenom()." ".$fiche->getDirecteurPlonge()->getNom()."</td>";
 				

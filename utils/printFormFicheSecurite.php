@@ -43,9 +43,11 @@
 								id="fiche_securite_version"
 								name="fiche_securite_version" 
 								value="<?php if($m) echo $f->getVersion();?>" />
+						
 						<table class="panel-wrapper"><tr><td>
 							<div id="site_dp" class="panel-form">
 								<table>
+									
 									<tr id="embarcation">
 										<td><label for="id_embarcation">Embarcation</label></td>
 										<td>
@@ -56,15 +58,21 @@
 											</select>
 										</td>
 									</tr>
+									
 									<tr>
 										<td><label for="site">Site</label></td>
 										<td>
+											<input 	type="hidden" 
+													id="id_site" 
+													name="id_site" 
+													value="<?php if($m && $f->getSite() != null) echo $f->getSite()->getId();?>"/>
 											<input 	type="text" 
-													id="site" 
-													name="site" 
-													value="<?php if($m) echo $f->getSite();?>"/>
+													id="nom_site" 
+													name="nom_site" 
+													value="<?php if($m && $f->getSite() != null) echo $f->getSite()->getNom();?>"/>
 										</td>
 									</tr>
+									
 									<tr>
 										<td><label for="directeur_plonge">Directeur de plongé</label></td>
 										<td>
@@ -150,14 +158,18 @@
 				var tabs;
 				///
 				$(function() {
+
 					//Initialisation du système d'onglet
 					tabs = $('#form_fiche_palanque').tabs({ collapsible: false });
+
 					//Ajout du date picker
 			        $( "#date" ).datepicker();
+
 			        //Ajout de la progresse bar pour l'envoi des données
 			        $( "#progressbar" ).progressbar({
 			      		value: false
 			        });
+
 			        //Ajout de l'autocomplete sur le directeur de plongé			        
 				    $("#directeur_plonge").autocomplete({
 				        source: [<?php printDirecteurPlongeSource() ?>],
@@ -172,8 +184,25 @@
 				    }).focus(function(){     
 			            $(this).data("uiAutocomplete").search($(this).val());
 			        });
+
+			        //Ajout de l'autocomplete sur le site        
+				    $("#nom_site").autocomplete({
+				        source: [<?php printSiteSource() ?>],
+				        minLength: 0,
+				        dataType: 'json',
+				        change: function(event, ui) {
+				            $("#id_site").val(ui.item ? ui.item.id : "");
+				        },
+				        select: function(event, ui) {
+				            $("#id_site").val(ui.item ? ui.item.id : "");
+				        }
+				    }).focus(function(){     
+			            $(this).data("uiAutocomplete").search($(this).val());
+			        });
+
 				    //Ajout du sumoselect sur l'embarcation
 				   	$('#id_embarcation').SumoSelect();
+
 			        //Ajout des sumoselect sur les aptitudes des moniteurs et des plongeurs si il y en a
 			        <?php
 			        	if($m){
@@ -458,7 +487,7 @@
 									<select name="pal<?php if($m) echo $pal->getNumero();?>_type_gaz"
 											id="pal<?php if($m) echo $pal->getNumero();?>_type_gaz"
 											>
-											<option value=""></option>
+											<option value="">&nbp;</option>
 											<option value="<?php echo Palanque::gazAir;?>"
 													data-sumo-class="airColor"
 													<?php if($m && $pal->getTypeGaz() == Palanque::gazAir) echo "selected"?>
@@ -473,7 +502,7 @@
 									<select name="pal<?php if($m) echo $pal->getNumero();?>_type_plonge"
 											id="pal<?php if($m) echo $pal->getNumero();?>_type_plonge"
 											>
-											<option value=""></option>
+											<option value="">&nbp;</option>
 											<option value="<?php echo Palanque::plongeTechnique;?>"
 													<?php if($m && $pal->getTypePlonge() == Palanque::plongeTechnique) echo "selected"?>
 													>Plongée technique</option>
@@ -750,6 +779,7 @@
 				echo $arr[0];
 		}
 	}
+
 	/**
 	 * Prend un paramètre une fiche de sécurité ou null. Si une fiche est passé, affiche les minutes de sortie prévu par la fiche.
 	 * Si null, n'affiche rien
@@ -762,6 +792,7 @@
 				echo $arr[1];
 		}
 	}
+
 	/**
 	 * Affiche les sources pour l'autocomplete du Directeur de plongé, au format 'Prénom Nom'
 	 */
@@ -777,6 +808,27 @@
 		}
 		echo $result;
 	}
+
+	/**
+	 * Affiche les sources pour l'autocomplete du site de plongé
+	 */
+	function printSiteSource(){
+		$arraySite = SiteDao::getAll();
+		$result = "";
+
+		if($arraySite != null){
+			foreach($arraySite as $site){
+
+				if(strlen($result) > 0)
+					$result .= ",";
+				$commentaire = strlen($site->getCommentaire()) > 0 ? " (".$site->getCommentaire().")" : "";
+				$result .= "{value: '".$site->getNom()."', id: ".$site->getId().", label: '".$site->getNom().$commentaire."' }";
+			}
+		}
+
+		echo $result;
+	}
+
 	/**
 	 * Affiche les options d'embarcation pour le select, avec éventuellement l'embarcation de la fiche de sécurité courante de séléctionnée
 	 *
@@ -784,7 +836,7 @@
 	 */
 	function printEmbarcationOptions($ficheSecurite){
 		$arrayEmbarcation = EmbarcationDao::getAllDisponible();
-		$result = "<option value=\"\"></option>";
+		$result = "<option value=\"\">&nbsp;</option>";
 		$idEmbarcation = $ficheSecurite != null && $ficheSecurite->getEmbarcation() != null ? $ficheSecurite->getEmbarcation()->getId() : null;
 		if($arrayEmbarcation != null){
 			foreach($arrayEmbarcation as $embarcation){

@@ -1,6 +1,8 @@
 <div class="titre">Administration</div>
 
 <?php
+	//Affichage des messages de formulaire
+
 	if(isset($_GET['msgType']) && isset($_GET['msg'])){
 		$msgArray = explode(";",$_GET['msg']);
 		?>
@@ -15,174 +17,245 @@
 		<?php
 	}
 ?>
-<div class="tableAdmin">
-	<div class="sous-titre">Utilisateurs</div>
-	<table class="dataTable">
-		<thead>
-			<tr>
-				<th>Login</th>
-				<th>Nom</th>
-				<th>Prénom</th>
-				<th>Email</th>
-				<th>Administrateur</th>
-				<th>Actif</th>
-				<th colspan="2">Modifier /<br>Desactiver</th>
-				<th>Réinitialiser le <br>mot de passe</th>
-				<th>Historique</th>
-			<tr/>
-		</thead>	
-		<tbody>
-			<?php
-				$listeUtilisateurs = UtilisateurDao::getAll();
-				for($i = 0; $i<count($listeUtilisateurs);$i++){
-					$utilisateur = $listeUtilisateurs[$i];
-					?>
-						<tr>
-							<td><?php echo $utilisateur->getLogin();?></td>
-							<td><?php echo $utilisateur->getNom();?></td>
-							<td><?php echo $utilisateur->getPrenom();?></td>
-							<td><?php echo $utilisateur->getEmail();?></td>
-							<td><?php printBool($utilisateur->isAdministrateur());?></td>
-							<td><?php printBool($utilisateur->getActif());?></td>
-							<td>
-								<div 	class='icone-crayon' 
-										style='cursor: pointer;' 
-										onclick='$("#modal_edition_utilisateur_<?php echo $i;?>").bPopup()'
-										>
-							</td>
-							<td>
-								<div 	class='<?php echo (!$utilisateur->getActif() ? 'icone-activer' : 'icone-poubelle');?>'
-										style='cursor: pointer;' 
-										onclick='$("#modal_desactivation_utilisateur_<?php echo $i;?>").bPopup()'
-										>
-							</td>
-							<td>
-								<div 	class='icone-reset' 
-										style='cursor: pointer;' 
-										onclick='$("#modal_reinisialisation_mot_de_passe_utilisateur_<?php echo $i;?>").bPopup()'>
-							</td>
-							<td>
-								<div 	class='icone-loupe' 
-										style='cursor: pointer;' 
-										onclick='$("#modal_historique_<?php echo $i;?>").bPopup()'>
-							</td>
-						</tr>
-					<?php
-				}
-			?>
-		</tbody>
-	</table>
-	<div class="buttons">
-		<span 	class="button blue"
-				style='cursor: pointer;' 
-				onclick='$("#modal_edition_utilisateur_nouveau").bPopup()'
-				>Ajouter un utilisateur</span>
-	</div>
-</div>
 
-<div class="tableAdmin">
-	<div class="sous-titre">Moniteurs</div>
-	<table class="dataTable">
-		<thead>
-			<tr>
-				<th>Nom</th>
-				<th>Prénom</th>
-				<th>Aptitudes</th>
-				<th>Email</th>
-				<th>Téléphone</th>
-				<th>Directeur de plongée</th>
-				<th>Actif</th>
-				<th colspan="2">Modifier /<br>Desactiver</th>
-			<tr/>
-		</thead>	
-		<tbody>
-			<?php
-				$listeMoniteur = MoniteurDao::getAll();
-				for($i = 0; $i<count($listeMoniteur);$i++){
-					$moniteur = $listeMoniteur[$i];
-					?>
-						<tr>
-							<td><?php echo $moniteur->getNom();?></td>
-							<td><?php echo $moniteur->getPrenom();?></td>
-							<td><?php echo Aptitude::toLibelleString($moniteur->getAptitudes());?></td>
-							<td><?php echo $moniteur->getEmail();?></td>
-							<td><?php echo $moniteur->getTelephone();?></td>
-							<td><?php printBool($moniteur->estDirecteurPlonge());?></td>
-							<td><?php printBool($moniteur->estActif());?></td>
-							<td>
-								<div 	class='icone-crayon' 
-										style='cursor: pointer;' 
-										onclick='$("#modal_edition_moniteur_<?php echo $moniteur->getId();?>").bPopup()'
-										>
-							</td>
-							<td>
-								<div 	class='<?php echo (!$moniteur->estActif() ? 'icone-activer' : 'icone-poubelle');?>'
-										style='cursor: pointer;' 
-										onclick='$("#modal_desactivation_moniteur_<?php echo $moniteur->getId();?>").bPopup()'
-										>
-							</td>
-						</tr>
-					<?php
-				}
-			?>
-		</tbody>
-	</table>
-	<div class="buttons">
-		<span 	class="button blue"
-				style='cursor: pointer;' 
-				onclick='$("#modal_edition_moniteur_nouveau").bPopup()'
-				>Ajouter un moniteur</span>
-	</div>
-</div>
 
-<div class="tableAdmin">
-	<div class="sous-titre">Embarcations</div>
-	<table class="dataTable">
+<div id="administrationContent">
+	<ul>
+		<li><a href="#adminUtilisateurs">Utilisateurs</a></li>
+		<li><a href="#adminMoniteurs">Moniteurs</a></li>
+		<li><a href="#adminEmbarcations">Embarcations</a></li>
+		<li><a href="#adminSites">Sites de plongé</a></li>
+	</ul>
+
+	<!-- Utilisateurs -->
+	<div id="adminUtilisateurs" class="tableAdmin">
+		<div class="sous-titre">Utilisateurs</div>
+		<table class="dataTable">
+			<thead>
+				<tr>
+					<th>Login</th>
+					<th>Nom</th>
+					<th>Prénom</th>
+					<th>Email</th>
+					<th>Administrateur</th>
+					<th>Actif</th>
+					<th colspan="2">Modifier /<br>Desactiver</th>
+					<th>Réinitialiser le <br>mot de passe</th>
+					<th>Historique</th>
+				<tr/>
+			</thead>	
+			<tbody>
+				<?php
+					$listeUtilisateurs = UtilisateurDao::getAll();
+					for($i = 0; $i<count($listeUtilisateurs);$i++){
+						$utilisateur = $listeUtilisateurs[$i];
+						?>
+							<tr>
+								<td><?php echo $utilisateur->getLogin();?></td>
+								<td><?php echo $utilisateur->getNom();?></td>
+								<td><?php echo $utilisateur->getPrenom();?></td>
+								<td><?php echo $utilisateur->getEmail();?></td>
+								<td><?php printBool($utilisateur->isAdministrateur());?></td>
+								<td><?php printBool($utilisateur->getActif());?></td>
+								<td>
+									<div 	class='icone-crayon' 
+											style='cursor: pointer;' 
+											onclick='$("#modal_edition_utilisateur_<?php echo $i;?>").bPopup()'
+											>
+									</div>
+								</td>
+								<td>
+									<div 	class='<?php echo (!$utilisateur->getActif() ? 'icone-activer' : 'icone-poubelle');?>'
+											style='cursor: pointer;' 
+											onclick='$("#modal_desactivation_utilisateur_<?php echo $i;?>").bPopup()'
+											>
+									</div>
+								</td>
+								<td>
+									<div 	class='icone-reset' 
+											style='cursor: pointer;' 
+											onclick='$("#modal_reinisialisation_mot_de_passe_utilisateur_<?php echo $i;?>").bPopup()'>
+									</div>
+								</td>
+								<td>
+									<div 	class='icone-loupe' 
+											style='cursor: pointer;' 
+											onclick='$("#modal_historique_<?php echo $i;?>").bPopup()'>
+									</div>
+								</td>
+							</tr>
+						<?php
+					}
+				?>
+			</tbody>
+		</table>
+		<div class="buttons">
+			<span 	class="button blue"
+					style='cursor: pointer;' 
+					onclick='$("#modal_edition_utilisateur_nouveau").bPopup()'
+					>Ajouter un utilisateur</span>
+		</div>
+	</div>	
+
+	<!-- Moniteurs -->
+	<div id="adminMoniteurs" class="tableAdmin">
+		<div class="sous-titre">Moniteurs</div>
+		<table class="dataTable">
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Prénom</th>
+					<th>Aptitudes</th>
+					<th>Email</th>
+					<th>Téléphone</th>
+					<th>Directeur de plongée</th>
+					<th>Actif</th>
+					<th colspan="2">Modifier /<br>Desactiver</th>
+				<tr/>
+			</thead>	
+			<tbody>
+				<?php
+					$listeMoniteur = MoniteurDao::getAll();
+					for($i = 0; $i<count($listeMoniteur);$i++){
+						$moniteur = $listeMoniteur[$i];
+						?>
+							<tr>
+								<td><?php echo $moniteur->getNom();?></td>
+								<td><?php echo $moniteur->getPrenom();?></td>
+								<td><?php echo Aptitude::toLibelleString($moniteur->getAptitudes());?></td>
+								<td><?php echo $moniteur->getEmail();?></td>
+								<td><?php echo $moniteur->getTelephone();?></td>
+								<td><?php printBool($moniteur->estDirecteurPlonge());?></td>
+								<td><?php printBool($moniteur->estActif());?></td>
+								<td>
+									<div 	class='icone-crayon' 
+											style='cursor: pointer;' 
+											onclick='$("#modal_edition_moniteur_<?php echo $moniteur->getId();?>").bPopup()'
+											></div>
+								</td>
+								<td>
+									<div 	class='<?php echo (!$moniteur->estActif() ? 'icone-activer' : 'icone-poubelle');?>'
+											style='cursor: pointer;' 
+											onclick='$("#modal_desactivation_moniteur_<?php echo $moniteur->getId();?>").bPopup()'
+											></div>
+								</td>
+							</tr>
+						<?php
+					}
+				?>
+			</tbody>
+		</table>
+		<div class="buttons">
+			<span 	class="button blue"
+					style='cursor: pointer;' 
+					onclick='$("#modal_edition_moniteur_nouveau").bPopup()'
+					>Ajouter un moniteur</span>
+		</div>
+	</div>
+
+	<!-- Embarcations -->
+	<div id="adminEmbarcations" class="tableAdmin">
+		<div class="sous-titre">Embarcations</div>
+		<table class="dataTable">
 		<thead>
 			<tr>
 				<th>Libelle</th>
-				<th>Contenance Maximum</th>
 				<th>Commentaire</th>
 				<th>Disponible</th>
 				<th colspan="2">Modifier / Desactiver</th>
 			<tr/>
-		</thead>
-		<tbody>
-			<?php				
-				$listeEmbarcation = EmbarcationDao::getAll();
-				for($i = 0; $i<count($listeEmbarcation);$i++){
+			</thead>
+			<tbody>
+				<?php	
+					$listeEmbarcation = EmbarcationDao::getAll();
+					for($i = 0; $i<count($listeEmbarcation);$i++){
 					$embarcation = $listeEmbarcation[$i];
-					?>
-						<tr>
-							<td><?php echo $embarcation->getLibelle();?></td>
-							<td><?php echo $embarcation->getMaxpersonne();?> personnes</td>
-							<td><?php echo $embarcation->getCommentaire();?></td>
-							<td><?php printBool($embarcation->getDisponible());?></td>
-							<td>
-								<div 	class='icone-crayon' 
-										style='cursor: pointer;' 
-										onclick='$("#modal_edition_embarcation_<?php echo $embarcation->getId();?>").bPopup()'
-										>
-							</td>
-							<td>
-								<div 	class='<?php echo (!$embarcation->getDisponible() ? 'icone-activer' : 'icone-poubelle');?>'
-										style='cursor: pointer;' 
-										onclick='$("#modal_desactivation_embarcation_<?php echo $embarcation->getId();?>").bPopup()'
-										>
-							</td>
-						</tr>
-					<?php
-				}
-			?>	
-		</tbody>
-	</table>
-	<div class="buttons">
-		<span 	class="button blue"
-				style='cursor: pointer;' 
-				onclick='$("#modal_edition_embarcation_nouvelle").bPopup()'
-				>Ajouter une embarcation</span>
+						?>
+							<tr>
+								<td><?php echo $embarcation->getLibelle();?></td>
+								<td><?php echo $embarcation->getCommentaire();?></td>
+								<td><?php printBool($embarcation->getDisponible());?></td>
+								<td>
+									<div 	class='icone-crayon'
+											style='cursor: pointer;'
+											onclick='$("#modal_edition_embarcation_<?php echo $embarcation->getId();?>").bPopup()'
+										></div>
+								</td>
+								<td>
+									<div 	class='<?php echo (!$embarcation->getDisponible() ? 'icone-activer' : 'icone-poubelle');?>'
+											style='cursor: pointer;'
+											onclick='$("#modal_desactivation_embarcation_<?php echo $embarcation->getId();?>").bPopup()'
+										></div>
+								</td>
+							</tr>
+						<?php
+					}
+				?>	
+			</tbody>
+		</table>
+		<div class="buttons">
+			<span 	class="button blue"
+					style='cursor: pointer;'
+					onclick='$("#modal_edition_embarcation_nouvelle").bPopup()'
+					>Ajouter une embarcation</span>
+		</div>
 	</div>
+
+	<!-- Sites -->
+	<div id="adminSites" class="tableAdmin">
+		<div class="sous-titre">Site de plongée</div>
+		<table class="dataTable">
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Commentaire</th>
+					<th colspan="2">Modifier / Supprimer</th>
+				<tr/>
+			</thead>
+			<tbody>
+				<?php				
+					$listeSite = SiteDao::getAll();
+					foreach($listeSite as $site){
+						?>
+							<tr>
+								<td><?php echo $site->getNom();?></td>
+								<td><?php echo $site->getCommentaire();?></td>
+								<td>
+									<div 	class='icone-crayon' 
+											style='cursor: pointer;' 
+											onclick='$("#modal_edition_site_<?php echo $site->getId();?>").bPopup()'
+											>
+									</div>
+								</td>
+								<td>
+									<div 	class='icone-poubelle'
+											style='cursor: pointer;' 
+											onclick='$("#modal_desactivation_site_<?php echo $site->getId();?>").bPopup()'
+											>
+									</div>
+								</td>
+							</tr>
+						<?php
+					}
+				?>	
+			</tbody>
+		</table>
+		<div class="buttons">
+			<span 	class="button blue"
+					style='cursor: pointer;' 
+					onclick='$("#modal_edition_site_nouvelle").bPopup()'
+					>Ajouter un site</span>
+		</div>
+	</div>
+
 </div>
+
+<script type="text/javascript">
+	$(function(){
+		$('#administrationContent').tabs(<?php if(isset($_GET['active'])) echo "{active:".$_GET['active']."}";?>);
+	})
+</script>
+
 <?php 
 	//Affichage des modaux
 	
@@ -209,6 +282,14 @@
 		printModalDesactivationEmbarcation($listeEmbarcation[$i]);
 	}
 	printModalEditionEmbarcation(null);
+
+	//Site
+	foreach($listeSite as $site){
+		printModalEditionSite($site);
+		printModalDesactivationSite($site);
+	}
+	printModalEditionSite(null);
+	
 ?>
 <script type="text/javascript">
 	<?php
@@ -580,6 +661,93 @@
 						<td>
 							<span 	class="button red" 
 									onclick='$("#modal_desactivation_embarcation_<?php echo $e->getId();?>").bPopup().close()'
+									>Annuler
+							</span>
+						</td>
+					</tr>
+				</table>
+			</form>
+		<?php
+	}
+
+	/**
+	 * Affiche le modal de modification du site fourni en parametre ou le modal d'ajout d'un nouveau site
+	 * @param  Site $e 
+	 */
+	function printModalEditionSite($s){
+		?>
+			<form id="modal_edition_site_<?php echo ($s ? $s->getId() : "nouvelle");?>"
+					method="POST"
+					class="modal_form_administration"
+					action="traitement/edition_site_traitement.php">
+				<div class="sous-titre">
+					<?php 
+						if($s) echo "Modification du site '".$s->getNom()."':";
+						else   echo "Création d'un nouveau site:";
+					?>
+				</div>
+				<input type="hidden" name="site_id" value="<?php if($s) echo $s->getId();?>">
+				<table class="form_content">
+					<tr>
+						<td class="align_right">Nom </td>
+						<td class="align_left">
+							<input type="text" name="site_nom" value="<?php if($s) echo $s->getNom();?>">
+						</td>
+					</tr>
+					<tr>
+						<td class="align_right">Commentaire </td>
+						<td class="align_left">
+							<input type="text" name="site_commentaire" value="<?php if($s) echo $s->getCommentaire();?>">
+						</td>
+					</tr>
+				</table>
+				<table class="form_buttons">
+					<tr>
+						<td>
+							<span 	class="button green" 
+									onclick="$('#modal_edition_site_<?php echo ($s ? $s->getId() : "nouvelle");?>').submit()"
+									>Enregistrer
+							</span>
+						</td>
+						<td>
+							<span 	class="button red" 
+									onclick='$("#modal_edition_site_<?php echo ($s ? $s->getId() : "nouvelle");?>").bPopup().close()'
+									>Annuler
+							</span>
+						</td>
+					</tr>
+				</table>
+			</form>
+		<?php
+	}
+
+	/**
+	 * Affiche le modal contenant le formulaire de desactivation d'un site
+	 * @param  Site $s 
+	 */
+	function printModalDesactivationSite($s){
+		if($s == null) return;
+		?>
+			<form id="modal_desactivation_site_<?php echo $s->getId();?>"
+					method="POST"
+					class="modal_form_administration"
+					action="traitement/toggle_active_traitement.php">
+				<div class="">
+					Voulez-vous supprimer le site   '<?php echo $s->getNom();?>' ?
+				</div>
+				<input type="hidden" name="site_id" value="<?php echo $s->getId();?>">
+				<input type="hidden" name="site_disponible" value="0">
+				<table class="form_buttons">
+					<tr>
+						<td>
+							<span 	class="button green" 
+									onclick="$('#modal_desactivation_site_<?php echo $s->getId();?>').submit()"
+									>Supprimer
+							</span>
+						</td>
+						<td>
+							<span 	class="button red" 
+									onclick='$("#modal_desactivation_site_<?php echo $s->getId();?>").bPopup().close()'
 									>Annuler
 							</span>
 						</td>

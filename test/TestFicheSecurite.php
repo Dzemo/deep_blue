@@ -22,7 +22,7 @@
 	$ficheSecurite->setEmbarcation(EmbarcationDao::getById(1));
 	$ficheSecurite->setDirecteurPlonge(MoniteurDao::getById(1));
 	$ficheSecurite->setTimestamp(1412969841);
-	$ficheSecurite->setSite("test-$test_number-site");
+	$ficheSecurite->setSite(SiteDao::getById(1));
 	$ficheSecurite->setEtat(FicheSecurite::etatCreer);
 	$ficheSecurite = FicheSecuriteDao::insert($ficheSecurite, "test");
 	echo "<br/>FicheSecuriteDao::insert() (version a ".$ficheSecurite->getVersion().")<br/>";
@@ -35,7 +35,8 @@
 	$ficheSecurite->setEmbarcation(EmbarcationDao::getById(1));
 	$ficheSecurite->setDirecteurPlonge(MoniteurDao::getById(2));
 	$ficheSecurite->setTimestamp(1412969841-267116);
-	$ficheSecurite->setSite("test-$test_number-site-u");
+	$site = new Site();$site->setNom("site-$test_number");$site->setCommentaire("Site de test de la fiche de sécurité ".$ficheSecurite->getId());
+	$ficheSecurite->setSite($site);
 	$ficheSecurite->setEtat(FicheSecurite::etatSynchronise);
 	$ficheSecurite = FicheSecuriteDao::update($ficheSecurite);
 	echo "<br/>FicheSecuriteDao::update() (version a ".$ficheSecurite->getVersion().")<br/>";

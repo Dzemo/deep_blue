@@ -47,10 +47,13 @@
 				return null;
 		}
 		/**
-		 * Enregistre une fiche de sécurite en base et la renvoi. Renvoi null en cas d'erreur. Si la fiche a été créer sur
-		 * l'application mobile et est maintenant synchroniser vers le pc, le login sera alors null.
+		 * Enregistre une fiche de sécurite en base et la renvoi. Renvoi null en cas d'erreur. 
+		 * Si la fiche a été créer sur l'application mobile et est maintenant synchroniser vers le pc, le login sera alors null.
+		 * 
 		 * Créer également les palanqués et les plongeurs de la fiche de sécurité. C'est la méthode à priviligier pour
 		 * enregistrer les informations d'une nouvelle fiche de sécurité
+		 * Créer le site si il n'est pas enregistré
+		 * 
 		 * @param  FicheSecurite $ficheSecurite
 		 * @param  boolean $fromSynchronisation Indique si la fiche est créer lors d'une syncronisation
 		 * @return FicheSecurite
@@ -60,14 +63,18 @@
 				$ficheSecurite->getDirecteurPlonge() == null || $ficheSecurite->getDirecteurPlonge()->getId() == null || 
 				$ficheSecurite->getEmbarcation() == null || $ficheSecurite->getEmbarcation()->getId() == null ||
 				$ficheSecurite->getTimestamp() == null ||
-				$ficheSecurite->getEtat() == null || strlen($ficheSecurite->getEtat()) == 0 ||
-				$ficheSecurite->getSite() == null || strlen($ficheSecurite->getSite()) == 0)
+				$ficheSecurite->getEtat() == null || strlen($ficheSecurite->getEtat()) == 0)
 				return null;
-			$stmt = parent::getConnexion()->prepare("INSERT INTO db_fiche_securite (id_embarcation, id_directeur_plonge, timestamp, site, etat) VALUES (?, ?, ?, ?, ?)");
+
+			//Enregistrement du site si il existe et n'a pas d'id
+			if($ficheSecurite->getSite() != null && $site->getId() == null)
+				$ficheSecurite->setSite(SiteDao::insert($ficheSecurite->getSite()));
+
+			$stmt = parent::getConnexion()->prepare("INSERT INTO db_fiche_securite (id_embarcation, id_directeur_plonge, timestamp, id_site, etat) VALUES (?, ?, ?, ?, ?)");
 			$result = $stmt->execute([$ficheSecurite->getEmbarcation()->getId(),
 							$ficheSecurite->getDirecteurPlonge()->getId(),
 							$ficheSecurite->getTimestamp(),
-							$ficheSecurite->getSite(),
+							$ficheSecurite->getSite() != null ? $ficheSecurite->getSite()->getId() : null,
 							$ficheSecurite->getEtat()
 							]);
 			if($result){
@@ -81,6 +88,7 @@
 			else
 				return null;
 		}
+
 		/**
 		 * Met à jour la FicheSecurite passé en parametre et incrémente son numéro de version puis la renvoi ou
 		 * renvoi null en cas d'erreur. Met également à jours les palanqués et plongeurs de la fiche de sécurité.
@@ -94,15 +102,20 @@
 				$ficheSecurite->getEmbarcation() == null || $ficheSecurite->getEmbarcation()->getId() == null ||
 				$ficheSecurite->getTimestamp() == null ||
 				$ficheSecurite->getEtat() == null || strlen($ficheSecurite->getEtat()) == 0 ||
-				$ficheSecurite->getSite() == null || strlen($ficheSecurite->getSite()) == 0 ||
 				$ficheSecurite->getVersion() === null)
 				return null;
+
+			//Enregistrement du site si il existe et n'a pas d'id
+			if($ficheSecurite->getSite() != null && $ficheSecurite->getSite()->getId() == null)
+				$ficheSecurite->setSite(SiteDao::insert($ficheSecurite->getSite()));
+
 			$ficheSecurite->incrementeVersion();
-			$stmt = parent::getConnexion()->prepare("UPDATE db_fiche_securite SET id_embarcation = ?, id_directeur_plonge = ?, timestamp = ?, site = ?, etat = ?, version = ? WHERE id_fiche_securite = ?");
+
+			$stmt = parent::getConnexion()->prepare("UPDATE db_fiche_securite SET id_embarcation = ?, id_directeur_plonge = ?, timestamp = ?, id_site = ?, etat = ?, version = ? WHERE id_fiche_securite = ?");
 			$result = $stmt->execute([$ficheSecurite->getEmbarcation()->getId(),
 							$ficheSecurite->getDirecteurPlonge()->getId(),
 							$ficheSecurite->getTimestamp(),
-							$ficheSecurite->getSite(),
+							$ficheSecurite->getSite() != null ? $ficheSecurite->getSite()->getId() : null,
 							$ficheSecurite->getEtat(),
 							$ficheSecurite->getVersion(),
 							$ficheSecurite->getId()
@@ -126,14 +139,16 @@
 			$stmt = parent::getConnexion()->prepare($query);
 			if($stmt->execute($param) && $stmt->rowCount() > 0){
 				$arrayResultat = array();
+				
 				while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+					
 					//initialisation des objets
 					$ficheSecurite = new FicheSecurite($row['id_fiche_securite'],$row['version']);
 					$ficheSecurite->setEmbarcation(EmbarcationDao::getById($row['id_embarcation']));
 					$ficheSecurite->setDirecteurPlonge(MoniteurDao::getById($row['id_directeur_plonge']));
 					$ficheSecurite->setPalanques(PalanqueDao::getByIdFicheSecurite($ficheSecurite->getId()));
 					$ficheSecurite->setTimestamp($row['timestamp']);
-					$ficheSecurite->setSite($row['site']);
+					$ficheSecurite->setSite(SiteDao::getById($row['id_site']));
 					$ficheSecurite->setEtat($row['etat']);
 					$arrayResultat[] = $ficheSecurite;
 					

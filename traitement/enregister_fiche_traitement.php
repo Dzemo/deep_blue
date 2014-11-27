@@ -66,13 +66,16 @@
 	}
 	//Pas d'erreur en cas d'absence de l'embarcation
 	
-	//Récupération du site
-	if(isset($_POST['site']) && strlen($_POST['site']) > 0){
-		$site = filter_var($_POST['site'], FILTER_SANITIZE_STRING);
+	//Récupération du site d'abord par id sinon par nom
+	if(filter_input(INPUT_POST, 'id_site', FILTER_VALIDATE_INT)){
+		$site = SiteDao::getById($_POST['id_site']);
 		$ficheSecurite->setSite($site);
 	}
-	else{
-		$erreurs[] = ['numero' => 0, 'type' => 'val_abs', 'msg' => '<strong>Site</strong> de plongé manquant'];
+	else if(isset($_POST['nom_site']) && strlen($_POST['nom_site']) > 0){
+		$nom_site = filter_var($_POST['nom_site'], FILTER_SANITIZE_STRING);
+		$site = new Site();
+		$site->setNom($nom_site);
+		$ficheSecurite->setSite($site);
 	}
 	
 	//Récupération du directeur de plongé

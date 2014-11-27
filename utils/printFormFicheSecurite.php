@@ -26,7 +26,7 @@
 						<?php 
 						if($m){
 							foreach ($f->getPalanques() as $palanque) {
-								echo '<li><a href="#pal'.$palanque->getNumero().'">Palanquée '.$palanque->getNumero().'</a></li>';
+								echo '<li id="li_pal'.$palanque->getNumero().'"><a href="#pal'.$palanque->getNumero().'">Palanquée '.$palanque->getNumero().'</a></li>';
 							}
 						} 
 						?>
@@ -44,70 +44,75 @@
 								name="fiche_securite_version" 
 								value="<?php if($m) echo $f->getVersion();?>" />
 						
-						<table class="panel-wrapper"><tr><td>
-							<div id="site_dp" class="panel-form">
-								<table>
-									
-									<tr id="embarcation">
-										<td><label for="id_embarcation">Embarcation</label></td>
-										<td>
-											<select name="id_embarcation"
-													id="id_embarcation"
-													>
-													<?php printEmbarcationOptions($f); ?>
-											</select>
-										</td>
-									</tr>
-									
-									<tr>
-										<td><label for="site">Site</label></td>
-										<td>
-											<input 	type="hidden" 
-													id="id_site" 
-													name="id_site" 
-													value="<?php if($m && $f->getSite() != null) echo $f->getSite()->getId();?>"/>
-											<input 	type="text" 
-													id="nom_site" 
-													name="nom_site" 
-													value="<?php if($m && $f->getSite() != null) echo $f->getSite()->getNom();?>"/>
-										</td>
-									</tr>
-									
-									<tr>
-										<td><label for="directeur_plonge">Directeur de plongé</label></td>
-										<td>
-											<input 	type="text" 
-													id="directeur_plonge" 
-													name="directeur_plonge" 
-													autocomplete="off" 
-													value="<?php if($m) echo $f->getDirecteurPlonge()->getPrenom()." ".$f->getDirecteurPlonge()->getNom();?>"/>
-											<input 	type="hidden" 
-													id="id_directeur_plonge" 
-													name="id_directeur_plonge" 
-													value="<?php if($m) echo $f->getDirecteurPlonge()->getId();?>"/>
-										</td>
-									</tr>
-								</table>
-							</div>
-						</td>
-						<td>
-						<div id="date_heure">
-								<table class="panel-form">
-									<tr>
-										<td><label for="date">Date</label></td>
-										<td colspan="3">
-											<input 	type="text"
-											 		id="date" 
-											 		name="date" 
-													placeholder="JJ/MM/AAAA"
-											 		value="<?php if($m) echo $f->getDate(); else echo tmspToDate(time());?>"/>
-											<div id="datepicker"></div>
-										</td>
-									</td>
-								</table>
-							</div></td></tr>
+						<table class="panel-wrapper">
+							<tr>
+								<td>
+									<div id="site_dp" class="panel-form">
+										<table>
+											
+											<tr id="embarcation">
+												<td><label for="id_embarcation">Embarcation</label></td>
+												<td>
+													<select name="id_embarcation"
+															id="id_embarcation"
+															>
+															<?php printEmbarcationOptions($f); ?>
+													</select>
+												</td>
+											</tr>
+											
+											<tr>
+												<td><label for="site">Site</label></td>
+												<td>
+													<input 	type="hidden" 
+															id="id_site" 
+															name="id_site" 
+															value="<?php if($m && $f->getSite() != null) echo $f->getSite()->getId();?>"/>
+													<input 	type="text" 
+															id="nom_site" 
+															name="nom_site" 
+															value="<?php if($m && $f->getSite() != null) echo $f->getSite()->getNom();?>"/>
+												</td>
+											</tr>
+											
+											<tr>
+												<td><label for="directeur_plonge">Directeur de plongé</label></td>
+												<td>
+													<input 	type="text" 
+															id="directeur_plonge" 
+															name="directeur_plonge" 
+															autocomplete="off" 
+															value="<?php if($m) echo $f->getDirecteurPlonge()->getPrenom()." ".$f->getDirecteurPlonge()->getNom();?>"/>
+													<input 	type="hidden" 
+															id="id_directeur_plonge" 
+															name="id_directeur_plonge" 
+															value="<?php if($m) echo $f->getDirecteurPlonge()->getId();?>"/>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</td>
+								<td>
+									<div id="date_heure">
+										<table class="panel-form">
+											<tr>
+												<td><label for="date">Date</label></td>
+												<td colspan="3">
+													<input 	type="text"
+													 		id="date" 
+													 		name="date" 
+															placeholder="JJ/MM/AAAA"
+													 		value="<?php if($m) echo $f->getDate(); else echo tmspToDate(time());?>"/>
+													<div id="datepicker"></div>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</td>
+							</tr>		
 						</table>
-					</div>
+				</div>
+
 				<!-- Début de la liste des palanqués -->
 				<?php
 					//Affichage des palanquée
@@ -451,7 +456,7 @@
 		else
 			$m = false;
 		?>
-			<div id="pal<?php echo ($m ? $pal->getNumero() : "_js_clonable");?>" 
+			<div id="pal<?php echo ($m ? $pal->getNumero() : "_js_clonable");?>"
 				 class="palanque" data-numpalanque="<?php if($m) echo $pal->getNumero();?>">	
 				<div class="palanque_title">Palanquée numéro <?php if($m) echo $pal->getNumero();?></div>
 				<ul id="pal<?php if($m) echo $pal->getNumero();?>_erreur" class="erreur pas_erreur">

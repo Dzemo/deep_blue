@@ -165,8 +165,11 @@ function fs_annule(adresse){
 function fs_supprimer_palanque(numero_palanque){
 	if(confirm("Supprimer la palanqué "+numero_palanque+" ?")){
 		$('#pal'+numero_palanque).remove();
-		$('#li'+numero_palanque).remove();
-		tabs.tabs( "refresh" );
+		$('#li_pal'+numero_palanque).remove();
+
+
+		$( "#form_fiche_palanque" ).tabs( "refresh" ); 
+
 	}
 }
 /**

@@ -23,13 +23,13 @@ function fs_enregistrer(){
 	var nom_site_val = $('#nom_site').val();
 	var directeur_plonge_id_val = $('#id_directeur_plonge').val();
 	var fiche_securite_version_val = $('#fiche_securite_version').val();
-	
+
 	//Récupération des palanqués
 	var tableauNumeroPalanque = [];
 	$('#form_fiche_palanque').children().each(function(){
 			tableauNumeroPalanque.push($(this).data('numpalanque'));
 	});
-	
+
 	var palanques = [];
 	for(var i = 0; i < tableauNumeroPalanque.length ; i++){
 		var numero_palanque = tableauNumeroPalanque[i];
@@ -99,17 +99,22 @@ function fs_enregistrer(){
 			$('#modal_enregistrer #lancement').hide();
 			$('#modal_enregistrer #resultat_erreur').html('Une erreur c\'est produite lors de la récupération des données du serveur, <a href="index.php">Retour à l\'acceuil</a>').show();
 		}
+		
 		//Pour la gestion des erreurs:
 		//type: val_abs|gestion|non_connecte
 		//numero: 0:fiche_securite|1-X:palanque numero X
 		//subnumero: 1-X:plongeur numeor X (null pour fiche securite)
 		//msg: message de l'erreur
 		if(json.hasOwnProperty('erreurs')){
-			for(var i = 0; i < json.erreurs.length; i++){
-				var erreur = json.erreurs[i];
-				var selecteurErreur;
-				if(erreur.numero == 0)
+			console.log(json.erreurs);
+
+			for(i = 0; i < json.erreurs.length; i++){
+				erreur = json.erreurs[i];
+				selecteurErreur = "";
+				if(erreur.numero == 0){
 					selecteurErreur = '#fiche_erreur';
+					console.log('error fihe');
+				}
 				else{
 					if(erreur.hasOwnProperty('subnumero')){
 						if(erreur.subnumero == 0)
@@ -120,10 +125,12 @@ function fs_enregistrer(){
 					else
 						selecteurErreur = '#pal'+erreur.numero+'_erreur';
 				}
+
+				console.log('selecteurErreur='+selecteurErreur);
 				$(selecteurErreur).removeClass('pas_erreur').append('<li>'+erreur.msg+'</li>');
 			}
 			$('#modal_enregistrer #lancement').hide();
-			$('#modal_enregistrer #resultat_erreur').html('Des erreurs sont présente').show();
+			$('#modal_enregistrer #resultat_erreur').html('Des erreurs sont présentes').show();
 			setTimeout(function(){
 				$('#modal_enregistrer').bPopup().close();
 			},750);

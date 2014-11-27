@@ -71,6 +71,7 @@
 		$site = SiteDao::getById($_POST['id_site']);
 		$ficheSecurite->setSite($site);
 	}
+
 	else if(isset($_POST['nom_site']) && strlen($_POST['nom_site']) > 0){
 		$nom_site = filter_var($_POST['nom_site'], FILTER_SANITIZE_STRING);
 		$site = new Site();
@@ -358,8 +359,8 @@
 				}
 				else{
 					//Plongé autonome, minimum 3 plongeurs
-					if(count($palanque->getPlongeurs()) < 3){
-						$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Il faut au minium <stong>3</strong> plongeurs pour une plongé '.typePlongeToString($palanque->getTypePlonge())];
+					if(count($palanque->getPlongeurs()) > 3){
+						$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Il faut au maximum <stong>3</strong> plongeurs pour une plongé '.typePlongeToString($palanque->getTypePlonge())];
 					}
 				}
 				
@@ -488,7 +489,7 @@
 			echo json_encode(["succes" => ['redirect' => 'index.php?page=consulter_fiche&id='.$ficheSecurite->getId(), 'msg' => $message]]);
 		}
 		else{
-			echo json_encode(['erreurs' => ['numero' => 0, 'type' => 'general', 'msg' => 'Erreur lors de l\'enregistrement de la fiche de sécurité']]);
+			echo json_encode(['erreurs' => array(array('numero' => 0, 'type' => 'general', 'msg' => 'Erreur en base de données lors de l\'enregistrement de la fiche de sécurité'))]);
 		}
 	}
 ?>

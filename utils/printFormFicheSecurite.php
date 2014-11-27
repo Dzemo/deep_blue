@@ -351,11 +351,11 @@
 			    };
 			     //Options de l'autocomplete pour la durée prévu, à ajouter à toute les palanquée
 			    var autocompleteDuree = {
-			        source: [	{value:  60, label: "1h"},
+			        source: [	{value:  20, label: "20 min"},
+			        			{value:  40, label: "40 min"},
+			        			{value:  60, label: "1h"},
 			        			{value:  90, label: "1h30"},
 			        			{value: 120, label: "2h"},
-			        			{value: 150, label: "2h30"},
-			        			{value: 180, label: "3h"},
 			        		],
 			        minLength: 0,
 			        dataType: 'json'
@@ -503,15 +503,15 @@
 											id="pal<?php if($m) echo $pal->getNumero();?>_type_plonge"
 											>
 											<option value="">&nbp;</option>
+											<option value="<?php echo Palanque::plongeAutonome;?>"
+													<?php if($m && $pal->getTypePlonge() == Palanque::plongeAutonome) echo "selected"?>
+													>Plongée autonome</option>
 											<option value="<?php echo Palanque::plongeTechnique;?>"
 													<?php if($m && $pal->getTypePlonge() == Palanque::plongeTechnique) echo "selected"?>
 													>Plongée technique</option>
 											<option value="<?php echo Palanque::plongeEncadre;?>"
 													<?php if($m && $pal->getTypePlonge() == Palanque::plongeEncadre) echo "selected"?>
 													>Plongée encadrée</option>
-											<option value="<?php echo Palanque::plongeAutonome;?>"
-													<?php if($m && $pal->getTypePlonge() == Palanque::plongeAutonome) echo "selected"?>
-													>Plongée autonome</option>
 											<option value="<?php echo Palanque::plongeBapteme;?>"
 													<?php if($m && $pal->getTypePlonge() == Palanque::plongeBapteme) echo "selected"?>
 													>Baptême</option>
@@ -521,14 +521,14 @@
 									<input 	type="text" 
 											name="pal<?php if($m) echo $pal->getNumero();?>_profondeur_prevue" 
 											id="pal<?php if($m) echo $pal->getNumero();?>_profondeur_prevue" 
-											value="<?php if($m) echo $pal->getProfondeurPrevue();?>"/>
+											value="<?php if($m) echo $pal->getProfondeurPrevue(); else echo Palanque::plongeDefaultProf; ?>"/>
 								</td>
 								<td class="duree">
 									
 									<input 	type="text" 
 											name="pal<?php if($m) echo $pal->getNumero();?>_duree_prevue" 
 											id="pal<?php if($m) echo $pal->getNumero();?>_duree_prevue" 
-											value="<?php if($m) echo $pal->getDureePrevue();?>"/>
+											value="<?php if($m) echo $pal->getDureePrevue(); else echo Palanque::plongeDefaultDuree;?>"/>
 								</td>
 							</tr>
 						</table>

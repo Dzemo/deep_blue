@@ -167,9 +167,8 @@ function fs_supprimer_palanque(numero_palanque){
 		$('#pal'+numero_palanque).remove();
 		$('#li_pal'+numero_palanque).remove();
 
-
+		$('#form_fiche_securite li[aria-controls="pal'+numero_palanque+'"]').remove();
 		$( "#form_fiche_palanque" ).tabs( "refresh" ); 
-
 	}
 }
 /**

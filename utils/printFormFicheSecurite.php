@@ -493,9 +493,9 @@ function printFormFicheSecuritePalanque($aptitudes, Palanque $pal = null){
 										>
 										<option value="<?php echo Palanque::gazAir;?>"
 												data-sumo-class="airColor"
-												<?php if($m && $pal->getTypeGaz() == Palanque::gazAir) echo "selected"?>
+												<?php if(($m && $pal->getTypeGaz() == Palanque::gazAir)||(!$m))	echo "selected"?>
 												>Air</option>
-										<option value="<?php echo Palanque::gazAir;?>"
+										<option value="<?php echo Palanque::gazNitrox;?>"
 												data-sumo-class="nitroxColor"
 												<?php if($m && $pal->getTypeGaz() == Palanque::gazNitrox) echo "selected"?>
 												>Nitrox</option>
@@ -506,7 +506,7 @@ function printFormFicheSecuritePalanque($aptitudes, Palanque $pal = null){
 										id="pal<?php if($m) echo $pal->getNumero();?>_type_plonge"
 										>										
 										<option value="<?php echo Palanque::plongeAutonome;?>"
-												<?php if($m && $pal->getTypePlonge() == Palanque::plongeAutonome) echo "selected"?>
+												<?php if(($m && $pal->getTypePlonge() == Palanque::plongeAutonome)||(!$m)) echo "selected"?>
 												>Plongée autonome</option>
 										<option value="<?php echo Palanque::plongeTechnique;?>"
 												<?php if($m && $pal->getTypePlonge() == Palanque::plongeTechnique) echo "selected"?>
@@ -537,7 +537,7 @@ function printFormFicheSecuritePalanque($aptitudes, Palanque $pal = null){
 				<!-- Fin information commune à la palanquée -->
 			</div>
 			<div id="pal<?php if($m) echo $pal->getNumero();?>_moniteur" 
-				 class="moniteur" <?php if($m && $pal->getTypePlonge() == Palanque::plongeAutonome) echo "style=\"display:none\"";?>>
+				 class="moniteur" <?php if(($m && $pal->getTypePlonge() == Palanque::plongeAutonome)||(!$m)) echo "style=\"display:none\"";?>>
 					<?php 
 					if($m)
 						$palm = $pal->getMoniteur() != null;

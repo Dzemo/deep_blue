@@ -80,7 +80,7 @@
 				return null;
 			}
 			
-			$utilisateur->incrementeVersion();
+			$utilisateur->updateVersion();
 			$stmt = parent::getConnexion()->prepare("UPDATE db_utilisateur SET nom = ?, prenom = ?, administrateur = ?, email = ?, actif = ?, version = ? WHERE login = ?");
 			$result = $stmt->execute([
 				$utilisateur->getNom(), 
@@ -109,7 +109,7 @@
 				$utilisateur->getVersion() === null)
 				return null;
 			
-			$utilisateur->incrementeVersion();
+			$utilisateur->updateVersion();
 			$stmt = parent::getConnexion()->prepare("UPDATE db_utilisateur SET mot_de_passe = ?, version = ? WHERE login = ?");
 			$result = $stmt->execute([
 				$utilisateur->getMotDePasse(),

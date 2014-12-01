@@ -100,7 +100,7 @@
 			if($moniteur->estActif() == null) $moniteur->setActif(false);
 			if($moniteur->estDirecteurPlonge() == null) $moniteur->setDirecteurPlonge(false);			
 
-			$moniteur->incrementeVersion();
+			$moniteur->updateVersion();
 			$stmt = parent::getConnexion()->prepare("UPDATE db_moniteur SET nom = ?, prenom = ?, aptitudes = ?, directeur_plonge = ?, actif = ?, email = ?, telephone = ?, version = ? WHERE id_moniteur = ?");
 			$result = $stmt->execute([
 				$moniteur->getNom(),

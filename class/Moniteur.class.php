@@ -63,7 +63,7 @@
 		private $telephone;
 
 		/**
-		 * Version du moniteur, pour la synchronisation
+		 * Version du moniteur, pour la synchronisation. Timestamp de dernière modification
 		 * @var int
 		 */
 		private $version;
@@ -85,7 +85,7 @@
 			$this->aptitudes = array() ;
 			$this->directeurPlonge = null;
 			$this->actif = null;
-			$this->version = $version;
+			$this->version = $version != 0 ? $version : time();
 			$this->email = null;
 			$this->telephone = null;
 		}
@@ -205,10 +205,10 @@
 			return $this->version ;
 		}
 		/**
-		 * Augmente la version de 1
+		 * Met à jours la version
 		 */
-		public function incrementeVersion(){
-			$this->version++;
+		public function updateVersion(){
+			$this->version = time();
 		}
 		
 		/////////////////////////////

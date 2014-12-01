@@ -86,7 +86,7 @@
 				)
 				return null;				
 	
-			$palanque->incrementeVersion();
+			$palanque->updateVersion();
 			$stmt = parent::getConnexion()->prepare("UPDATE db_palanque SET id_fiche_securite = ?, id_moniteur = ?, numero = ?, type_plonge = ?, type_gaz = ?, profondeur_prevue = ?, profondeur_realisee = ?, duree_prevue = ?, duree_realisee = ?, version = ? WHERE id_palanque = ?");
 			$result = $stmt->execute([$palanque->getIdFicheSecurite(),
 									($palanque->getMoniteur() != null ? $palanque->getMoniteur()->getId() : null),

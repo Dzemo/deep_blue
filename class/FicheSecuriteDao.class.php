@@ -67,7 +67,7 @@
 				return null;
 
 			//Enregistrement du site si il existe et n'a pas d'id
-			if($ficheSecurite->getSite() != null && $site->getId() == null)
+			if($ficheSecurite->getSite() != null && $ficheSecurite->getSite()->getId() == null)
 				$ficheSecurite->setSite(SiteDao::insert($ficheSecurite->getSite()));
 
 			$stmt = parent::getConnexion()->prepare("INSERT INTO db_fiche_securite (id_embarcation, id_directeur_plonge, timestamp, id_site, etat) VALUES (?, ?, ?, ?, ?)");
@@ -90,7 +90,7 @@
 		}
 
 		/**
-		 * Met à jour la FicheSecurite passé en parametre et incrémente son numéro de version puis la renvoi ou
+		 * Met à jour la FicheSecurite passé en parametre et met à jour sa version puis la renvoi ou
 		 * renvoi null en cas d'erreur. Met également à jours les palanqués et plongeurs de la fiche de sécurité.
 		 * C'est la méthode à priviligier pour mettre à jours les informations d'une fiche de sécurité.
 		 * @param  FicheSecurite $ficheSecurite
@@ -109,7 +109,7 @@
 			if($ficheSecurite->getSite() != null && $ficheSecurite->getSite()->getId() == null)
 				$ficheSecurite->setSite(SiteDao::insert($ficheSecurite->getSite()));
 
-			$ficheSecurite->incrementeVersion();
+			$ficheSecurite->updateVersion();
 
 			$stmt = parent::getConnexion()->prepare("UPDATE db_fiche_securite SET id_embarcation = ?, id_directeur_plonge = ?, timestamp = ?, id_site = ?, etat = ?, version = ? WHERE id_fiche_securite = ?");
 			$result = $stmt->execute([$ficheSecurite->getEmbarcation()->getId(),

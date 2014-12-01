@@ -8,65 +8,80 @@
 	 * Classe palanquee
 	 */
 	class Palanque{
+		
 		////////////////////////
 		// Constantes Debut //
 		////////////////////////
+		
 		/**
 		 * Constante d'une palanqué utilisant de l'air comme gaz
 		 */
 		const gazAir = "AIR";
+		
 		/**
 		 * Constante d'une palanqué utilisant du nitrox comme gaz
 		 */
 		const gazNitrox = "NITROX";
+		
 		/**
 		 * Constante d'une palanque effectuant une plongé technique / d'enseignement
 		 */
 		const plongeTechnique = "TECHNIQUE";
+		
 		/**
 		 * Constante d'une palanque effectuant une plongé encadré
 		 */
 		const plongeEncadre = "ENCADRE";
+		
 		/**
 		 * Constante d'une palanque effectuant une plongé autonome
 		 */
 		const plongeAutonome = "AUTONOME";
+		
 		/**
 		 * Constante d'une plongé effectuant un baptême
 		 */
 		const plongeBapteme = "BAPTEME";
+		
 		/**
 		 * Constante de la profondeur par défaut
 		 */
 		const plongeDefaultProf = "20";
+		
 		/**
-		 * Constante de la profondeur par défaut
+		 * Constante de la durée par défaut
 		 */
 		const plongeDefaultDuree = "40";
+		
 		///////////////////////
 		// Constantes Fin  //
 		// Variables Debut //
 		///////////////////////
+		
 		/**
 		 * Id de la palanqué
 		 * @var int
 		 */
 		private $id;
+		
 		/**
 		 * Id de la fiche de sécurité à laquel se réfère cette palanqué
 		 * @var int
 		 */
 		private $id_fiche_securite;
+		
 		/**
 		 * Moniteur de la palanqué si il y en a un. Dans le cadre d'une sortie en autonomie, sera null	
 		 * @var Moniteur
 		 */
 		private $moniteur;
+		
 		/**
 		 * Numéro de la palanqué
 		 * @var int
 		 */
 		private $numero;
+		
 		/**
 		 * Type de gaz utilisé par la palanqué
 		 * @see Palanque::gazNitrox
@@ -74,48 +89,57 @@
 		 * @var string
 		 */
 		private $type_gaz;
+		
 		/**
 		 * Type de plongé effectué par la palanqué
 		 * @see Palanque::plongeTechnique
 		 * @see Palanque::plongeEncadre
 		 * @see Palanque::plongeAutonome
 		 * @var string
-		 */
+		 */		
 		private $type_plonge;
+		
 		/**
 		 * Profondeur que prévoit de réalisé la palanqué (en mètre)
 		 * @var float
 		 */
 		private $profondeur_prevue;
+		
 		/**
 		 * Profondeur qu'a réalisé la palanqué (en mètre)
 		 * @var float
 		 */
 		private $profondeur_realisee;
+		
 		/**
 		 * Durée de plongé prévu par la palanqué (en seconde)
 		 * @var int
 		 */
 		private $duree_prevue;
+		
 		/**
 		 * Durée de plongé réalisé par la palanqué (en seconde)
 		 * @var int
 		 */
 		private $duree_realisee;
+		
 		/**
 		 * Tableaux contenant les plongeurs appartenenant à cette palanqué
 		 * @var array
 		 */
 		private $plongeurs;
+		
 		/**
-		 * Version de la palanqué, pour la synchronisation
+		 * Version de la palanqué, pour la synchronisation. Timestamps de dernière modification
 		 * @var int
 		 */
 		private $version;
+		
 		//////////////////////
 		// Varibables Fin //
 		// Constructeur   //
 		//////////////////////
+		
 		/**
 		 * Initialise les valeurs à null, avec éventuellement la version spécifié
 		 * @param int $id
@@ -133,11 +157,13 @@
 			$this->profondeur_prevue = null;
 			$this->profondeur_realisee = null;
 			$this->plongeurs = array();
-			$this->version = $version;
+			$this->version = $version != 0 ? $version : time();
 		}
+		
 		///////////////////////////////
 		// Getter and Setter Debut //
 		///////////////////////////////
+		
 		/**
 		 * @return int
 		 */
@@ -150,6 +176,7 @@
 		public function setId($id){
 			$this->id = $id ;
 		}
+		
 		/**
 		 * @return int
 		 */
@@ -162,6 +189,7 @@
 		public function setIdFicheSecurite($id_fiche_securite){
 			$this->id_fiche_securite = $id_fiche_securite ;
 		}
+		
 		/**
 		 * @return Moniteur
 		 */
@@ -174,6 +202,7 @@
 		public function setMoniteur($moniteur){
 			$this->moniteur = $moniteur ;
 		}
+		
 		/**
 		 * @return int
 		 */
@@ -186,6 +215,7 @@
 		public function setNumero($numero){
 			$this->numero = $numero ;
 		}
+		
 		/**
 		 * @return string
 		 */
@@ -198,6 +228,7 @@
 		public function setTypeGaz($type_gaz){
 			$this->type_gaz = $type_gaz ;
 		}
+		
 		/**
 		 * @return string
 		 */
@@ -210,6 +241,7 @@
 		public function setTypePlonge($type_plonge){
 			$this->type_plonge = $type_plonge ;
 		}
+		
 		/**
 		 * @return float
 		 */
@@ -222,6 +254,7 @@
 		public function setProfondeurPrevue($profondeur_prevue){
 			$this->profondeur_prevue = $profondeur_prevue ;
 		}
+		
 		/**
 		 * @return float
 		 */
@@ -234,6 +267,7 @@
 		public function setProfondeurRealisee($profondeur_realisee){
 			$this->profondeur_realisee = $profondeur_realisee ;
 		}
+		
 		/**
 		 * @return int
 		 */
@@ -246,6 +280,7 @@
 		public function setDureePrevue($duree_prevue){
 			$this->duree_prevue = $duree_prevue ;
 		}
+		
 		/**
 		 * @return int
 		 */
@@ -258,6 +293,7 @@
 		public function setDureeRealisee($duree_realisee){
 			$this->duree_realisee = $duree_realisee ;
 		}
+		
 		/**
 		 * @return array
 		 */
@@ -270,6 +306,7 @@
 		public function setPlongeurs($plongeurs){
 			$this->plongeurs = $plongeurs ;
 		}
+		
 		/**
 		 * @return int
 		 */
@@ -277,10 +314,10 @@
 			return $this->version ;
 		}
 		/**
-		 * Augmente la version de 1
+		 * Met à jours la version
 		 */
-		public function incrementeVersion(){
-			$this->version++;
+		public function updateVersion(){
+			$this->version = time();
 		}
 		
 		/////////////////////////////

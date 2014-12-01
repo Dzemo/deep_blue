@@ -30,7 +30,7 @@
 		 */
 		private $libelle_long;
 		/**
-		 * Version de l'aptitude, utilisé pour la synchronisation
+		 * Version de l'aptitude, utilisé pour la synchronisation (timestamp)
 		 * @var int
 		 */
 		private $version;
@@ -109,7 +109,7 @@
 		    $this->enseignement_air_max = 0;
 		    $this->enseignement_nitrox_max = 0;
 		    $this->encadremement_max = 0;
-			$this->version = $version;
+			$this->version = $version != 0 ? $version : time();
 		}
 		///////////////////////////////
 		// Getter and Setter Debut //
@@ -253,10 +253,10 @@
 			return $this->version ;
 		}
 		/**
-		 * Augmente la version de 1
+		 * Met la version au timestamps courant
 		 */
-		public function incrementeVersion(){
-			$this->version++;
+		public function updateVersion(){
+			$this->version = time();
 		}
 		
 		/////////////////////////////

@@ -78,6 +78,7 @@
 		 * @return Aptitude
 		 */
 		public static function update(Aptitude $aptitude){
+			
 			if($aptitude == null ||
 				$aptitude->getId() == null ||
 				$aptitude->getLibelleCourt() == null || strlen($aptitude->getLibelleCourt()) == 0 ||
@@ -85,7 +86,9 @@
 				return null;
 			if($aptitude->getLibelleLong() == null)
 				$aptitude->setLibelleLong("");
-			$aptitude->incrementeVersion();
+
+			$aptitude->updateVersion();
+
 			$stmt = parent::getConnexion()->prepare("UPDATE db_aptitude SET libelle_court = ?, libelle_long = ?, technique_max = ?, encadree_max = ?, autonome_max = ?, nitrox_max = ?, ajout_max = ?, enseignement_air_max = ?, enseignement_nitrox_max = ?, encadremement_max = ?, version = ? WHERE id_aptitude = ?");			
 			$result = $stmt->execute([$aptitude->getLibelleCourt(),
 							$aptitude->getLibelleLong(),

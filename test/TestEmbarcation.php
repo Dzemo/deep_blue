@@ -19,6 +19,7 @@
 	$embarcation = new Embarcation(null);
 	$embarcation->setLibelle('EMB-3');
 	$embarcation->setCommentaire('Embarcation-3, creer lors d\'un test, indisponible');
+	$embarcation->setMaxpersonne(20);
 	$embarcation->setDisponible(false);
 	$embarcation = EmbarcationDao::insert($embarcation);
 	echo "<br/>EmbarcationDao::insert() (version: ".$embarcation->getVersion()."<br/>";

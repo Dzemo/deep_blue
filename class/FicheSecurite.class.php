@@ -12,62 +12,75 @@
 	 * Dans le cas d'une fiche de sécurité, le directeur de plongé est un utilisateur
 	 */
 	class FicheSecurite{
+
 		////////////////////////
 		// Constantes Debut //
 		////////////////////////
+
 		const etatCreer = "CREER";
 		const etatModifie = "MODIFIE";
 		const etatArchive = "ARCHIVE";
 		const etatSynchronise = "SYNCHRONISE";
+
 		///////////////////////
 		// Constantes Fin  //
 		// Variables Debut //
 		///////////////////////
+		
 		/**
 		 * id de la fiche de sécurité.
 		 * @var [type]
 		 */
     	private $id;
+    	
     	/**
     	 * L'embarcation de cette fiche de sécurité.
     	 * @var Embarcation
     	 */
     	private $embarcation;
+    	
     	/**
     	 * Le directeur de plongé responsable de cette fiche de sécurité.
     	 * @var Moniteur
     	 */
     	private $directeurPlonge;
+    	
     	/**
     	 * Tableau des palanqués de la fiche de sécurité
     	 * @var array
     	 */
     	private $palanques;
+    	
     	/**
     	 * Timestamp de la date de sortie.
     	 * @var int
     	 */
     	private $timestamp;
+    	
     	/**
     	 * Dénomination du lieu de la sortie.
     	 * @var Site
     	 */
     	private $site;
+    	
     	/**
     	 * État de la fiche de sécurité. Valeur possible: CREER, SYNCRONISE, ARCHIVE
     	 * @var string
     	 */
     	private $etat;
+    	
     	/**
-    	 * Version de la fiche. Utilisé pour la synchronisation.
+    	 * Version de la fiche. Utilisé pour la synchronisation. Timestamp de dernière modification
     	 * Initialisé via le constructeur.
     	 * @var int
     	 */
     	private $version;
+
 		//////////////////////
 		// Varibables Fin //
 		// Constructeur  //
 		//////////////////////
+    	
     	/**
     	 * Initialise une fiche de sécurité avec un $id et éventuellement une version, le reste à null
     	 * @param int $id
@@ -81,30 +94,32 @@
 			$this->timestamp = null;
 			$this->site = null;
 			$this->etat = null;
-			$this->version = $version;
+			$this->version = $version != 0 ? $version : time();
 		}
+
 		///////////////////////////////
 		// Getter and Setter Debut //
 		///////////////////////////////
+		
 		/**
 		 * @return int
 		 */
 		public function getId(){
 			return $this->id ;
-		}
+		}		
 		/**
 		 * @param int $id
 		 */
 		public function setId($id){
 			$this->id = $id;
 		}
-		
+
 		/**
 		 * @return Embarcation
 		 */
 		public function getEmbarcation(){
 			return $this->embarcation ;
-		}
+		}		
 		/**
 		 * @param Embarcation $embarcation
 		 */
@@ -117,7 +132,7 @@
 		 */
 		public function getDirecteurPlonge(){
 			return $this->directeurPlonge ;
-		}
+		}		
 		/**
 		 * @param Moniteur $directeurPlonge
 		 */
@@ -137,6 +152,7 @@
 		public function setPalanques($palanques){
 			$this->palanques = $palanques != null ? $palanques : array();
 		}
+
 		/**
 		 * @return int
 		 */
@@ -183,10 +199,10 @@
 			return $this->version ;
 		}
 		/**
-		 * Augmente la version de 1
+		 * Met à jours la version
 		 */
-		public function incrementeVersion(){
-			$this->version++;
+		public function updateVersion(){
+			$this->version = time();
 		}
 		
 		/////////////////////////////

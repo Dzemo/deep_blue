@@ -24,7 +24,7 @@
 		 * @param int $version Optionnel
 		 */
 		public function Template($version = 0){
-			//numéro de version ?
+			//numéro de version ? $version != 0 ? $version : time();
 		}
 
 		///////////////////////////////
@@ -45,10 +45,10 @@
 		}
 		
 		/**
-		 * Augmente la version de 1
+		 * Met à jours la version
 		 */
-		public function incrementeVersion(){
-			$this->version++;
+		public function updateVersion(){
+			$this->version = time();
 		}
 		
 		/////////////////////////////

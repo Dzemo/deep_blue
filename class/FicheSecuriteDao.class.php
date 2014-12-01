@@ -61,7 +61,6 @@
 		public static function insert(FicheSecurite $ficheSecurite, $fromSynchronisation = false){
 			if($ficheSecurite == null ||
 				$ficheSecurite->getDirecteurPlonge() == null || $ficheSecurite->getDirecteurPlonge()->getId() == null || 
-				$ficheSecurite->getEmbarcation() == null || $ficheSecurite->getEmbarcation()->getId() == null ||
 				$ficheSecurite->getTimestamp() == null ||
 				$ficheSecurite->getEtat() == null || strlen($ficheSecurite->getEtat()) == 0)
 				return null;
@@ -99,7 +98,6 @@
 		public static function update(FicheSecurite $ficheSecurite){
 			if($ficheSecurite == null || $ficheSecurite->getId() == null ||
 				$ficheSecurite->getDirecteurPlonge() == null || $ficheSecurite->getDirecteurPlonge()->getId() == null || 
-				$ficheSecurite->getEmbarcation() == null || $ficheSecurite->getEmbarcation()->getId() == null ||
 				$ficheSecurite->getTimestamp() == null ||
 				$ficheSecurite->getEtat() == null || strlen($ficheSecurite->getEtat()) == 0 ||
 				$ficheSecurite->getVersion() === null)

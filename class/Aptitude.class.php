@@ -350,9 +350,19 @@
 		 * @return string
 		 */
 		public function __toString(){
-			return "Id: ".$this->id." LibelleCourt: ".$this->libelle_court." LibelleLong: ".$this->libelle_long.
-			"[".$this->technique_max.",".$this->encadree_max.",".$this->autonome_max.",".$this->nitrox_max.",".$this->ajout_max.",".$this->enseignement_air_max.
-			",".$this->enseignement_nitrox_max.",".$this->encadremement_max."]"." Version: ".$this->version;
+			$string = "Aptitude ".$this->id.": <strong>".$this->libelle_court."</strong> (".$this->libelle_long.")<br>";
+			if($this->technique_max > 0) $string .= "&nbsp;&nbsp;Technique max = ".$this->technique_max."<br>";
+			if($this->encadree_max > 0) $string .= "&nbsp;&nbsp;Encadree max = ".$this->encadree_max."<br>";
+			if($this->autonome_max > 0) $string .= "&nbsp;&nbsp;Autonome max = ".$this->autonome_max."<br>";
+
+			if($this->nitrox_max > 0) $string .= "&nbsp;&nbsp;Nitrox max = ".$this->nitrox_max."<br>";
+			if($this->ajout_max > 0) $string .= "&nbsp;&nbsp;Ajout max = ".$this->ajout_max."<br>";
+
+			if($this->enseignement_air_max > 0) $string .= "&nbsp;&nbsp;Enseignement air max = ".$this->enseignement_air_max."<br>";
+			if($this->enseignement_nitrox_max > 0) $string .= "&nbsp;&nbsp;Enseignement nitrox max = ".$this->enseignement_nitrox_max."<br>";
+			if($this->encadremement_max > 0) $string .= "&nbsp;&nbsp;Encadrement max = ".$this->encadremement_max."<br>";
+
+			return $string;
 		}
 		/////////////////
 		// Utils Fin //

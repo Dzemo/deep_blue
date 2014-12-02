@@ -4,11 +4,14 @@
 	 * @author Raphaël Bideau - 3iL
 	 * @package Dao
 	 */
+	
 	/**
 	 * Classe permettant d'interagir avec la base de données concernant les Templates
 	 */
 	class AptitudeDao extends Dao {
+		
 		/* Public */
+		
 		/**
 		 * Renvoi toute les aptitudes dans la base dans un tableau indexé par leur id
 		 * @return array Tableau d'aptitudes indexés par leur id
@@ -16,6 +19,7 @@
 		public static function getAll(){
 			return self::getByQuery("SELECT * FROM db_aptitude");
 		}
+		
 		/**
 		 * Recherche l'aptitude par son id
 		 * @param  int $id
@@ -28,6 +32,7 @@
 			else
 				return null;
 		}
+		
 		/**
 		 * Renvoi toutes les aptitudes dont l'id est dans le tableau passé en parametre dans un tableau indexé par leur id
 		 * @param  array $ids 
@@ -42,6 +47,22 @@
 			}
 			return self::getByQuery("SELECT * FROM db_aptitude WHERE ".$stringIds, $ids);
 		}
+		
+		/**
+		 * Renvoi l'aptitude dont le libelle est spécifié. null si aucune aptitude ne correspond
+		 * @param  String $libelle_court 
+		 * @return Aptitude                
+		 */
+		public static function getByLibelleCourt($libelle_court){
+			$result = self::getByQuery("SELECT * FROM db_aptitude WHERE libelle_court = ?",[$libelle_court]);
+			if($result != null && count($result) == 1){
+				$id = array_keys($result);
+				return $result[$id[0]];
+			}
+			else
+				return null;
+		}
+
 		/**
 		 * Ajoute une aptitude dans la base et la retourne ou renvoi null en cas d'erreur
 		 * @param  Aptitude $aptitude
@@ -72,6 +93,7 @@
 			else
 				return null;
 		}
+		
 		/**
 		 * Met a jours une Aptitude et la renvoi ou renvoi null en cas d'erreur
 		 * @param  Aptitude $aptitude
@@ -108,7 +130,10 @@
 			else
 				return null;
 		}
+		
+
 		/* Private */
+		
 		/**
 		 * Execute la requere $query avec les parametres optionnels contenus dans le tableau $param.
 		 * Renvoi un tableau d'Aptidue'.

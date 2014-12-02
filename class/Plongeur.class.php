@@ -258,7 +258,7 @@
 				}
 				$stringAptitudes = $stringAptitudes."]";
 			}
-			return "Id: '".$this->id."', IdFicheSecurite/IdPalanque: ".$this->id_fiche_securite."/".$this->id_palanque." Nom prenom: '".$this->nom." ".$this->prenom."' DateNaissance: ".$this->date_naissance."' Aptitudes: ".$stringAptitudes." "." Version: ".$this->version ;
+			return "Plongeur ".$this->id.": ".$this->nom." ".$this->prenom." DN: ".$this->date_naissance." Aptitudes: ".$stringAptitudes." IdFicheSecurite/IdPalanque: ".$this->id_fiche_securite."/".$this->id_palanque." Tels: ".$this->telephone."/".$this->telephone_urgence." Version: ".$this->version ;
 		}
 		/////////////////
 		// Utils Fin //

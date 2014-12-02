@@ -243,7 +243,7 @@
 			}
 
 
-			return "Id: '".$this->id."' Nom prenom: '".$this->nom." ".$this->prenom."' Aptitudes: ".$stringAptitudes." Actif: ".($this->actif ? 'oui' : 'non')."DirecteurPlonge: ".($this->directeurPlonge ? 'oui' : 'non')." Email: '".$this->email."' Telephone: '".$this->telephone."' Version: ".$this->version ;
+			return "Moniteur ".$this->id.": ".$this->nom." ".$this->prenom." Aptitudes: ".$stringAptitudes." Actif: ".($this->actif ? 'oui' : 'non')."DirecteurPlonge: ".($this->directeurPlonge ? 'oui' : 'non')." Email: '".$this->email."' Telephone: '".$this->telephone."' Version: ".$this->version ;
 		}
 
 		/////////////////

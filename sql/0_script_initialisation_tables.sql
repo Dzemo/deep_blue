@@ -153,7 +153,7 @@ INSERT INTO db_aptitude (id_aptitude, libelle_court, libelle_long, technique_max
 INSERT INTO db_aptitude (id_aptitude, libelle_court, libelle_long, technique_max, encadree_max, autonome_max, nitrox_max, ajout_max, enseignement_air_max, enseignement_nitrox_max, encadremement_max) 
                  VALUES (2, 'PA-12', 'Plongé autonome 12m', 12, 12, 12, 0, 0, 0, 0, 0);
 INSERT INTO db_aptitude (id_aptitude, libelle_court, libelle_long, technique_max, encadree_max, autonome_max, nitrox_max, ajout_max, enseignement_air_max, enseignement_nitrox_max, encadremement_max) 
-                 VALUES (3, 'PA-20', 'Plongé autonome 20m', 12, 12, 12, 0, 0, 0, 0, 0);
+                 VALUES (3, 'PA-20', 'Plongé autonome 20m', 20, 20, 20, 0, 0, 0, 0, 0);
 INSERT INTO db_aptitude (id_aptitude, libelle_court, libelle_long, technique_max, encadree_max, autonome_max, nitrox_max, ajout_max, enseignement_air_max, enseignement_nitrox_max, encadremement_max) 
                  VALUES (4, 'PA-40', 'Plongé autonome 40m', 40, 40, 40, 0, 0, 0, 0, 0);
 INSERT INTO db_aptitude (id_aptitude, libelle_court, libelle_long, technique_max, encadree_max, autonome_max, nitrox_max, ajout_max, enseignement_air_max, enseignement_nitrox_max, encadremement_max) 

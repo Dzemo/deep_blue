@@ -64,12 +64,12 @@ function fs_enregistrer(){
 			plonge: $("#pal"+numero_palanque+"_type_plonge").val(),
 			profondeur_prevue: $("#pal"+numero_palanque+"_profondeur_prevue").val(),
 			duree_prevue: $("#pal"+numero_palanque+"_duree_prevue").val(),
-			moniteur: {
-				id: $('#pal'+numero_palanque+'_moniteur_id').val(),
-				//Pas besoin des autres informations du moniteurs car elle seront récupérés en base à partir de l'id
-			},
 			plongeurs: plongeurs_array,
+			moniteur_id: ""
 		}
+		if(palanque.plonge != "AUTONOME")
+			palanque.moniteur_id = $('#pal'+numero_palanque+'_moniteur_id').val();
+
 		palanques.push(palanque);
 	}
 	//Fin de la récupération des palanquées	
@@ -87,6 +87,8 @@ function fs_enregistrer(){
 		embarcation_id:embarcation_id_val, 
 		liste_palanques: palanques
 	};
+
+	console.log(data_vals);
 
 	//Envoi de la requete ajax
 	$.ajax({type:"POST",
@@ -113,20 +115,18 @@ function fs_enregistrer(){
 				selecteurErreur = "";
 				if(erreur.numero == 0){
 					selecteurErreur = '#fiche_erreur';
-					console.log('error fihe');
 				}
 				else{
-					if(erreur.hasOwnProperty('subnumero')){
+					/*if(erreur.hasOwnProperty('subnumero')){
 						if(erreur.subnumero == 0)
 							selecteurErreur = '#pal'+erreur.numero+'_moniteur_erreur';
 						else
 							selecteurErreur = '#pal'+erreur.numero+'_plon'+erreur.subnumero+'_erreur';
 					}
 					else
-						selecteurErreur = '#pal'+erreur.numero+'_erreur';
+						selecteurErreur = '#pal'+erreur.numero+'_erreur';*/
+					selecteurErreur = '#pal'+erreur.numero+'_erreur';
 				}
-
-				console.log('selecteurErreur='+selecteurErreur);
 				$(selecteurErreur).removeClass('pas_erreur').append('<li>'+erreur.msg+'</li>');
 			}
 			$('#modal_enregistrer #lancement').hide();

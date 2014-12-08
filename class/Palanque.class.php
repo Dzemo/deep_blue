@@ -333,9 +333,11 @@
 			$string = "Palanque ".$this->id.": IdFicheSecurite: ".$this->id_fiche_securite." Numero: ".$this->numero." NbrPlongeur: ".count($this->plongeurs)."<br>";
 			$string.= "TypePlonge: ".$this->type_plonge." TypeGaz: ".$this->type_gaz." ProfondeurPrevu: ".$this->profondeur_prevue." ProfondeurRealise: ".$this->profondeur_realisee." DureePrevue: ".$this->duree_prevue." DureeRealise: ".$this->duree_realisee." Version: ".$this->version."<br>";
 			$string.= "&nbsp;&nbsp;".($this->moniteur != null ? "Moniteur: ".$this->moniteur."<br>" : "" );
-			foreach ($this->plongeurs as $plongeur) {
+			if($this->plongeurs != null){
+				foreach ($this->plongeurs as $plongeur) {
 				$string.= "&nbsp;&nbsp;$plongeur<br>";
-			}
+				}
+			}	
 
 			return $string;
 		}

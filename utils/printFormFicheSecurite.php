@@ -375,6 +375,8 @@ function printFormFicheSecurite($redirect, FicheSecurite $f = null){
 		    							prenom:rawSource[i].prenom, 
 		    							aptitudes:rawSource[i].aptitudes, 
 		    							date_naissance: rawSource[i].date_naissance,
+		    							telephone:rawSource[i].telephone,
+		    							telephone_urgence:rawSource[i].telephone_urgence,
 		    							label: rawSource[i].label
 		    						};
 		    		if(champs == "nom") source_val[i].value = rawSource[i].nom;
@@ -397,6 +399,11 @@ function printFormFicheSecurite($redirect, FicheSecurite $f = null){
 			            $("#pal"+numero_palanque+"_plon"+numero_plongeur+"_plongeur_nom").val(ui.item ? ui.item.nom : "");
 			            $("#pal"+numero_palanque+"_plon"+numero_plongeur+"_plongeur_prenom").val(ui.item ? ui.item.prenom : "");
 			            $("#pal"+numero_palanque+"_plon"+numero_plongeur+"_plongeur_date_naissance").val(ui.item ? ui.item.date_naissance : "");
+
+
+			            $("#pal"+numero_palanque+"_plon"+numero_plongeur+"_plongeur_telephone").val(ui.item ? ui.item.telephone : "");
+			            $("#pal"+numero_palanque+"_plon"+numero_plongeur+"_plongeur_telephone_urgence").val(ui.item ? ui.item.telephone_urgence : "");
+
 			           	setSelectValue("pal"+numero_palanque+"_plon"+numero_plongeur+"_plongeur_aptitudes", (ui.item ? ui.item.aptitudes : []));
 			        }
 		    	};
@@ -738,9 +745,13 @@ function printRawSourceAutocompletePlongeur(){
 	foreach($arrayPlongeur as $plongeur){
 		if(strlen($result) > 0)
 			$result .= ",";
+		$stringAptitude = "";
+		if(count($plongeur->getAptitudes()) > 0)
+			$stringAptitude = " (".Aptitude::toLibelleString($plongeur->getAptitudes()).")";
+
 		$result .= "{id: ".$plongeur->getId()
 					.", nom: '".$plongeur->getNom()
-					."', label: '".$plongeur->getNom()." ".$plongeur->getPrenom()." ".$plongeur->getDateNaissance()
+					."', label: '".$plongeur->getNom()." ".$plongeur->getPrenom()." ".$plongeur->getDateNaissance().$stringAptitude
 					."', prenom: '".$plongeur->getPrenom()
 					."', date_naissance: '".$plongeur->getDateNaissance()
 					."', telephone: '".$plongeur->getTelephone()
@@ -758,7 +769,6 @@ function printRawSourceAutocompletePlongeur(){
  * @param  array $aptitudesPossede 	Aptitudes possédé par le plongeur ou le moniteur
  */
 function printListeOptionsAptitudes($aptitudes, $aptitudesPossede){
-	$result = "<option value=\"\"></option>";
 	if($aptitudes != null){
 		foreach ($aptitudes as $aptitude) {
 			$result .= "<option value=\"".$aptitude->getId()."\"";

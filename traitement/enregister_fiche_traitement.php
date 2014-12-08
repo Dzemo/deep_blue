@@ -1,7 +1,7 @@
 <?php
 	require_once("../session.php");
 	require_once("../utils/DateStringUtils.php");
-	require_once("../utils/validation_palanquee.php")
+	require_once("../utils/validation_palanquee.php");
 	
 	//////////////////////////////////////////////////////
 	//Vérification qu'un utilisateur est bien connecté //
@@ -293,7 +293,7 @@
 			else{
 				$erreurs_gestion = validePalanquee($palanque);
 
-				$erreur = array_merge_recursive($erreur, $erreurs_gestion);
+				$erreurs = array_merge_recursive($erreurs, $erreurs_gestion);
 			}
 			
 			$palanques[] = $palanque;

@@ -13,7 +13,6 @@ function printFiche($numero_fiche) {
 		<table class="TableStyle infoFiche">
 			<tr>
 				<th>Date</th>
-				<th>Heure</th>
 				<th>Site</th>
 				<th>Directeur de Plongé</th>
 				<th>Embarcation</th>
@@ -23,9 +22,6 @@ function printFiche($numero_fiche) {
 			<tr>
 				<td>
 					<?php echo $ficheSecurite->getDate();?>
-				</td>
-				<td>
-					<?php echo $ficheSecurite->getTime();?>
 				</td>
 				<td>
 					<?php 

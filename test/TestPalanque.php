@@ -45,75 +45,7 @@
 	foreach ($array as $elem) {
 		echo "$elem<br/>";
 	}
-
-
-
-
-
 	/*Suppression des inserts du test*/
 	Dao::execute("DELETE FROM db_palanque WHERE id_palanque = ?",[$palanque->getId()]);
 	echo "<br/> *** <br/>Test Palanque effectue avec succes<br/> ***<br/>";
-
-
-	/* Test Suppression de la palanquée */
-	echo "<br/><br/><br/><h1>TEST SUPPRESSION</h1><br/>";
-		// Création d'une fiche
-		echo "<br/><h3>Création fiche</h1><br/>";
-		$test_number = rand(0, 100);
-		$palanque = new Palanque(null);
-		$palanque->setIdFicheSecurite(999999);
-		$palanque->setMoniteur(null);
-		$palanque->setNumero($test_number);
-		$palanque->setTypePlonge(Palanque::plongeAutonome);
-		$palanque->setTypeGaz(Palanque::gazAir);
-		$palanque->setProfondeurPrevue(6);
-		$palanque->setProfondeurRealisee(null);
-		$palanque->setDureePrevue(600);
-		$palanque->setDureeRealisee(null);
-		$palanque = PalanqueDao::insert($palanque);
-		echo "<br/>PalanqueDao::insert() (version a ".$palanque->getVersion().")<br/>";
-
-		// Ajout d'un plongeur
-		$test_number = rand(0, 100);
-		echo "<br/><h3>Ajout plongeur</h1><br/>";
-		$plongeur = new Plongeur(null);
-		$plongeur->setIdPalanque($palanque->getId());
-		$plongeur->setIdFicheSecurite(999999);
-		$plongeur->setNom("test-$test_number-nom");
-		$plongeur->setPrenom("test-$test_number-prenom");
-		$plongeur->setAptitudes(array());
-		$plongeur->setDateNaissance("01/01/1990");
-		$plongeur = PlongeurDao::insert($plongeur);
-		echo "<br/>PlongeurDao::insert() (version a ".$plongeur->getVersion().")<br/>";
-		// Ajout d'un 2eme plongeur
-		$test_number = rand(0, 100);
-		echo "<br/><h3>Ajout plongeur</h1><br/>";
-		$plongeur = new Plongeur(null);
-		$plongeur->setIdPalanque($palanque->getId());
-		$plongeur->setIdFicheSecurite(999999);
-		$plongeur->setNom("test-$test_number-nom2");
-		$plongeur->setPrenom("test-$test_number-prenom2");
-		$plongeur->setAptitudes(array());
-		$plongeur->setDateNaissance("01/01/1990");
-		$plongeur = PlongeurDao::insert($plongeur);
-		echo "<br/>PlongeurDao::insert() (version a ".$plongeur->getVersion().")<br/>";
-
-		//Affichage de la palanquée et de ses plongeurs
-		echo "<br/><h3>Affichage</h1><br/>";
-		$palanque = PalanqueDao::getById($palanque->getId());
-		echo "<br/>PalanqueDao::getById(): $palanque<br/>";
-		
-		// Supression de la palanquée et de ses plongeurs
-		echo "<br/><h3>Suppression palanquée</h1><br/>";
-		PalanqueDao::delete($palanque);
-		echo "<br/>PalanqueDao::delete($palanque)<br/>";
-		 
-		//Affichage de la palanquée et de ses plongeurs (apres supression) 
-		echo "<br/><h3>Affichage</h1><br/>";
-		$palanque = PalanqueDao::getById($palanque->getId());
-		if($palanque != null)
-			echo "<br/>PalanqueDao::getById(): $palanque<br/>";
-		else
-			echo "La palanqué n'existe pas";
-
 ?>

@@ -165,11 +165,11 @@
 		/**
 		 * Supprime le plongeur de la base dont l'id est passé en parametre
 		 * @param  int $id_plongeur id du plongeur à supprimer
-		 * @return boolean              true si le plongeur à bien été supprimé, false sinon
+		 * @return boolean  true si le plongeur à bien été supprimé, false sinon
 		 */
 		public static function delete($id_plongeur){
-			$stmt = parent::getConnextion()->prepare("DELETE FROM db_plongeur WHERE id_plongeur = ?");
-			return $stmt->execute($id_plongeur);
+			$stmt = parent::getConnexion()->prepare("DELETE FROM db_plongeur WHERE id_plongeur = ?");
+			return $stmt->execute([$id_plongeur]);
 		}
 		/* Private */
 		/**

@@ -10,7 +10,7 @@ function printListFiche($arrayFichesSecurite) {
 	<table id="example" class="display" cellspacing="0" width="100%">
 		<thead>
 			<tr>
-				<th colspan="2"></th>
+				<th colspan="3"></th>
 				<th>Fiches</th>
 				<th>Date</th>
 				<th>Heure</th>
@@ -29,6 +29,9 @@ function printListFiche($arrayFichesSecurite) {
 						</td>
 						<td>
 						<div class='icone-crayon' style='cursor: pointer;' onclick='window.location=\"index.php?page=modification_fiche&id=".$fiche->getId()."\";'>
+						</div></td>
+						<td>
+						<div class='icone-poubelle' style='cursor: pointer;' onclick='fs_delete(".$fiche->getId().")'>
 						</div></td>";
 	      			echo "<td>".$fiche->getNom()."</td>";
 					echo "<td>".$fiche->getDate()."</td>";
@@ -45,6 +48,7 @@ function printListFiche($arrayFichesSecurite) {
 		</tbody>
 	</table>
 </div>
+<script src="js/supprimer_fiche_securite.js" type="text/javascript"></script>
 <?php
 }
 ?>

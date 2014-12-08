@@ -112,6 +112,26 @@
 				return null;
 		}
 		/**
+		 * Supprime une palanqué et ses plongeurs
+		 * @param  Palanque $palanque
+		 * @return true ou null en cas d'erreur        
+		 */
+		public static function delete(Palanque $palanque){
+			// On vérifie l'existance de la palanquée
+			if($palanque == null || $palanque->getId() == null ||
+				$palanque->getIdFicheSecurite() == null)
+				return null;	
+
+			// Suppression des plongeurs
+			for($i = 0; $i < count($palanque->getPlongeurs()); $i++) {
+				PlongeurDao::delete($palanque->getPlongeurs()[$i]->getId());
+			}
+
+			// Supprimer la palanquée
+			$stmt = parent::getConnexion()->prepare("DELETE FROM db_palanque WHERE id_palanque = ?");
+			return $stmt->execute([$palanque->getId()]);
+		}
+		/**
 		 * Met à jours les palanqué de la fiche de sécurité passé en parametre:
 		 * Supprime les palanqué qui appartenait a la fiche de sécurité mais qui ne sont plus dans le tableau de palanqués de la fiche de sécurité et met à jours ou insert les autres
 		 * Pour la mise à jour des palanqués, priviligier l'utilisation de FicheSecuriteDao::update()

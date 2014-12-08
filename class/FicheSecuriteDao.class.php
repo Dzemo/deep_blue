@@ -128,6 +128,27 @@
 			else
 				return null;
 		}
+		/**
+		 * Supprime la FicheSecurite passé en parametre ainsi que l'ensemble de ses contenus ou
+		 * renvoi null en cas d'erreur. Supprime également les palanqués et plongeurs de la fiche de sécurité.
+		 * C'est la méthode à priviligier pour supprimer une fiche de sécurité.
+		 * @param  FicheSecurite $ficheSecurite
+		 * @return FicheSecurite
+		 */
+		public static function delete(FicheSecurite $ficheSecurite){
+			// On vérifie l'existance de la palanquée
+			if($ficheSecurite == null || $ficheSecurite->getId() == null)
+				return null;
+
+			//Suppression des palanquées
+			for($i = 0; $i < count($ficheSecurite->getPalanques()); $i++) {
+				PalanqueDao::delete($ficheSecurite->getPalanques()[$i]);
+			}
+
+			// Supprimer la fiche
+			$stmt = parent::getConnexion()->prepare("DELETE FROM db_fiche_securite WHERE id_fiche_securite = ?");
+			return $stmt->execute([$ficheSecurite->getId()]);
+		}
 		/* Private */
 		/**
 		 * Execute la requere $query avec les parametres optionnels contenus dans le tableau $param.

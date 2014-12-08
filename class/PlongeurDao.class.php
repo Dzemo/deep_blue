@@ -22,7 +22,7 @@
 		 * @return array
 		 */
 		public static function getLastX($nombre){
-			return self::getByQuery("SELECT p.* FROM db_plongeur p, db_fiche_securite f	WHERE p.id_fiche_securite = f.id_fiche_securite GROUP BY p.nom, p.prenom, p.date_naissance ORDER BY f.timestamp DESC LIMIT ?",[$nombre]);
+			return self::getByQuery("SELECT tmp.* FROM (SELECT p.* FROM db_plongeur p, db_fiche_securite f	WHERE p.id_fiche_securite = f.id_fiche_securite ORDER BY p.version DESC LIMIT ?) AS tmp GROUP BY tmp.nom, tmp.prenom, tmp.date_naissance ORDER BY tmp.version DESC LIMIT ?",[$nombre*2, $nombre]);
 		}
 		/**
 		 * Retourne tout les plongeurs appartenant à la palanqué spécifié.
@@ -73,7 +73,9 @@
 			}
 			if($plongeur->getTelephone() == null)$plongeur->setTelephone("");
 			if($plongeur->getTelephoneUrgence() == null)$plongeur->setTelephoneUrgence("");
-			$stmt = parent::getConnexion()->prepare("INSERT INTO db_plongeur (id_palanque, id_fiche_securite, nom, prenom, aptitudes, telephone, telephone_urgence, date_naissance) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+			$plongeur->updateVersion();
+
+			$stmt = parent::getConnexion()->prepare("INSERT INTO db_plongeur (id_palanque, id_fiche_securite, nom, prenom, aptitudes, telephone, telephone_urgence, date_naissance, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			$result = $stmt->execute([
 				$plongeur->getIdPalanque(),
 				$plongeur->getIdFicheSecurite(),
@@ -82,7 +84,8 @@
 				Aptitude::AptitudesArrayToAptitudesString($plongeur->getAptitudes()),
 				$plongeur->getTelephone(),
 				$plongeur->getTelephoneUrgence(),
-				$plongeur->getDateNaissance()
+				$plongeur->getDateNaissance(),
+				$plongeur->getVersion()
 				]);
 			if($result){
 				$plongeur->setId(parent::getConnexion()->lastInsertId());

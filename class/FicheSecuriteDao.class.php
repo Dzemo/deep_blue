@@ -69,12 +69,15 @@
 			if($ficheSecurite->getSite() != null && $ficheSecurite->getSite()->getId() == null)
 				$ficheSecurite->setSite(SiteDao::insert($ficheSecurite->getSite()));
 
-			$stmt = parent::getConnexion()->prepare("INSERT INTO db_fiche_securite (id_embarcation, id_directeur_plonge, timestamp, id_site, etat) VALUES (?, ?, ?, ?, ?)");
+			$ficheSecurite->updateVersion();
+
+			$stmt = parent::getConnexion()->prepare("INSERT INTO db_fiche_securite (id_embarcation, id_directeur_plonge, timestamp, id_site, etat, version) VALUES (?, ?, ?, ?, ?, ?)");
 			$result = $stmt->execute([$ficheSecurite->getEmbarcation()->getId(),
 							$ficheSecurite->getDirecteurPlonge()->getId(),
 							$ficheSecurite->getTimestamp(),
 							$ficheSecurite->getSite() != null ? $ficheSecurite->getSite()->getId() : null,
-							$ficheSecurite->getEtat()
+							$ficheSecurite->getEtat(),
+							$ficheSecurite->getVersion()
 							]);
 			if($result){
 				$ficheSecurite->setId(parent::getConnexion()->lastInsertId());

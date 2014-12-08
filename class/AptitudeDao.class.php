@@ -74,7 +74,9 @@
 				return null;
 			if($aptitude->getLibelleLong() == null)
 				$aptitude->setLibelleLong("");
-			$stmt = parent::getConnexion()->prepare("INSERT INTO db_aptitude (libelle_court, libelle_long, technique_max, encadree_max, autonome_max, nitrox_max, ajout_max, enseignement_air_max, enseignement_nitrox_max, encadremement_max) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+			$aptitude->updateVersion();
+			$stmt = parent::getConnexion()->prepare("INSERT INTO db_aptitude (libelle_court, libelle_long, technique_max, encadree_max, autonome_max, nitrox_max, ajout_max, enseignement_air_max, enseignement_nitrox_max, encadremement_max, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			$result = $stmt->execute([$aptitude->getLibelleCourt(),
 							$aptitude->getLibelleLong(),
 							$aptitude->getTechniqueMax(),
@@ -84,7 +86,8 @@
 							$aptitude->getAjoutMax(),
 							$aptitude->getEnseignementAirMax(),
 							$aptitude->getEnseignementNitroxMax(),
-							$aptitude->getEncadrementMax()
+							$aptitude->getEncadrementMax(),
+							$aptitude->getVersion()
 							]);
 			if($result){
 				$aptitude->setId(parent::getConnexion()->lastInsertId());

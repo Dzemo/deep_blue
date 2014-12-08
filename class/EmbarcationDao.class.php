@@ -45,8 +45,17 @@
 			if($embarcation == null ||
 				$embarcation->getLibelle() == null || strlen($embarcation->getLibelle()) == 0)
 				return null;
-			$stmt = parent::getConnexion()->prepare("INSERT INTO db_embarcation (libelle, maxpersonne, commentaire, disponible) VALUES (?, ?, ?, ?)");
-			$result = $stmt->execute([$embarcation->getLibelle(), $embarcation->getMaxpersonne(), $embarcation->getCommentaire(), $embarcation->getDisponible()]);
+
+			$embarcation->updateVersion();
+			
+			$stmt = parent::getConnexion()->prepare("INSERT INTO db_embarcation (libelle, maxpersonne, commentaire, disponible, version) VALUES (?, ?, ?, ?, ?)");
+			$result = $stmt->execute([
+								$embarcation->getLibelle(), 
+								$embarcation->getMaxpersonne(), 
+								$embarcation->getCommentaire(), 
+								$embarcation->getDisponible(),
+								$embarcation->getVersion()
+								]);
 			if($result){
 				$embarcation->setId(parent::getConnexion()->lastInsertId());
 				return $embarcation;

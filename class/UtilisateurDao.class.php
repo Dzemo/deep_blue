@@ -48,7 +48,10 @@
 				$utilisateur->getMotDePasse()== null || strlen($utilisateur->getMotDePasse()) == 0 ||
 				$utilisateur->getEmail() == null || strlen($utilisateur->getEmail()) == 0)
 				return null;
-			$stmt = parent::getConnexion()->prepare("INSERT INTO db_utilisateur (login,nom, prenom, mot_de_passe, administrateur, email, actif) VALUES (?, ?, ?, ?, ?, ?, ?)");
+
+			$utilisateur->updateVersion();
+
+			$stmt = parent::getConnexion()->prepare("INSERT INTO db_utilisateur (login,nom, prenom, mot_de_passe, administrateur, email, actif, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 			$result = $stmt->execute([
 				$utilisateur->getLogin(), 
 				$utilisateur->getNom(), 
@@ -56,7 +59,8 @@
 				$utilisateur->getMotDePasse(), 
 				$utilisateur->isAdministrateur(), 
 				$utilisateur->getEmail(), 
-				$utilisateur->getActif()
+				$utilisateur->getActif(),
+				$utilisateur->getVersion()
 				]);
 			if($result)
 				return $utilisateur;

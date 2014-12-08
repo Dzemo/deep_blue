@@ -65,7 +65,9 @@
 			if($moniteur->estActif() == null) $moniteur->setActif(false);
 			if($moniteur->estDirecteurPlonge() == null) $moniteur->setDirecteurPlonge(false);
 
-			$stmt = parent::getConnexion()->prepare("INSERT INTO db_moniteur (nom, prenom, aptitudes, directeur_plonge, actif, email, telephone) VALUES (?, ?, ?, ?, ?, ?, ?)");
+			$moniteur->updateVersion();
+
+			$stmt = parent::getConnexion()->prepare("INSERT INTO db_moniteur (nom, prenom, aptitudes, directeur_plonge, actif, email, telephone, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 			$result = $stmt->execute([
 				$moniteur->getNom(),
 				$moniteur->getPrenom(),
@@ -73,7 +75,8 @@
 				$moniteur->estDirecteurPlonge(),
 				$moniteur->estActif(),
 				$moniteur->getEmail(),
-				$moniteur->getTelephone()
+				$moniteur->getTelephone(),
+				$moniteur->getVersion()
 				]);
 
 			if($result){

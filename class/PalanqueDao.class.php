@@ -46,7 +46,10 @@
 				$palanque->getTypeGaz() == null || strlen($palanque->getTypeGaz()) == 0 
 				)
 				return null;
-			$stmt = parent::getConnexion()->prepare("INSERT INTO db_palanque (id_fiche_securite, id_moniteur, numero, type_plonge, type_gaz, profondeur_prevue, profondeur_realisee, duree_prevue, duree_realisee) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+			$palanque->updateVersion();
+
+			$stmt = parent::getConnexion()->prepare("INSERT INTO db_palanque (id_fiche_securite, id_moniteur, numero, type_plonge, type_gaz, profondeur_prevue, profondeur_realisee, duree_prevue, duree_realisee, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			$result = $stmt->execute([$palanque->getIdFicheSecurite(),
 									($palanque->getMoniteur() != null ? $palanque->getMoniteur()->getId() : null),
 									$palanque->getNumero(),
@@ -55,7 +58,8 @@
 									$palanque->getProfondeurPrevue(),
 									$palanque->getProfondeurRealisee(),
 									$palanque->getDureePrevue(),
-									$palanque->getDureeRealisee()
+									$palanque->getDureeRealisee(),
+									$palanque->getVersion()
 								]);
 			if($result){
 				$palanque->setId(parent::getConnexion()->lastInsertId());

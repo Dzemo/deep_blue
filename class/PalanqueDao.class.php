@@ -120,15 +120,11 @@
 		 * @return FicheSecurite Renvoi la fiche de sécurité ou null
 		 */
 		public static function updatePalanquesFromFicheSecurite(FicheSecurite $ficheSecurite){
-			if(count($ficheSecurite->getPalanques()) == 0)
-				return;
-			
-			//Supprime les plongeurs qui appartenait a la palanqué mais qui ne sont pas dans le tableau
+			//Suppression des palanquées qui ont été supprimées de la fiche
 			$arrayParam = array();
 			$arrayParam[] = $ficheSecurite->getId();
-			$arrayParam[] = $ficheSecurite->getPalanques()[0]->getId();
-			$query = "DELETE FROM db_palanque WHERE id_fiche_securite = ? AND id_palanque != ?";
-			for($i = 1; $i < count($ficheSecurite->getPalanques()); $i++) {
+			$query = "DELETE FROM db_palanque WHERE id_fiche_securite = ? ";
+			for($i = 0; $i < count($ficheSecurite->getPalanques()); $i++) {
 				$query = $query." AND id_palanque != ?";
 				$arrayParam[] = $ficheSecurite->getPalanques()[$i]->getId();
 			}

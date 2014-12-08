@@ -143,19 +143,17 @@
 		 * @return Palanque renvoi la palanqué ou null
 		 */
 		public static function updatePlongeursFromPalanque(Palanque $palanque){
-			if(count($palanque->getPlongeurs()) == 0)
-				return null;
 			//Supprime les plongeurs qui appartenait a la palanqué mais qui ne sont pas dans le tableau
 			$arrayParam = array();
 			$arrayParam[] = $palanque->getId();
-			$arrayParam[] = $palanque->getPlongeurs()[0]->getId();
-			$query = "DELETE FROM db_plongeur WHERE id_palanque = ? AND id_plongeur != ?";
-			for($i = 1; $i < count($palanque->getPlongeurs()); $i++) {
+			$query = "DELETE FROM db_plongeur WHERE id_palanque = ?";
+			for($i = 0; $i < count($palanque->getPlongeurs()); $i++) {
 				$query = $query." AND id_plongeur != ?";
 				$arrayParam[] = $palanque->getPlongeurs()[$i]->getId();
 			}
 			$stmt = parent::getConnexion()->prepare($query);
 			$stmt->execute($arrayParam);
+			
 			//Met a jours les plongeurs dans le tableau
 			foreach ($palanque->getPlongeurs() as $plongeur) {
 				if($plongeur->getId() != null)

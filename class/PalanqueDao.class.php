@@ -49,7 +49,7 @@
 
 			$palanque->updateVersion();
 
-			$stmt = parent::getConnexion()->prepare("INSERT INTO db_palanque (id_fiche_securite, id_moniteur, numero, type_plonge, type_gaz, profondeur_prevue, duree_prevue, heure, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			$stmt = parent::getConnexion()->prepare("INSERT INTO db_palanque (id_fiche_securite, id_moniteur, numero, type_plonge, type_gaz, profondeur_prevue, duree_prevue, heure, profondeur_realisee_moniteur, duree_realisee_moniteur, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			$result = $stmt->execute([$palanque->getIdFicheSecurite(),
 									($palanque->getMoniteur() != null ? $palanque->getMoniteur()->getId() : null),
 									$palanque->getNumero(),
@@ -58,6 +58,8 @@
 									$palanque->getProfondeurPrevue(),
 									$palanque->getDureePrevue(),
 									$palanque->getHeure(),
+									$palanque->getProfondeurRealiseeMoniteur(),
+									$palanque->getDureeRealiseeMoniteur(),
 									$palanque->getVersion()
 								]);
 			if($result){
@@ -90,7 +92,7 @@
 				return null;				
 
 			$palanque->updateVersion();
-			$stmt = parent::getConnexion()->prepare("UPDATE db_palanque SET id_fiche_securite = ?, id_moniteur = ?, numero = ?, type_plonge = ?, type_gaz = ?, profondeur_prevue = ?, duree_prevue = ?, heure = ?, version = ? WHERE id_palanque = ?");
+			$stmt = parent::getConnexion()->prepare("UPDATE db_palanque SET id_fiche_securite = ?, id_moniteur = ?, numero = ?, type_plonge = ?, type_gaz = ?, profondeur_prevue = ?, duree_prevue = ?, heure = ?, profondeur_realisee_moniteur = ?, duree_realisee_moniteur = ?, version = ? WHERE id_palanque = ?");
 			$result = $stmt->execute([$palanque->getIdFicheSecurite(),
 									($palanque->getMoniteur() != null ? $palanque->getMoniteur()->getId() : null),
 									$palanque->getNumero(),
@@ -99,6 +101,8 @@
 									$palanque->getProfondeurPrevue(),
 									$palanque->getDureePrevue(),
 									$palanque->getHeure(),
+									$palanque->getProfondeurRealiseeMoniteur(),
+									$palanque->getDureeRealiseeMoniteur(),
 									$palanque->getVersion(),
 									$palanque->getId()
 								]);
@@ -182,6 +186,8 @@
 					$palanque->setDureePrevue($row['duree_prevue']);
 					$palanque->setHeure($row['heure']);
 					$palanque->setPlongeurs(PlongeurDao::getByIdPalanque($palanque->getId()));
+					$palanque->setProfondeurRealiseeMoniteur($row['profondeur_realisee_moniteur']);
+					$palanque->setDureeRealiseeMoniteur($row['duree_realisee_moniteur']);
 					//Récupération du moniteur
 					if($row['id_moniteur'] != null){
 						$moniteur = MoniteurDao::getById($row['id_moniteur']);

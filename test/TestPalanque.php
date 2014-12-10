@@ -17,6 +17,8 @@
 	$palanque->setProfondeurPrevue(6);
 	$palanque->setDureePrevue(600);
 	$palanque->setHeure("11:20");
+	$palanque->setProfondeurRealiseeMoniteur(6.2);
+	$palanque->setDureeRealiseeMoniteur(602);
 	$palanque = PalanqueDao::insert($palanque);
 	echo "<br/>PalanqueDao::insert() (version a ".$palanque->getVersion().")<br/>";
 	/*Test getById*/
@@ -32,6 +34,8 @@
 	$palanque->setProfondeurPrevue(6);
 	$palanque->setDureePrevue(600);
 	$palanque->setHeure("16:20");
+	$palanque->setProfondeurRealiseeMoniteur(6.1);
+	$palanque->setDureeRealiseeMoniteur(601);
 	$palanque = PalanqueDao::update($palanque);
 	echo "<br/>PalanqueDao::update() (version a ".$palanque->getVersion().")<br/>";
 	/*Test getById*/

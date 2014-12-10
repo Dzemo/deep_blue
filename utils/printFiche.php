@@ -120,13 +120,13 @@ function printFiche($numero_fiche) {
 								echo "<td rowspan='".$nbPersonnes."'>".$palanquee->getProfondeurPrevue()."</td>";	
 							}			
 						//Profondeur réalisé
-							echo "<td></td>";
+							echo "<td>".$palanquee->getProfondeurRealiseeMoniteur()."</td>";
 							if($firstIteration){
 						//Temps d'immersion prévu
 								echo "<td rowspan='".$nbPersonnes."'>".convertToMinSec($palanquee->getDureePrevue())."</td>";
 							}
 						//Temps d'immersion réalisé
-							echo "<td></td>";
+							echo "<td>".$palanquee->getDureeRealiseeMoniteur()."</td>";
 							
 							echo "</tr>";
 							$firstIteration = FALSE;

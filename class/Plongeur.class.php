@@ -69,13 +69,13 @@
 		private $date_naissance;
 		
 		/**
-		 * Profondeur qu'a réalisé la palanqué (en mètre)
+		 * Profondeur qu'a réalisé le plongeur (en mètre)
 		 * @var float
 		 */
 		private $profondeur_realisee;
 		
 		/**
-		 * Durée de plongé réalisé par la palanqué (en seconde)
+		 * Durée de plongé réalisé par le plongeur (en seconde)
 		 * @var int
 		 */
 		private $duree_realisee;

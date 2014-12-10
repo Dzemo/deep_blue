@@ -159,11 +159,13 @@
 			$stmt->execute($arrayParam);
 			
 			//Met a jours les plongeurs dans le tableau
-			foreach ($palanque->getPlongeurs() as $plongeur) {
-				if($plongeur->getId() != null)
-					self::update($plongeur);
-				else
-					self::insert($plongeur);
+			if(count($palanque->getPlongeurs()) > 0){
+				foreach ($palanque->getPlongeurs() as $plongeur) {
+					if($plongeur->getId() != null)
+						self::update($plongeur);
+					else
+						self::insert($plongeur);
+				}
 			}
 		}
 		/**

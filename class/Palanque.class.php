@@ -122,6 +122,18 @@
 		 * @var string
 		 */
 		private $heure;
+
+		/**
+		 * Profondeur qu'a réalisé le moniteur (en mètre)
+		 * @var float
+		 */
+		private $profondeur_realisee_moniteur;
+		
+		/**
+		 * Durée de plongé réalisé par le moniteur (en seconde)
+		 * @var int
+		 */
+		private $duree_realisee_moniteur;
 		
 		/**
 		 * Version de la palanqué, pour la synchronisation. Timestamps de dernière modification
@@ -152,6 +164,8 @@
 			$this->profondeur_realisee = null;
 			$this->plongeurs = array();
 			$this->heure = null;
+			$this->duree_realisee_moniteur = null;
+			$this->profondeur_realisee_moniteur = null;
 			$this->version = $version != 0 ? $version : time();
 		}
 		
@@ -290,6 +304,32 @@
 				$this->heure = substr($this->heure, 0, 5);
 			}
 		}
+
+		/**
+		 * @return float
+		 */
+		public function getProfondeurRealiseeMoniteur(){
+			return $this->profondeur_realisee_moniteur ;
+		}
+		/**
+		 * @param float $profondeur_realisee_moniteur
+		 */
+		public function setProfondeurRealiseeMoniteur($profondeur_realisee_moniteur){
+			$this->profondeur_realisee_moniteur = $profondeur_realisee_moniteur ;
+		}		
+		
+		/**
+		 * @return int
+		 */
+		public function getDureeRealiseeMoniteur(){
+			return $this->duree_realisee_moniteur ;
+		}
+		/**
+		 * @param int $duree_realisee_moniteur
+		 */
+		public function setDureeRealiseeMoniteur($duree_realisee_moniteur){
+			$this->duree_realisee_moniteur = $duree_realisee_moniteur ;
+		}
 		
 		/**
 		 * @return int
@@ -316,7 +356,7 @@
 		public function __toString(){
 			$string = "Palanque ".$this->id.": IdFicheSecurite: ".$this->id_fiche_securite." Numero: ".$this->numero." NbrPlongeur: ".count($this->plongeurs)." Heure: ".$this->heure."<br>";
 			$string.= "TypePlonge: ".$this->type_plonge." TypeGaz: ".$this->type_gaz." ProfondeurPrevu: ".$this->profondeur_prevue." DureePrevue: ".$this->duree_prevue." Version: ".$this->version."<br>";
-			$string.= "&nbsp;&nbsp;".($this->moniteur != null ? "Moniteur: ".$this->moniteur."<br>" : "" );
+			$string.= "&nbsp;&nbsp;".($this->moniteur != null ? "Moniteur: ".$this->moniteur." ProfondeurRealiseMoniteur: ".$this->profondeur_realisee_moniteur." DureeRealiseMoniteur: ".$this->duree_realisee_moniteur."<br>" : "" );
 			if($this->plongeurs != null){
 				foreach ($this->plongeurs as $plongeur) {
 				$string.= "&nbsp;&nbsp;$plongeur<br>";

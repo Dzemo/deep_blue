@@ -69,6 +69,18 @@
 		private $date_naissance;
 		
 		/**
+		 * Profondeur qu'a réalisé la palanqué (en mètre)
+		 * @var float
+		 */
+		private $profondeur_realisee;
+		
+		/**
+		 * Durée de plongé réalisé par la palanqué (en seconde)
+		 * @var int
+		 */
+		private $duree_realisee;
+
+		/**
 		 * Version du plongeur, pour la synchronisation. Timestamps de dernière modification
 		 * @var int
 		 */
@@ -94,6 +106,8 @@
 			$this->telephone = null;
 			$this->telephone_urgence = null;
 			$this->date_naissance = null ;
+			$this->duree_realisee = null;
+			$this->profondeur_realisee = null;
 			$this->version = $version != 0 ? $version : time();
 		}
 
@@ -216,7 +230,33 @@
 		 */
 		public function setDateNaissance($date_naissance){
 			$this->date_naissance = $date_naissance ;
-		}		
+		}	
+		
+		/**
+		 * @return float
+		 */
+		public function getProfondeurRealisee(){
+			return $this->profondeur_realisee ;
+		}
+		/**
+		 * @param float $profondeur_realisee
+		 */
+		public function setProfondeurRealisee($profondeur_realisee){
+			$this->profondeur_realisee = $profondeur_realisee ;
+		}	
+		
+		/**
+		 * @return int
+		 */
+		public function getDureeRealisee(){
+			return $this->duree_realisee ;
+		}
+		/**
+		 * @param int $duree_realisee
+		 */
+		public function setDureeRealisee($duree_realisee){
+			$this->duree_realisee = $duree_realisee ;
+		}
 		
 		/**
 		 * @return int
@@ -258,7 +298,12 @@
 				}
 				$stringAptitudes = $stringAptitudes."]";
 			}
-			return "Plongeur ".$this->id.": ".$this->nom." ".$this->prenom." DN: ".$this->date_naissance." Aptitudes: ".$stringAptitudes." IdFicheSecurite/IdPalanque: ".$this->id_fiche_securite."/".$this->id_palanque." Tels: ".$this->telephone."/".$this->telephone_urgence." Version: ".$this->version ;
+
+			$string = "Plongeur ".$this->id.": ".$this->nom." ".$this->prenom." DN: ".$this->date_naissance."Tels: ".$this->telephone."/".$this->telephone_urgence."<br>";
+			$string.= "&nbsp;&nbsp;Aptitudes: ".$stringAptitudes." IdFicheSecurite/IdPalanque: ".$this->id_fiche_securite."/".$this->id_palanque;
+			$string.= "&nbsp;&nbsp;ProfondeurRealise: ".$this->profondeur_realisee." DureeRealise: ".$this->duree_realisee." Version: ".$this->version;
+
+			return $string;
 		}
 		/////////////////
 		// Utils Fin //

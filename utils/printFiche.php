@@ -85,6 +85,7 @@ function printFiche($numero_fiche) {
 					echo "<tr>";
 					echo "<td rowspan='".$nbPersonnes."'>".$palanquee->getNumero()."</td>";
 					echo "<td rowspan='".$nbPersonnes."'>".$palanquee->getHeure()."</td>";
+					
 					///////////////
 					// MONITEUR //
 					///////////////
@@ -112,18 +113,21 @@ function printFiche($numero_fiche) {
 						
 							if($firstIteration){
 						// Type Plongée
-							echo "<td rowspan='".$nbPersonnes."'>".typePlongeToString($palanquee->getTypePlonge())."</td>";
+								echo "<td rowspan='".$nbPersonnes."'>".typePlongeToString($palanquee->getTypePlonge())."</td>";
 						// Gaz		
-							echo "<td class='".strtolower($palanquee->getTypeGaz())."Color bold' rowspan='".$nbPersonnes."'>".$palanquee->getTypeGaz()."</td>";
+								echo "<td class='".strtolower($palanquee->getTypeGaz())."Color bold' rowspan='".$nbPersonnes."'>".$palanquee->getTypeGaz()."</td>";
 						//Profondeur prévu
-							echo "<td rowspan='".$nbPersonnes."'>".$palanquee->getProfondeurPrevue()."</td>";				
+								echo "<td rowspan='".$nbPersonnes."'>".$palanquee->getProfondeurPrevue()."</td>";	
+							}			
 						//Profondeur réalisé
-							echo "<td rowspan='".$nbPersonnes."'>".$palanquee->getProfondeurRealisee()."</td>";
+							echo "<td></td>";
+							if($firstIteration){
 						//Temps d'immersion prévu
-							echo "<td rowspan='".$nbPersonnes."'>".convertToMinSec($palanquee->getDureePrevue())."</td>";
-						//Temps d'immersion réalisé
-							echo "<td rowspan='".$nbPersonnes."'>".convertToMinSec($palanquee->getDureeRealisee())."</td>";
+								echo "<td rowspan='".$nbPersonnes."'>".convertToMinSec($palanquee->getDureePrevue())."</td>";
 							}
+						//Temps d'immersion réalisé
+							echo "<td></td>";
+							
 							echo "</tr>";
 							$firstIteration = FALSE;
 						}
@@ -158,18 +162,21 @@ function printFiche($numero_fiche) {
 								
 								if($firstIteration){
 								// Type Plongé
-								echo "<td rowspan='".$nbPersonnes."'>".typePlongeToString($palanquee->getTypePlonge())."</td>";
+									echo "<td rowspan='".$nbPersonnes."'>".typePlongeToString($palanquee->getTypePlonge())."</td>";
 								// Gaz
-								echo "<td class='".strtolower($palanquee->getTypeGaz())."Color bold' rowspan='".$nbPersonnes."'>".$palanquee->getTypeGaz()."</td>";
+									echo "<td class='".strtolower($palanquee->getTypeGaz())."Color bold' rowspan='".$nbPersonnes."'>".$palanquee->getTypeGaz()."</td>";
 								//Profondeur prévu
-								echo "<td rowspan='".$nbPersonnes."'>".$palanquee->getProfondeurPrevue()."</td>";				
+									echo "<td rowspan='".$nbPersonnes."'>".$palanquee->getProfondeurPrevue()."</td>";	
+								}			
 								//Profondeur réalisé
-								echo "<td rowspan='".$nbPersonnes."'>".$palanquee->getProfondeurRealisee()."</td>";
-								//Temps d'immersion prévu
-								echo "<td rowspan='".$nbPersonnes."'>".convertToMinSec($palanquee->getDureePrevue())."</td>";
-								//Temps d'immersion réalisé
-								echo "<td rowspan='".$nbPersonnes."'>".convertToMinSec($palanquee->getDureeRealisee())."</td>";
+								echo "<td>".$plongeur->getProfondeurRealisee()."</td>";
+								if($firstIteration){
+									//Temps d'immersion prévu
+									echo "<td rowspan='".$nbPersonnes."'>".convertToMinSec($palanquee->getDureePrevue())."</td>";
 								}
+								//Temps d'immersion réalisé
+								echo "<td>".convertToMinSec($plongeur->getDureeRealisee())."</td>";
+
 							echo "</tr>";						
 							$firstIteration = FALSE;
 						}

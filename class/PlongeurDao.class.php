@@ -75,7 +75,7 @@
 			if($plongeur->getTelephoneUrgence() == null)$plongeur->setTelephoneUrgence("");
 			$plongeur->updateVersion();
 
-			$stmt = parent::getConnexion()->prepare("INSERT INTO db_plongeur (id_palanque, id_fiche_securite, nom, prenom, aptitudes, telephone, telephone_urgence, date_naissance, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			$stmt = parent::getConnexion()->prepare("INSERT INTO db_plongeur (id_palanque, id_fiche_securite, nom, prenom, aptitudes, telephone, telephone_urgence, date_naissance, profondeur_realisee, duree_realisee, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			$result = $stmt->execute([
 				$plongeur->getIdPalanque(),
 				$plongeur->getIdFicheSecurite(),
@@ -85,6 +85,8 @@
 				$plongeur->getTelephone(),
 				$plongeur->getTelephoneUrgence(),
 				$plongeur->getDateNaissance(),
+				$plongeur->getProfondeurRealisee(),
+				$plongeur->getDureeRealisee(),
 				$plongeur->getVersion()
 				]);
 			if($result){
@@ -116,7 +118,7 @@
 			if($plongeur->getTelephoneUrgence() == null)$plongeur->setTelephoneUrgence("");
 			$plongeur->updateVersion();
 			
-			$stmt = parent::getConnexion()->prepare("UPDATE db_plongeur SET id_palanque = ?, id_fiche_securite = ?, nom = ?, prenom = ?, aptitudes = ?, telephone = ?, telephone_urgence = ?, date_naissance = ?, version = ? WHERE id_plongeur = ?");
+			$stmt = parent::getConnexion()->prepare("UPDATE db_plongeur SET id_palanque = ?, id_fiche_securite = ?, nom = ?, prenom = ?, aptitudes = ?, telephone = ?, telephone_urgence = ?, date_naissance = ?, profondeur_realisee = ?, duree_realisee = ?, version = ? WHERE id_plongeur = ?");
 			$result = $stmt->execute([
 				$plongeur->getIdPalanque(),
 				$plongeur->getIdFicheSecurite(),
@@ -126,6 +128,8 @@
 				$plongeur->getTelephone(),
 				$plongeur->getTelephoneUrgence(),
 				$plongeur->getDateNaissance(),
+				$plongeur->getProfondeurRealisee(),
+				$plongeur->getDureeRealisee(),
 				$plongeur->getVersion(),
 				$plongeur->getId()
 				]);
@@ -193,6 +197,8 @@
 					$plongeur->setTelephone($row['telephone']);
 					$plongeur->setTelephoneUrgence($row['telephone_urgence']);
 					$plongeur->setDateNaissance($row['date_naissance']);
+					$plongeur->setProfondeurRealisee($row['profondeur_realisee']);
+					$plongeur->setDureeRealisee($row['duree_realisee']);
 					$arrayResultat[] = $plongeur;
 				}
 				return $arrayResultat;

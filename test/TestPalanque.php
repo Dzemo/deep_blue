@@ -15,9 +15,8 @@
 	$palanque->setTypePlonge(Palanque::plongeAutonome);
 	$palanque->setTypeGaz(Palanque::gazAir);
 	$palanque->setProfondeurPrevue(6);
-	$palanque->setProfondeurRealisee(null);
 	$palanque->setDureePrevue(600);
-	$palanque->setDureeRealisee(null);
+	$palanque->setHeure("11:20");
 	$palanque = PalanqueDao::insert($palanque);
 	echo "<br/>PalanqueDao::insert() (version a ".$palanque->getVersion().")<br/>";
 	/*Test getById*/
@@ -31,9 +30,8 @@
 	$palanque->setTypePlonge(Palanque::plongeEncadre);
 	$palanque->setTypeGaz(Palanque::gazNitrox);
 	$palanque->setProfondeurPrevue(6);
-	$palanque->setProfondeurRealisee(5.5);
 	$palanque->setDureePrevue(600);
-	$palanque->setDureeRealisee(600);
+	$palanque->setHeure("16:20");
 	$palanque = PalanqueDao::update($palanque);
 	echo "<br/>PalanqueDao::update() (version a ".$palanque->getVersion().")<br/>";
 	/*Test getById*/
@@ -67,9 +65,7 @@
 		$palanque->setTypePlonge(Palanque::plongeAutonome);
 		$palanque->setTypeGaz(Palanque::gazAir);
 		$palanque->setProfondeurPrevue(6);
-		$palanque->setProfondeurRealisee(null);
 		$palanque->setDureePrevue(600);
-		$palanque->setDureeRealisee(null);
 		$palanque = PalanqueDao::insert($palanque);
 		echo "<br/>PalanqueDao::insert() (version a ".$palanque->getVersion().")<br/>";
 

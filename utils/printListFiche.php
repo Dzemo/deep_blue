@@ -11,12 +11,10 @@ function printListFiche($arrayFichesSecurite) {
 		<thead>
 			<tr>
 				<th colspan="3"></th>
-				<th>Fiches</th>
+				<th>Responsable</th>
 				<th>Date</th>
-				<th>Heure</th>
 				<th>Site</th>
 				<th>Embarcation</th>
-				<th>Responsable</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -33,12 +31,10 @@ function printListFiche($arrayFichesSecurite) {
 						<td>
 						<div class='icone-poubelle' style='cursor: pointer;' onclick='fs_delete(".$fiche->getId().")'>
 						</div></td>";
-	      			echo "<td>".$fiche->getNom()."</td>";
+					echo "<td class='responsableColor bold'>".$fiche->getDirecteurPlonge()->getPrenom()." ".$fiche->getDirecteurPlonge()->getNom()."</td>";
 					echo "<td>".$fiche->getDate()."</td>";
-					echo "<td>".$fiche->getTime()."</td>";
 					echo "<td>".($fiche->getSite() != null ? $fiche->getSite()->getNom() : "")."</td>";
 					echo "<td>".$fiche->getEmbarcation()->getLibelle()."</td>";
-					echo "<td class='responsableColor bold'>".$fiche->getDirecteurPlonge()->getPrenom()." ".$fiche->getDirecteurPlonge()->getNom()."</td>";
 				
 					
 				echo "</tr>";

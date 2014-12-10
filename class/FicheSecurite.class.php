@@ -255,7 +255,7 @@
 		 * @return string
 		 */
 		public function getNom(){
-			return trim($this->getDirecteurPlonge()->getId()).$this->getEmbarcation()->getLibelle().$this->getTime();
+			return trim($this->getDirecteurPlonge()->getId()).$this->getEmbarcation()->getLibelle().$this->getDate();
 		}
 		/**
 		 * Renvoi une string représentant la fiche de sécurité

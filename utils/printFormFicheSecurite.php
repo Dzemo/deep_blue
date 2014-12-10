@@ -480,8 +480,8 @@ function printFormFicheSecuritePalanque($aptitudes, Palanque $pal = null){
 				<!-- Début information commune à la palanquée -->
 					<table class="inside-panel">
 						<tr> <!-- Ligne pour les titres de colonnes -->
-							<td class="gaz">
-								Type de gaz utilisé
+							<td>
+								<label for="pal<?php if($m) echo $pal->getNumero();?>_type_gaz">Type de gaz utilisé</label>
 							</td>
 							<td>
 								<label for="pal<?php if($m) echo $pal->getNumero();?>_type_plonge">Type de plongé</label>
@@ -491,6 +491,9 @@ function printFormFicheSecuritePalanque($aptitudes, Palanque $pal = null){
 							</td>	
 							<td>
 								<label for="pal<?php if($m) echo $pal->getNumero();?>_duree_prevue">Durée prévue (minute)</label>
+							</td>
+							<td>
+								<label for="pal<?php if($m) echo $pal->getNumero();?>_heure">Heure de plongée</label>
 							</td>
 						</tr>
 						<tr>
@@ -538,6 +541,13 @@ function printFormFicheSecuritePalanque($aptitudes, Palanque $pal = null){
 										name="pal<?php if($m) echo $pal->getNumero();?>_duree_prevue" 
 										id="pal<?php if($m) echo $pal->getNumero();?>_duree_prevue" 
 										value="<?php if($m) echo $pal->getDureePrevue(); else echo Palanque::plongeDefaultDuree;?>"/>
+							</td>
+							<td>								
+								<input 	type="text" 
+										name="pal<?php if($m) echo $pal->getNumero();?>_heure" 
+										id="pal<?php if($m) echo $pal->getNumero();?>_heure" 
+										placeholder="HH:MM"
+										value="<?php if($m) echo $pal->getHeure();?>"/>
 							</td>
 						</tr>
 					</table>
@@ -769,6 +779,7 @@ function printRawSourceAutocompletePlongeur(){
  * @param  array $aptitudesPossede 	Aptitudes possédé par le plongeur ou le moniteur
  */
 function printListeOptionsAptitudes($aptitudes, $aptitudesPossede){
+	$result = "";
 	if($aptitudes != null){
 		foreach ($aptitudes as $aptitude) {
 			$result .= "<option value=\"".$aptitude->getId()."\"";

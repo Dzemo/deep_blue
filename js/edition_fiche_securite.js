@@ -64,6 +64,7 @@ function fs_enregistrer(){
 			plonge: $("#pal"+numero_palanque+"_type_plonge").val(),
 			profondeur_prevue: $("#pal"+numero_palanque+"_profondeur_prevue").val(),
 			duree_prevue: $("#pal"+numero_palanque+"_duree_prevue").val(),
+			heure:  $("#pal"+numero_palanque+"_heure").val(),
 			plongeurs: plongeurs_array,
 			moniteur_id: ""
 		}
@@ -164,6 +165,7 @@ function fs_annule(adresse){
  */
 function fs_supprimer_palanque(numero_palanque){
 	if(confirm("Supprimer la palanqué "+numero_palanque+" ?")){
+		formulaire_modifie = true;
 		$('#pal'+numero_palanque).remove();
 		$('#li_pal'+numero_palanque).remove();
 
@@ -177,6 +179,7 @@ function fs_supprimer_palanque(numero_palanque){
  * @param  {int} numero_plongeur plongeur à supprimer
  */
 function fs_supprimer_plongeur(numero_palanque, numero_plongeur){
+	formulaire_modifie = true;
 	$('#pal'+numero_palanque+'_plon'+numero_plongeur).remove();
 }
 /**

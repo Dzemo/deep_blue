@@ -174,6 +174,20 @@
 			}
 			//Pas d'erreur en cas de durée absente
 			
+			//Vérification de l'heure
+			//Vérification du type de plongé
+			if(isset($post_palanque['heure']) && strlen($post_palanque['heure']) > 0 )	{
+				if(!filter_var($post_palanque['heure'], FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^\s*(((0|1\d)|(2[0-3])):[0-6]\d)\s*$/"))))
+				{
+					$erreur_variable = true;
+					$erreurs[] = ['numero' => $numero, 'type' => 'val_abs', 'msg' => '<strong>Heure</strong> de plongé invalide (Format HH:MM attendu)'];
+				}
+				else{
+					$heure = $post_palanque['heure'];
+					$palanque->setHeure($heure);
+				}
+			}
+
 			//Vérification de la présence d'un moniteur et de ses valeurs
 			if(isset($post_palanque['moniteur_id']) && strlen($post_palanque['moniteur_id']) > 0){
 				//Récupération du moniteur à partir de son id

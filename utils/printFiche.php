@@ -48,6 +48,7 @@ function printFiche($numero_fiche) {
 		<thead>
 			<tr>
 				<th>Palanquée</th>
+				<th>Heure de plongée</th>
 				<th>Prénom et Nom</th>
 				<th>Contacts</th>
 				<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aptitudes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -83,6 +84,7 @@ function printFiche($numero_fiche) {
 					//echo "<td>Numero Palanquée</td>";
 					echo "<tr>";
 					echo "<td rowspan='".$nbPersonnes."'>".$palanquee->getNumero()."</td>";
+					echo "<td rowspan='".$nbPersonnes."'>".$palanquee->getHeure()."</td>";
 					///////////////
 					// MONITEUR //
 					///////////////

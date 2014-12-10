@@ -128,6 +128,12 @@
 		 * @var array
 		 */
 		private $plongeurs;
+
+		/**
+		 * Heure de plongé de la palanqué, sous forme de chaine de caratere de longeur 5
+		 * @var string
+		 */
+		private $heure;
 		
 		/**
 		 * Version de la palanqué, pour la synchronisation. Timestamps de dernière modification
@@ -157,6 +163,7 @@
 			$this->profondeur_prevue = null;
 			$this->profondeur_realisee = null;
 			$this->plongeurs = array();
+			$this->heure = null;
 			$this->version = $version != 0 ? $version : time();
 		}
 		
@@ -306,6 +313,23 @@
 		public function setPlongeurs($plongeurs){
 			$this->plongeurs = $plongeurs ;
 		}
+
+		/**
+		 * @return string
+		 */
+		public function getHeure(){
+			return $this->heure ;
+		}
+		/**
+		 * @param string $heure
+		 */
+		public function setHeure($heure){
+			$this->heure = trim($heure) ;
+
+			if(strlen($this->heure) > 5){
+				$this->heure = substr($this->heure, 0, 5);
+			}
+		}
 		
 		/**
 		 * @return int
@@ -330,7 +354,7 @@
 		 * @return string
 		 */
 		public function __toString(){
-			$string = "Palanque ".$this->id.": IdFicheSecurite: ".$this->id_fiche_securite." Numero: ".$this->numero." NbrPlongeur: ".count($this->plongeurs)."<br>";
+			$string = "Palanque ".$this->id.": IdFicheSecurite: ".$this->id_fiche_securite." Numero: ".$this->numero." NbrPlongeur: ".count($this->plongeurs)." Heure: ".$this->heure."<br>";
 			$string.= "TypePlonge: ".$this->type_plonge." TypeGaz: ".$this->type_gaz." ProfondeurPrevu: ".$this->profondeur_prevue." ProfondeurRealise: ".$this->profondeur_realisee." DureePrevue: ".$this->duree_prevue." DureeRealise: ".$this->duree_realisee." Version: ".$this->version."<br>";
 			$string.= "&nbsp;&nbsp;".($this->moniteur != null ? "Moniteur: ".$this->moniteur."<br>" : "" );
 			if($this->plongeurs != null){

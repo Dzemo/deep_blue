@@ -147,7 +147,8 @@
 				strlen($post_palanque['plonge']) > 0 && 
 				(strcmp($post_palanque['plonge'], Palanque::plongeTechnique) == 0 ||
 				strcmp($post_palanque['plonge'], Palanque::plongeEncadre) == 0 ||
-				strcmp($post_palanque['plonge'], Palanque::plongeAutonome) == 0))	{	
+				strcmp($post_palanque['plonge'], Palanque::plongeAutonome) == 0 ||
+				strcmp($post_palanque['plonge'], Palanque::plongeBapteme) == 0))	{	
 							
 				$plonge = filter_var($post_palanque['plonge'], FILTER_SANITIZE_STRING);
 				$palanque->setTypePlonge($plonge);
@@ -305,6 +306,8 @@
 				$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'La validation de la palanquée par rapport aux règles du code du sport n\'a pas pu être effectuée'];
 			}
 			else{
+				// LA FONCTION VALIDEPALANQUEE VERIFIE LES REGLES DE GESTIONS. ELLE EST DANS LE FICHIER
+				// utils/validation_palanquee.php
 				$erreurs_gestion = validePalanquee($palanque);
 
 				$erreurs = array_merge_recursive($erreurs, $erreurs_gestion);

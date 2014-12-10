@@ -64,29 +64,41 @@ function validePalanquee(Palanque $palanque){
 	//	nombre de plongeurs (avec l'eventuelle ajout en fonction de la profondeur)
 	if($palanque->getTypePlonge() == Palanque::plongeBapteme){
 		$max_plongeur_non_bonus = 1;
+		$max_plongeur_bonus = 2;
+		$plongeur_bonus = 0;
 		if(count($palanque->getPlongeurs()) > $max_plongeur_non_bonus){
-			//Si il y a plus de 1 plongeurs, il faut vérifié que les plongeurs supplémentaire ont les aptitude requise
-			$plongeurs_non_bonus = 0;
-			foreach($palanque->getPlongeurs() as $plongeur){
-				if(!peutAjouterPlongeurProfondeurGaz($plongeur, $palanque->getProfondeurPrevue(), $palanque->getTypeGaz()))
-					$plongeurs_non_bonus++;
+			//Si il y a plus de 1 plongeurs, il faut vérifié qu'il n'y a qu'un plongeur de plus
+			if(count($palanque->getPlongeurs()) <= $max_plongeur_bonus){
+				// Nous savons qu'il y a donc 2 plongeur, le deuxième plongeur doit avoir les bonnes aptitudes
+				foreach($palanque->getPlongeurs() as $plongeur){
+					if(peutEtrePlongeurBonus($plongeur, $palanque->getTypeGaz(),$palanque->getProfondeurPrevue()))
+						$plongeur_bonus++;
+				}
+				if($plongeur_bonus==0)
+					$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Le plongeur supplémentaire n a pas les bonnes aptitudes pour une plongée '.typePlongeToString($palanque->getTypePlonge()).' et à une profondeur prévue de '. $palanque->getProfondeurPrevue().' mètres'];
 			}
-			if($plongeurs_non_bonus > $max_plongeur_non_bonus){
-				$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Il y a trop de plongeur étant données leurs aptitudes pour une plongé '.typePlongeToString($palanque->getTypePlonge()).' et à une profondeur prévu de '. $palanque->getProfondeurPrevue.' mètres'];
+			else {
+					$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Il y a trop de plongeur étant données leurs aptitudes pour une plongée '.typePlongeToString($palanque->getTypePlonge()).' et à une profondeur prévue de '. $palanque->getProfondeurPrevue().' mètres'];
 			}
 		}
 	}
 	else if($palanque->getTypePlonge() == Palanque::plongeTechnique || $palanque->getTypePlonge() == Palanque::plongeEncadre){
 		$max_plongeur_non_bonus = 4;
+		$max_plongeur_bonus = 5;
+		$plongeur_bonus = 0;
 		if(count($palanque->getPlongeurs()) > $max_plongeur_non_bonus){
-			//Si il y a plus de 4 plongeurs, il faut vérifié que les plongeurs supplémentaire ont les aptitude requise
-			$plongeurs_non_bonus = 0;
-			foreach($palanque->getPlongeurs() as $plongeur){
-				if(!peutAjouterPlongeurProfondeurGaz($plongeur, $palanque->getProfondeurPrevue(), $palanque->getTypeGaz()))
-					$plongeurs_non_bonus++;
+			//Si il y a plus de 4 plongeurs, il faut vérifié qu'il n'y a qu'un plongeur de plus
+			if(count($palanque->getPlongeurs()) <= $max_plongeur_bonus){
+				// Nous savons qu'il y a donc 5 plongeur, le 5eme plongeur doit avoir les bonnes aptitudes
+				foreach($palanque->getPlongeurs() as $plongeur){
+					if(peutEtrePlongeurBonus($plongeur, $palanque->getTypeGaz(),$palanque->getProfondeurPrevue()))
+						$plongeur_bonus++;
+				}
+				if($plongeur_bonus==0)
+					$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Le plongeur supplémentaire n a pas les bonnes aptitudes pour une plongée '.typePlongeToString($palanque->getTypePlonge()).' et à une profondeur prévue de '. $palanque->getProfondeurPrevue().' mètres'];
 			}
-			if($plongeurs_non_bonus > $max_plongeur_non_bonus){
-				$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Il y a trop de plongeur étant données leurs aptitudes pour une plongé '.typePlongeToString($palanque->getTypePlonge()).' et à une profondeur prévu de '. $palanque->getProfondeurPrevue().' mètres'];
+			else {
+					$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Il y a trop de plongeur étant données leurs aptitudes pour une plongée '.typePlongeToString($palanque->getTypePlonge()).' et à une profondeur prévue de '. $palanque->getProfondeurPrevue().' mètres'];
 			}
 		}
 	}
@@ -266,6 +278,45 @@ function peutPlongerPlongeurProfondeurNitrox($plongeur, $profondeur){
 				return true;
 		}
 		return false;
+	}
+}
+
+/**
+ * Vérifie si ce plongeur peut s'ajouter à cette palanqué en temps que plongeur supplémentaire
+ * pour cette profondeur et ce type de gaz
+ * @param  Plongeur $plongeur    
+ * @param  float $profondeur  
+ * @param  string $gaz
+ * @return boolean true si le plongeur peut s'ajouter, false sinon
+ */
+function peutEtrePlongeurBonus($plongeur,$gaz,$profondeur){
+	$aptitude_ok = false;
+	$gaz_ok = false;
+
+	// Vérifie que la plongée est bien à moins de 40m
+	if($profondeur > 40)
+		return false;
+	else{
+		// Vérifier qu'il est GP ou E4
+		if($plongeur->getAptitudes() == null)
+			return false;
+		else{
+			foreach($plongeur->getAptitudes() as $aptitude){
+				if($aptitude->getLibelleCourt() == "GP" || $aptitude->getLibelleCourt() == "P-4"){
+					$aptitude_ok = true;
+				}
+				if($gaz == Palanque::gazNitrox && $aptitude->getLibelleCourt() == "PN-C"){
+					$gaz_ok = true;
+				}
+				else {
+					$gaz_ok = true;
+				}
+			}
+			if($gaz_ok && $aptitude_ok)
+				return true;
+			else
+				return false;
+		}
 	}
 }
 ?>

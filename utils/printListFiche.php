@@ -15,6 +15,8 @@ function printListFiche($arrayFichesSecurite) {
 				<th>Date</th>
 				<th>Site</th>
 				<th>Embarcation</th>
+				<th>Palanquée(s)</th>
+				<th>Plongeur(s)</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -35,6 +37,8 @@ function printListFiche($arrayFichesSecurite) {
 					echo "<td>".$fiche->getDate()."</td>";
 					echo "<td>".($fiche->getSite() != null ? $fiche->getSite()->getNom() : "")."</td>";
 					echo "<td>".$fiche->getEmbarcation()->getLibelle()."</td>";
+					echo "<td>".count($fiche->getPalanques())."</td>";
+					echo "<td>".count($fiche->getPlongeurs())."</td>";
 				
 					
 				echo "</tr>";

@@ -7,7 +7,7 @@
 	//Vérification qu'un utilisateur est bien connecté //
 	//////////////////////////////////////////////////////
 	if(!$connecte){
-		echo json_encode(['erreurs' => ['numero' => 0, 'type' => 'general', 'msg' => 'Session expiré, veuillez vous reconnecté']]);
+		echo json_encode(['erreurs' => ['numero' => 0, 'type' => 'general', 'msg' => 'Session expirée, veuillez vous reconnecter']]);
 		die();
 	}
 	
@@ -52,7 +52,7 @@
 	$erreur_timestamps = 0;
 	if(!filter_input(INPUT_POST, 'date', FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^\s*(0[1-9]|1\d|2\d|30|31)\/(0[1-9]|1[0-2])\/(2\d\d\d)\s*$/"))))
 	{
-		$erreurs[] = ['numero' => 0, 'type' => 'val_abs', 'msg' => '<strong>Date</strong> de plongé manquante ou invalide (Format JJ/MM/AAAA attendu)'];
+		$erreurs[] = ['numero' => 0, 'type' => 'val_abs', 'msg' => '<strong>Date</strong> de plongée manquante ou invalide (Format JJ/MM/AAAA attendu)'];
 	}
 	if(count($erreurs) == 0){
 		//Si pas d'erreur jusque la et donc sur date/heure/minute, on calcul le timestamps du match
@@ -86,7 +86,7 @@
 		$ficheSecurite->setDirecteurPlonge(MoniteurDao::getById($directeur_plonge_id));
 	}
 	else{
-		$erreurs[] = ['numero' => 0, 'type' => 'val_abs', 'msg' => '<strong>Directeur de plongé</strong> de plongé manquant ou invalide'];
+		$erreurs[] = ['numero' => 0, 'type' => 'val_abs', 'msg' => '<strong>Directeur de plongée</strong> manquant ou invalide'];
 	}
 	
 	//Validation des palanques
@@ -139,7 +139,7 @@
 			}
 			else{
 				$erreur_variable = true;
-				$erreurs[] = ['numero' => $numero, 'type' => 'val_abs', 'msg' => 'Veuillez séléctionner un <strong>Type de gaz</strong>'];
+				$erreurs[] = ['numero' => $numero, 'type' => 'val_abs', 'msg' => 'Veuillez sélectionner un <strong>Type de gaz</strong>'];
 			}
 			
 			//Vérification du type de plongé
@@ -155,7 +155,7 @@
 			}
 			else{
 				$erreur_variable = true;
-				$erreurs[] = ['numero' => $numero, 'type' => 'val_abs', 'msg' => 'Veuillez séléctionner un <strong>Type de plongé</strong>'];
+				$erreurs[] = ['numero' => $numero, 'type' => 'val_abs', 'msg' => 'Veuillez sélectionner un <strong>Type de plongée</strong>'];
 			}
 			
 			//Vérification de la profondeur
@@ -165,7 +165,7 @@
 			}
 			else{
 				$erreur_variable = true;
-				$erreurs[] = ['numero' => $numero, 'type' => 'val_abs', 'msg' => '<strong>Profondeur prévue</strong> de plongé manquante ou invalide'];
+				$erreurs[] = ['numero' => $numero, 'type' => 'val_abs', 'msg' => '<strong>Profondeur prévue</strong> de plongée manquante ou invalide'];
 			}
 			
 			//Vérification de la durée
@@ -181,7 +181,7 @@
 				if(!filter_var($post_palanque['heure'], FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^\s*((([01]\d)|(2[0-3])):[0-6]\d)\s*$/"))))
 				{
 					$erreur_variable = true;
-					$erreurs[] = ['numero' => $numero, 'type' => 'val_abs', 'msg' => '<strong>Heure</strong> de plongé invalide (Format HH:MM attendu)'];
+					$erreurs[] = ['numero' => $numero, 'type' => 'val_abs', 'msg' => '<strong>Heure</strong> de plongée invalide (Format HH:MM attendu)'];
 				}
 				else{
 					$heure = $post_palanque['heure'];
@@ -259,7 +259,7 @@
 						$plongeur->setPrenom($prenom);
 					}
 					else{
-						$erreurs[] = ['numero' => $palanque->getNumero(), 'subnumero' => $numero, 'type' => 'val_abs', 'msg' => '<strong>Prenom</strong> du plongeur manquant'];
+						$erreurs[] = ['numero' => $palanque->getNumero(), 'subnumero' => $numero, 'type' => 'val_abs', 'msg' => '<strong>Prénom</strong> du plongeur manquant'];
 					}
 					
 					//Récupération du téléphone

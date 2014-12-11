@@ -161,6 +161,7 @@
 			<tr>
 				<th>Libelle</th>
 				<th>Commentaire</th>
+				<th>Contenance</th>
 				<th>Disponible</th>
 				<th colspan="2">Modifier / Desactiver</th>
 			<tr/>
@@ -174,6 +175,7 @@
 							<tr>
 								<td><?php echo $embarcation->getLibelle();?></td>
 								<td><?php echo $embarcation->getCommentaire();?></td>
+								<td><?php echo $embarcation->getMaxpersonne();?></td>
 								<td><?php printBool($embarcation->getDisponible());?></td>
 								<td>
 									<div 	class='icone-crayon'

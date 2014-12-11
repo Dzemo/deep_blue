@@ -42,10 +42,10 @@ function validePalanquee(Palanque $palanque){
 	if($palanque->getProfondeurPrevue() <= 6){
 		//0-6 pas d'encadré au nitrox ni d'autonome
 		if($palanque->getTypePlonge() == Palanque::plongeAutonome){
-			$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Impossible de plongé en <strong>autonomie</strong> entre 0 et 6 mètre de profondeur'];
+			$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Impossible de plonger en <strong>autonomie</strong> entre 0 et 6 mètres de profondeur'];
 		}
 		else if($palanque->getTypePlonge() == Palanque::plongeEncadre && $palanque->getTypeGaz() == Palanque::gazNitrox){
-			$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Impossible de plongé en <strong>exploration encadré</strong> avec du <strong>nitrox</strong> entre 0 et 6 mètre de profondeur'];
+			$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Impossible de plonger en <strong>exploration encadrée</strong> avec du <strong>nitrox</strong> entre 0 et 6 mètres de profondeur'];
 		}
 	}
 	else if($palanque->getTypePlonge() == Palanque::plongeBapteme){
@@ -56,7 +56,7 @@ function validePalanquee(Palanque $palanque){
 	//	présence d'un moniteur
 	if($palanque->getTypePlonge() != Palanque::plongeAutonome){
 		if($palanque->getMoniteur() == null){
-			$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Il est necessaire d\'avoir un <strong>moniteur</strong> pour une plongé '.typePlongeToString($palanque->getTypePlonge())];
+			$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Il est necessaire d\'avoir un <strong>moniteur</strong> pour une plongée '.typePlongeToString($palanque->getTypePlonge())];
 		}
 	}
 	
@@ -75,10 +75,10 @@ function validePalanquee(Palanque $palanque){
 						$plongeur_bonus++;
 				}
 				if($plongeur_bonus==0)
-					$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Le plongeur supplémentaire n a pas les bonnes aptitudes pour une plongée '.typePlongeToString($palanque->getTypePlonge()).' et à une profondeur prévue de '. $palanque->getProfondeurPrevue().' mètres'];
+					$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Le plongeur supplémentaire n\'a pas les bonnes aptitudes pour une plongée '.typePlongeToString($palanque->getTypePlonge()).' et à une profondeur prévue de '. $palanque->getProfondeurPrevue().' mètres'];
 			}
 			else {
-					$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Il y a trop de plongeur étant données leurs aptitudes pour une plongée '.typePlongeToString($palanque->getTypePlonge()).' et à une profondeur prévue de '. $palanque->getProfondeurPrevue().' mètres'];
+					$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Il y a trop de plongeur pour une plongée '.typePlongeToString($palanque->getTypePlonge()).' et à une profondeur prévue de '. $palanque->getProfondeurPrevue().' mètres'];
 			}
 		}
 	}
@@ -95,17 +95,17 @@ function validePalanquee(Palanque $palanque){
 						$plongeur_bonus++;
 				}
 				if($plongeur_bonus==0)
-					$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Le plongeur supplémentaire n a pas les bonnes aptitudes pour une plongée '.typePlongeToString($palanque->getTypePlonge()).' et à une profondeur prévue de '. $palanque->getProfondeurPrevue().' mètres'];
+					$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Le plongeur supplémentaire n\'a pas les bonnes aptitudes pour une plongée '.typePlongeToString($palanque->getTypePlonge()).' et à une profondeur prévue de '. $palanque->getProfondeurPrevue().' mètres'];
 			}
 			else {
-					$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Il y a trop de plongeur étant données leurs aptitudes pour une plongée '.typePlongeToString($palanque->getTypePlonge()).' et à une profondeur prévue de '. $palanque->getProfondeurPrevue().' mètres'];
+					$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Il y a trop de plongeur pour une plongée '.typePlongeToString($palanque->getTypePlonge()).' et à une profondeur prévue de '. $palanque->getProfondeurPrevue().' mètres'];
 			}
 		}
 	}
 	else{
 		//Plongé autonome, minimum 3 plongeurs
 		if(count($palanque->getPlongeurs()) > 3){
-			$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Il faut au maximum <stong>3</strong> plongeurs pour une plongé '.typePlongeToString($palanque->getTypePlonge())];
+			$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Il faut au maximum <stong>3</strong> plongeurs pour une plongée '.typePlongeToString($palanque->getTypePlonge())];
 		}
 	}
 	
@@ -115,7 +115,7 @@ function validePalanquee(Palanque $palanque){
 	$plongeur_index = 0;
 	foreach ($palanque->getPlongeurs() as $plongeur) {
 		if(!peutPlongerPlongeurProfondeurPlonge($plongeur, $palanque->getProfondeurPrevue(), $palanque->getTypePlonge())){
-			$msg = $plongeur->getPrenom()." ".$plongeur->getNom()." ne peut pas faire une plongé <strong>".typePlongeToString($palanque->getTypePlonge())."</strong> à une profondeur de <strong>".$palanque->getProfondeurPrevue()." mètres</strong> avec ces <strong>aptitudes</strong>";
+			$msg = $plongeur->getPrenom()." ".$plongeur->getNom()." ne peut pas faire une plongée <strong>".typePlongeToString($palanque->getTypePlonge())."</strong> à une profondeur de <strong>".$palanque->getProfondeurPrevue()." mètres</strong> avec ces <strong>aptitudes</strong>";
 			$erreurs[] = ['numero' => $palanque->getNumero(), 'subnumero' => $plongeur_index, 'type' => 'gestion', 'msg' => $msg];
 		}
 		$plongeur_index++;

@@ -10,7 +10,7 @@ function printListFiche($arrayFichesSecurite) {
 	<table id="example" class="display" cellspacing="0" width="100%">
 		<thead>
 			<tr>
-				<th colspan="3"></th>
+				<th colspan="3" class="th-button"></th>
 				<th>Responsable</th>
 				<th>Date</th>
 				<th>Site</th>

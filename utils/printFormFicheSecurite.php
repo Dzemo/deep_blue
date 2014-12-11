@@ -18,9 +18,6 @@ function printFormFicheSecurite($redirect, FicheSecurite $f = null){
 			  method="post" 
 			  action="traitement/enregistrer_fiche_traitement.php">
 			<div id="form_fiche_palanque">
-				<div class="ajouter-palanque">
-					<span onclick="fs_ajouter_palanque()" class="button blue">Ajouter une palanquée</span>
-				</div>
 				<ul>
 					<li><a href="#form_fiche_general">Infos</a></li>
 					<?php 
@@ -125,6 +122,8 @@ function printFormFicheSecurite($redirect, FicheSecurite $f = null){
 			</div>
 			<table id="bouttons">
 				<tr>
+					
+					<td><span onclick="fs_ajouter_palanque()" class="button blue">Ajouter une palanquée</span></td>
 					<td><span onclick="fs_enregistrer()" class="button green save-button">Enregister</span></td>
 					<td><span onclick="fs_annule('<?php echo $redirect; ?>')" class="button orange save-button">Annuler</span></td>
 				</tr>

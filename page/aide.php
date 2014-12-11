@@ -8,11 +8,21 @@
 	$aide = AideDao::getAll();
 	foreach ($aide as $questions) {
 		?>
-			<div class="panel-form">
-				<?php echo $questions->getQuestion();?>
+			<div class="panel-question">
+				<table class="panel-text">
+					<tr>
+						<td class="help-letter-column">Q.<?php echo $questions->getId();?></td>
+						<td class="help-question help-text-column"><?php echo $questions->getQuestion();?></td>
+					</tr>
+				</table>
 			</div>
 			<div class="panel-reponse">
-				<?php echo $questions->getReponse();?>
+				<table class="panel-text">
+					<tr>
+						<td class="help-letter-column">R.<?php echo $questions->getId();?></td>
+						<td class="help-answer help-text-column"><?php echo $questions->getReponse();?></td>
+					</tr>
+				</table>
 			</div>
 		<?php
 	}

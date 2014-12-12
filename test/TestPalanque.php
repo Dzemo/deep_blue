@@ -53,7 +53,7 @@
 
 
 	/*Suppression des inserts du test*/
-	Dao::execute("DELETE FROM db_palanque WHERE id_palanque = ?",[$palanque->getId()]);
+	Dao::execute("DELETE FROM db_palanquee WHERE id_palanquee = ?",[$palanque->getId()]);
 	echo "<br/> *** <br/>Test Palanque effectue avec succes<br/> ***<br/>";
 
 

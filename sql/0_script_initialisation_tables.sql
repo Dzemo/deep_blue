@@ -3,7 +3,7 @@ Création des tables :
  db_historique
  db_utilisateur
  db_plongeur
- db_palanque
+ db_palanquee
  db_fiche_securite
  db_moniteur
  db_aptitude
@@ -17,11 +17,12 @@ Ajout des aptitudes de base et de l'aide de base
 DROP TABLE IF EXISTS db_historique;
 DROP TABLE IF EXISTS db_utilisateur;
 DROP TABLE IF EXISTS db_plongeur;
-DROP TABLE IF EXISTS db_palanque;
+DROP TABLE IF EXISTS db_palanquee;
 DROP TABLE IF EXISTS db_fiche_securite;
 DROP TABLE IF EXISTS db_moniteur;
 DROP TABLE IF EXISTS db_aptitude;
 DROP TABLE IF EXISTS db_aide;
+DROP TABLE IF EXISTS db_embarcation;
 
 CREATE TABLE db_aptitude(
     id_aptitude MEDIUMINT NOT NULL AUTO_INCREMENT,
@@ -99,8 +100,8 @@ CREATE TABLE db_historique(
     CONSTRAINT fk_db_fiche_securite_historique FOREIGN KEY (id_fiche_securite) REFERENCES db_fiche_securite(id_fiche_securite)
 );
 
-CREATE TABLE db_palanque (
-    id_palanque MEDIUMINT NOT NULL AUTO_INCREMENT,
+CREATE TABLE db_palanquee (
+    id_palanquee MEDIUMINT NOT NULL AUTO_INCREMENT,
     id_fiche_securite MEDIUMINT NOT NULL,
     id_moniteur MEDIUMINT DEFAULT NULL,
     numero MEDIUMINT NOT NULL,
@@ -111,13 +112,13 @@ CREATE TABLE db_palanque (
     duree_prevue INT,
     duree_realisee INT,
     version MEDIUMINT NOT NULL DEFAULT 0,
-    CONSTRAINT pk_db_palanque PRIMARY KEY (id_palanque),
+    CONSTRAINT pk_db_palanquee PRIMARY KEY (id_palanquee),
     CONSTRAINT fk_db_fiche_securite_palanque FOREIGN KEY (id_fiche_securite) REFERENCES db_fiche_securite(id_fiche_securite)
 );
 
 CREATE TABLE db_plongeur (
     id_plongeur MEDIUMINT NOT NULL AUTO_INCREMENT,
-    id_palanque MEDIUMINT NOT NULL,
+    id_palanquee MEDIUMINT NOT NULL,
     id_fiche_securite MEDIUMINT NOT NULL,
     nom varchar(20) NOT NULL,
     prenom varchar(20) NOT NULL,
@@ -127,7 +128,7 @@ CREATE TABLE db_plongeur (
     date_naissance varchar(20) NOT NULL,
     version MEDIUMINT NOT NULL DEFAULT 0,
     CONSTRAINT pk_db_plongeur PRIMARY KEY (id_plongeur),
-    CONSTRAINT fk_db_palanque FOREIGN KEY (id_palanque) REFERENCES db_palanque(id_palanque),
+    CONSTRAINT fk_db_palanquee FOREIGN KEY (id_palanquee) REFERENCES db_palanquee(id_palanquee),
     CONSTRAINT fk_db_fiche_securite FOREIGN KEY (id_fiche_securite) REFERENCES db_fiche_securite(id_fiche_securite)
 );
 

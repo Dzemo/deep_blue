@@ -27,20 +27,20 @@
 		/**
 		 * Retourne tout les plongeurs appartenant à la palanqué spécifié.
 		 * Si un moniteur est présent il sera en premier élément du tableau
-		 * @param  int $id_palanque
+		 * @param  int $id_palanquee
 		 * @return array
 		 */
-		public static function getByIdPalanque($id_palanque){
-			return self::getByQuery("SELECT * FROM db_plongeur WHERE id_palanque = ? ORDER BY date_naissance ASC",[$id_palanque]);
+		public static function getByIdPalanque($id_palanquee){
+			return self::getByQuery("SELECT * FROM db_plongeur WHERE id_palanquee = ? ORDER BY date_naissance ASC",[$id_palanquee]);
 		}
 		/**
 		 * Retourne tout les plongeurs dont la palanqué appartient à la fiche de sécurité de l'id spécifié
-		 * Le tableau est trié par id_palanque croissant
+		 * Le tableau est trié par id_palanquee croissant
 		 * @param  int $id_fiche_securite
 		 * @return array
 		 */
 		public static function getByIdFicheSecurite($id_fiche_securite){
-			return self::getByQuery("SELECT * FROM db_plongeur WHERE id_fiche_securite = ? ORDER BY id_palanque ASC",[$id_fiche_securite]);
+			return self::getByQuery("SELECT * FROM db_plongeur WHERE id_fiche_securite = ? ORDER BY id_palanquee ASC",[$id_fiche_securite]);
 		}
 		/**
 		 * Renvoi le plongeur d'id spécifié
@@ -75,7 +75,7 @@
 			if($plongeur->getTelephoneUrgence() == null)$plongeur->setTelephoneUrgence("");
 			$plongeur->updateVersion();
 
-			$stmt = parent::getConnexion()->prepare("INSERT INTO db_plongeur (id_palanque, id_fiche_securite, nom, prenom, aptitudes, telephone, telephone_urgence, date_naissance, profondeur_realisee, duree_realisee, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			$stmt = parent::getConnexion()->prepare("INSERT INTO db_plongeur (id_palanquee, id_fiche_securite, nom, prenom, aptitudes, telephone, telephone_urgence, date_naissance, profondeur_realisee, duree_realisee, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			$result = $stmt->execute([
 				$plongeur->getIdPalanque(),
 				$plongeur->getIdFicheSecurite(),
@@ -118,7 +118,7 @@
 			if($plongeur->getTelephoneUrgence() == null)$plongeur->setTelephoneUrgence("");
 			$plongeur->updateVersion();
 			
-			$stmt = parent::getConnexion()->prepare("UPDATE db_plongeur SET id_palanque = ?, id_fiche_securite = ?, nom = ?, prenom = ?, aptitudes = ?, telephone = ?, telephone_urgence = ?, date_naissance = ?, profondeur_realisee = ?, duree_realisee = ?, version = ? WHERE id_plongeur = ?");
+			$stmt = parent::getConnexion()->prepare("UPDATE db_plongeur SET id_palanquee = ?, id_fiche_securite = ?, nom = ?, prenom = ?, aptitudes = ?, telephone = ?, telephone_urgence = ?, date_naissance = ?, profondeur_realisee = ?, duree_realisee = ?, version = ? WHERE id_plongeur = ?");
 			$result = $stmt->execute([
 				$plongeur->getIdPalanque(),
 				$plongeur->getIdFicheSecurite(),
@@ -143,24 +143,24 @@
 		 * Supprime les plongeurs qui appartenait a la palanqué mais qui ne sont plus dans le tableau de plongeur de la palanqués et met à jours ou insert les autres
 		 * Pour la mise à jours des plongeurs, priviligier FicheSecuriteDao::update()
 		 * @see FicheSecuriteDao::update()
-		 * @param  Palanque $palanque
+		 * @param  Palanque $palanquee
 		 * @return Palanque renvoi la palanqué ou null
 		 */
-		public static function updatePlongeursFromPalanque(Palanque $palanque){
+		public static function updatePlongeursFromPalanque(Palanque $palanquee){
 			//Supprime les plongeurs qui appartenait a la palanqué mais qui ne sont pas dans le tableau
 			$arrayParam = array();
-			$arrayParam[] = $palanque->getId();
-			$query = "DELETE FROM db_plongeur WHERE id_palanque = ?";
-			for($i = 0; $i < count($palanque->getPlongeurs()); $i++) {
+			$arrayParam[] = $palanquee->getId();
+			$query = "DELETE FROM db_plongeur WHERE id_palanquee = ?";
+			for($i = 0; $i < count($palanquee->getPlongeurs()); $i++) {
 				$query = $query." AND id_plongeur != ?";
-				$arrayParam[] = $palanque->getPlongeurs()[$i]->getId();
+				$arrayParam[] = $palanquee->getPlongeurs()[$i]->getId();
 			}
 			$stmt = parent::getConnexion()->prepare($query);
 			$stmt->execute($arrayParam);
 			
 			//Met a jours les plongeurs dans le tableau
-			if(count($palanque->getPlongeurs()) > 0){
-				foreach ($palanque->getPlongeurs() as $plongeur) {
+			if(count($palanquee->getPlongeurs()) > 0){
+				foreach ($palanquee->getPlongeurs() as $plongeur) {
 					if($plongeur->getId() != null)
 						self::update($plongeur);
 					else
@@ -192,7 +192,7 @@
 				while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 					$plongeur = new Plongeur($row['id_plongeur'], $row['version']);
 					$plongeur->setIdFicheSecurite($row['id_fiche_securite']);
-					$plongeur->setIdPalanque($row['id_palanque']);
+					$plongeur->setIdPalanque($row['id_palanquee']);
 					$plongeur->setNom($row['nom']);
 					$plongeur->setPrenom($row['prenom']);
 					$plongeur->setAptitudes(AptitudeDao::getByIds(Aptitude::aptitudesStringToAptitudesIdsArray($row['aptitudes'])));

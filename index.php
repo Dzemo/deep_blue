@@ -194,7 +194,7 @@
 	<div id="push"></div>
 	</div>
 	<div id="footer">
-		<span>Oxygen © 3iL Rodez - Flavio DEROO | Clément IFRAH | Raphaël BIDEAU</span>
+		<span>Oxygen © 3iL Rodez - Flavio DEROO | Raphaël BIDEAU</span>
 	</div>
 	</body>
 </html>

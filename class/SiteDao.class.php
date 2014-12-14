@@ -44,10 +44,11 @@
 				$site->getNom() == null || strlen($site->getNom()) == 0 )
 				return null;
 			
-			$stmt = parent::getConnexion()->prepare("INSERT INTO db_site (nom, commentaire) VALUES (?, ?)");
+			$stmt = parent::getConnexion()->prepare("INSERT INTO db_site (nom, commentaire, version) VALUES (?, ?, ?)");
 			$result = $stmt->execute([
 				$site->getNom(), 
-				$site->getCommentaire()
+				$site->getCommentaire(),
+				$site->getVersion()
 				]);
 			
 			if($result){
@@ -66,6 +67,8 @@
 		public static function update(Site $site){
 			if($site == null || $site->getId() == null)
 				return null;
+
+			$site->updateVersion();
 
 			self::delete($site->getId());
 
@@ -105,6 +108,7 @@
 					$site = new Site(intval($row['id_site']));
 					$site->setNom($row['nom']);
 					$site->setCommentaire($row['commentaire']);
+					$site->setVersion($row['version']);
 
 					$arrayResultat[$site->getId()] = $site;
 				}

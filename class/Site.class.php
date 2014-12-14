@@ -32,6 +32,12 @@
 		 */
 		private $commentaire;
 
+		/**
+		 * Timestamps de dernière modification
+		 * @var int
+		 */
+		private $version;
+
 		//////////////////////
 		// Varibables Fin //
 		// Constructeur   //
@@ -40,12 +46,15 @@
 		/**
 		 * Initialise le nom et le commentaire avec une chaine vide
 		 * @param int $id optionnel
+		 * @param int $version Version optionnel du site, si non précisé initalisé au timestamps actuel
 		 */
-		public function Site($id=null){
+		public function Site($id=null, $version = null){
 			$this->id = $id;
 			$this->nom = "";
 			$this->commentaire = "";
+			$this->version = $version != null ? $version : now();
 		}
+
 		///////////////////////////////
 		// Getter and Setter Debut //
 		///////////////////////////////
@@ -86,6 +95,19 @@
 		 */
 		public function setCommentaire($commentaire){
 			$this->commentaire = $commentaire ;
+		}
+
+		/**
+		 * @return int
+		 */
+		public function getVersion(){
+			return $this->version ;
+		}
+		/**
+		 * Met à jours la version
+		 */
+		public function updateVersion(){
+			$this->version = time();
 		}
 		
 		/////////////////////////////

@@ -374,6 +374,8 @@
 								<?php
 									//Construction des options du select pour le moniteur associé
 									$optionSelected = false;
+									$listeOptions = "";
+									
 									foreach($listeMoniteurs as $moniteur){
 										if($u && $u->getMoniteurAssocie() != null && $u->getMoniteurAssocie()->getId() == $moniteur->getId()){
 											$listeOptions.= "<option value='".$moniteur->getId()."' selected='selected'>".$moniteur->getPrenom()." ".$moniteur->getNom()."</option>";

@@ -78,14 +78,14 @@
 		 * @param int $id
 		 * @param int $version Optionnel
 		 */
-		public function Moniteur($id, $version = 0){
+		public function Moniteur($id, $version = null){
 			$this->id = $id ;
 			$this->nom = null ;
 			$this->prenom = null ;
 			$this->aptitudes = array() ;
 			$this->directeurPlonge = null;
 			$this->actif = null;
-			$this->version = $version != 0 ? $version : time();
+			$this->version = $version != null ? $version : time();
 			$this->email = null;
 			$this->telephone = null;
 		}
@@ -242,8 +242,11 @@
 				$stringAptitudes = $stringAptitudes."]";
 			}
 
+			$string = "Moniteur ".$this->id.": ".$this->nom." ".$this->prenom."<br>";
+			$string.= "&nbsp;&nbsp;Aptitudes: ".$stringAptitudes." Actif: ".($this->actif ? 'oui' : 'non')." DirecteurPlonge: ".($this->directeurPlonge ? 'oui' : 'non')."'<br>";
+			$string.= "&nbsp;&nbsp;Email: '".$this->email."' Telephone: '".$this->telephone."' Version: ".$this->version ."<br>";
 
-			return "Moniteur ".$this->id.": ".$this->nom." ".$this->prenom." Aptitudes: ".$stringAptitudes." Actif: ".($this->actif ? 'oui' : 'non')."DirecteurPlonge: ".($this->directeurPlonge ? 'oui' : 'non')." Email: '".$this->email."' Telephone: '".$this->telephone."' Version: ".$this->version ;
+			return $string;
 		}
 
 		/////////////////

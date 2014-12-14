@@ -4,9 +4,12 @@
 	require_once("../utils/validation_palanquee.php");
 	require_once("../classloader.php");
 
+
+	echo "<h1>Test validation palanquee</h1><br/>";
+
 	/* TEST 3 : Test des plongées techniques (enseignement) */
-	echo "<h1>Test des plongées techniques (enseignement)</h1>";
-	echo "<h2>Test d'une plongée techniques en effectif minimal</h1>";
+	echo "<h3>Test des plongées techniques (enseignement)</h1>";
+	echo "<h3>Test d'une plongée techniques en effectif minimal</h1>";
 	$palanque = new Palanque(rand(0,100));
 	$palanque->setTypeGaz(Palanque::gazAir);
 	$palanque->setTypePlonge(Palanque::plongeTechnique);
@@ -23,7 +26,7 @@
 
 	testPalanque($palanque, true);
 
-	echo "<h2>Test d'une plongée techniques en effectif maximal classique (4 plongeurs + 1 moniteur)</h1>";
+	echo "<h3>Test d'une plongée techniques en effectif maximal classique (4 plongeurs + 1 moniteur)</h1>";
 	$palanque = new Palanque(rand(0,100));
 	$palanque->setTypeGaz(Palanque::gazAir);
 	$palanque->setTypePlonge(Palanque::plongeTechnique);
@@ -47,7 +50,7 @@
 
 	testPalanque($palanque, true);
 
-	echo "<h2>Test d'une plongée techniques en effectif maximal + GP (1 moniteur + 4 plongeurs + 1 GP)</h1>";
+	echo "<h3>Test d'une plongée techniques en effectif maximal + GP (1 moniteur + 4 plongeurs + 1 GP)</h1>";
 	$palanque = new Palanque(rand(0,100));
 	$palanque->setTypeGaz(Palanque::gazAir);
 	$palanque->setTypePlonge(Palanque::plongeTechnique);
@@ -74,7 +77,7 @@
 
 	testPalanque($palanque, true);
 
-	echo "<h2>Test d'une plongée techniques en effectif maximal + P-4 (1 moniteur + 4 plongeurs + 1 P-4)</h1>";
+	echo "<h3>Test d'une plongée techniques en effectif maximal + P-4 (1 moniteur + 4 plongeurs + 1 P-4)</h1>";
 	$palanque = new Palanque(rand(0,100));
 	$palanque->setTypeGaz(Palanque::gazAir);
 	$palanque->setTypePlonge(Palanque::plongeTechnique);
@@ -101,7 +104,7 @@
 
 	testPalanque($palanque, true);
 
-	echo "<h2>Test d'une plongée techniques en sur-effectif(1 moniteur + 5 plongeurs (hors GP/P4))</h1>";
+	echo "<h3>Test d'une plongée techniques en sur-effectif(1 moniteur + 5 plongeurs (hors GP/P4))</h1>";
 	$palanque = new Palanque(rand(0,100));
 	$palanque->setTypeGaz(Palanque::gazAir);
 	$palanque->setTypePlonge(Palanque::plongeTechnique);
@@ -127,7 +130,7 @@
 
 	testPalanque($palanque, true);
 
-	echo "<h2>Test d'une plongée techniques en sur-effectif (1 moniteur + 4 plongeurs + 2 P-4)</h1>";
+	echo "<h3>Test d'une plongée techniques en sur-effectif (1 moniteur + 4 plongeurs + 2 P-4)</h1>";
 	$palanque = new Palanque(rand(0,100));
 	$palanque->setTypeGaz(Palanque::gazAir);
 	$palanque->setTypePlonge(Palanque::plongeTechnique);
@@ -156,7 +159,7 @@
 
 	testPalanque($palanque, true);
 
-	echo "<h2>Test d'une plongée techniques en sur-effectif pour une profondeur de 60 (1 moniteur + 4 plongeurs + 1 GP)</h1>";
+	echo "<h3>Test d'une plongée techniques en sur-effectif pour une profondeur de 60 (1 moniteur + 4 plongeurs + 1 GP)</h1>";
 	$palanque = new Palanque(rand(0,100));
 	$palanque->setTypeGaz(Palanque::gazAir);
 	$palanque->setTypePlonge(Palanque::plongeTechnique);
@@ -185,8 +188,8 @@
 	testPalanque($palanque, true);
 
 	/* TEST 4 : Test des plongées encadré (enseignement) */
-	echo "<h1>Test des plongées encadré (exploration)</h1>";
-	echo "<h2>Test d'une plongée encadré en effectif minimal</h1>";
+	echo "<h3>Test des plongées encadré (exploration)</h1>";
+	echo "<h3>Test d'une plongée encadré en effectif minimal</h1>";
 	$palanque = new Palanque(rand(0,100));
 	$palanque->setTypeGaz(Palanque::gazAir);
 	$palanque->setTypePlonge(Palanque::plongeEncadre);
@@ -203,7 +206,7 @@
 
 	testPalanque($palanque, true);
 
-	echo "<h2>Test d'une plongée techniques en effectif maximal classique (4 plongeurs + 1 moniteur)</h1>";
+	echo "<h3>Test d'une plongée techniques en effectif maximal classique (4 plongeurs + 1 moniteur)</h1>";
 	$palanque = new Palanque(rand(0,100));
 	$palanque->setTypeGaz(Palanque::gazAir);
 	$palanque->setTypePlonge(Palanque::plongeEncadre);
@@ -227,7 +230,7 @@
 
 	testPalanque($palanque, true);
 
-	echo "<h2>Test d'une plongée techniques en effectif maximal + GP (1 moniteur + 4 plongeurs + 1 GP)</h1>";
+	echo "<h3>Test d'une plongée techniques en effectif maximal + GP (1 moniteur + 4 plongeurs + 1 GP)</h1>";
 	$palanque = new Palanque(rand(0,100));
 	$palanque->setTypeGaz(Palanque::gazAir);
 	$palanque->setTypePlonge(Palanque::plongeEncadre);
@@ -254,7 +257,7 @@
 
 	testPalanque($palanque, true);
 
-	echo "<h2>Test d'une plongée techniques en sur-effectif(1 moniteur + 5 plongeurs (hors GP/P4))</h1>";
+	echo "<h3>Test d'une plongée techniques en sur-effectif(1 moniteur + 5 plongeurs (hors GP/P4))</h1>";
 	$palanque = new Palanque(rand(0,100));
 	$palanque->setTypeGaz(Palanque::gazAir);
 	$palanque->setTypePlonge(Palanque::plongeEncadre);
@@ -280,7 +283,7 @@
 
 	testPalanque($palanque, true);
 
-	echo "<h2>Test d'une plongée techniques en sur-effectif (1 moniteur + 4 plongeurs + 2 P-4)</h1>";
+	echo "<h3>Test d'une plongée techniques en sur-effectif (1 moniteur + 4 plongeurs + 2 P-4)</h1>";
 	$palanque = new Palanque(rand(0,100));
 	$palanque->setTypeGaz(Palanque::gazAir);
 	$palanque->setTypePlonge(Palanque::plongeEncadre);
@@ -309,7 +312,7 @@
 
 	testPalanque($palanque, true);
 
-	echo "<h2>Test d'une plongée techniques en sur-effectif pour une profondeur de 60 (1 moniteur + 4 plongeurs + 1 GP)</h1>";
+	echo "<h3>Test d'une plongée techniques en sur-effectif pour une profondeur de 60 (1 moniteur + 4 plongeurs + 1 GP)</h1>";
 	$palanque = new Palanque(rand(0,100));
 	$palanque->setTypeGaz(Palanque::gazAir);
 	$palanque->setTypePlonge(Palanque::plongeEncadre);
@@ -338,8 +341,8 @@
 	testPalanque($palanque, true);
 
 	/* TEST 1 : Test des baptêmes (CAS PAR DEFAUT) */
-	echo "<h1>Test des baptêmes</h1>";
-	echo "<h2>Test d'un baptême par défaut</h1>";
+	echo "<h3>Test des baptêmes</h1>";
+	echo "<h3>Test d'un baptême par défaut</h1>";
 	$palanque = new Palanque(rand(0,100));
 	$palanque->setTypeGaz(Palanque::gazAir);
 	$palanque->setTypePlonge(Palanque::plongeBapteme);
@@ -356,7 +359,7 @@
 
 	testPalanque($palanque, true);
 
-	echo "<h2>Test d'un baptême en sureffectif</h1>";
+	echo "<h3>Test d'un baptême en sureffectif</h1>";
 	$palanque = new Palanque(rand(0,100));
 	$palanque->setTypeGaz(Palanque::gazAir);
 	$palanque->setTypePlonge(Palanque::plongeBapteme);
@@ -376,8 +379,8 @@
 	testPalanque($palanque, true);
 
 	/* TEST 2 : Test des plongées autonomes */
-	echo "<h1>Test des plongées autonomes</h1>";
-	echo "<h2>Test d'une plongée autonome en effectif maximal</h1>";
+	echo "<h3>Test des plongées autonomes</h1>";
+	echo "<h3>Test d'une plongée autonome en effectif maximal</h1>";
 	$palanque = new Palanque(rand(0,100));
 	$palanque->setTypeGaz(Palanque::gazAir);
 	$palanque->setTypePlonge(Palanque::plongeAutonome);
@@ -394,7 +397,7 @@
 
 	testPalanque($palanque, true);
 
-	echo "<h2>Test d'une plongée autonome en effectif minimal</h1>";
+	echo "<h3>Test d'une plongée autonome en effectif minimal</h1>";
 	$palanque = new Palanque(rand(0,100));
 	$palanque->setTypeGaz(Palanque::gazAir);
 	$palanque->setTypePlonge(Palanque::plongeAutonome);
@@ -407,7 +410,7 @@
 
 	testPalanque($palanque, true);
 
-	echo "<h2>Test d'une plongée autonome en sur-effectif</h1>";
+	echo "<h3>Test d'une plongée autonome en sur-effectif</h1>";
 	$palanque = new Palanque(rand(0,100));
 	$palanque->setTypeGaz(Palanque::gazAir);
 	$palanque->setTypePlonge(Palanque::plongeAutonome);
@@ -426,7 +429,7 @@
 
 	testPalanque($palanque, true);
 
-	echo "<h2>Test d'une plongée autonome en sous-aptitude d'un des plongeurs</h1>";
+	echo "<h3>Test d'une plongée autonome en sous-aptitude d'un des plongeurs</h1>";
 	$palanque = new Palanque(rand(0,100));
 	$palanque->setTypeGaz(Palanque::gazAir);
 	$palanque->setTypePlonge(Palanque::plongeAutonome);

@@ -300,8 +300,8 @@
 			}
 
 			$string = "Plongeur ".$this->id.": ".$this->nom." ".$this->prenom." DN: ".$this->date_naissance."Tels: ".$this->telephone."/".$this->telephone_urgence."<br>";
-			$string.= "&nbsp;&nbsp;Aptitudes: ".$stringAptitudes." IdFicheSecurite/IdPalanque: ".$this->id_fiche_securite."/".$this->id_palanque;
-			$string.= "&nbsp;&nbsp;ProfondeurRealise: ".$this->profondeur_realisee." DureeRealise: ".$this->duree_realisee." Version: ".$this->version;
+			$string.= "&nbsp;&nbsp;Aptitudes: ".$stringAptitudes." IdFicheSecurite/IdPalanque: ".$this->id_fiche_securite."/".$this->id_palanque."<br>";
+			$string.= "&nbsp;&nbsp;ProfondeurRealise: ".$this->profondeur_realisee." DureeRealise: ".$this->duree_realisee." Version: ".$this->version."<br>";
 
 			return $string;
 		}

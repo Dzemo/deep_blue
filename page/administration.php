@@ -1,8 +1,13 @@
 <div class="titre">Administration</div>
 
 <?php
-	//Affichage des messages de formulaire
+	//Récupération des listes d'utilisateur/moniteur/embarcation/site en base
+	$listeUtilisateurs = UtilisateurDao::getAll();
+	$listeMoniteurs = MoniteurDao::getAll();
+	$listeEmbarcations = EmbarcationDao::getAll();
+	$listeSites = SiteDao::getAll();
 
+	//Affichage des messages de formulaire
 	if(isset($_GET['msgType']) && isset($_GET['msg'])){
 		$msgArray = explode(";",$_GET['msg']);
 		?>
@@ -39,6 +44,7 @@
 					<th>Email</th>
 					<th>Administrateur</th>
 					<th>Actif</th>
+					<th>Moniteur<br>associé</th>
 					<th colspan="2">Modifier /<br>Desactiver</th>
 					<th>Réinitialiser le <br>mot de passe</th>
 					<th>Historique</th>
@@ -46,7 +52,6 @@
 			</thead>	
 			<tbody>
 				<?php
-					$listeUtilisateurs = UtilisateurDao::getAll();
 					for($i = 0; $i<count($listeUtilisateurs);$i++){
 						$utilisateur = $listeUtilisateurs[$i];
 						?>
@@ -56,6 +61,15 @@
 								<td><?php echo $utilisateur->getPrenom();?></td>
 								<td><?php echo $utilisateur->getEmail();?></td>
 								<td><?php printBool($utilisateur->isAdministrateur());?></td>
+								<td><?php 
+									$moniteurAssocie = $utilisateur->getMoniteurAssocie();
+									if($moniteurAssocie != null){
+										echo "<a href='index.php?page=administration&active=1#moniteur".$moniteurAssocie->getId()."'>".$moniteurAssocie->getPrenom()." ".$moniteurAssocie->getNom()."</a>";
+									}
+									else{
+										echo 'Aucun';
+									}
+								?></td>
 								<td><?php printBool($utilisateur->getActif());?></td>
 								<td>
 									<div 	class='icone-crayon' 
@@ -115,11 +129,10 @@
 			</thead>	
 			<tbody>
 				<?php
-					$listeMoniteur = MoniteurDao::getAll();
-					for($i = 0; $i<count($listeMoniteur);$i++){
-						$moniteur = $listeMoniteur[$i];
+					for($i = 0; $i<count($listeMoniteurs);$i++){
+						$moniteur = $listeMoniteurs[$i];
 						?>
-							<tr>
+							<tr id="moniteur<?php echo $moniteur->getId();?>">
 								<td><?php echo $moniteur->getNom();?></td>
 								<td><?php echo $moniteur->getPrenom();?></td>
 								<td><?php echo Aptitude::toLibelleString($moniteur->getAptitudes());?></td>
@@ -168,9 +181,8 @@
 			</thead>
 			<tbody>
 				<?php	
-					$listeEmbarcation = EmbarcationDao::getAll();
-					for($i = 0; $i<count($listeEmbarcation);$i++){
-					$embarcation = $listeEmbarcation[$i];
+					for($i = 0; $i<count($listeEmbarcations);$i++){
+					$embarcation = $listeEmbarcations[$i];
 						?>
 							<tr>
 								<td><?php echo $embarcation->getLibelle();?></td>
@@ -216,8 +228,7 @@
 			</thead>
 			<tbody>
 				<?php				
-					$listeSite = SiteDao::getAll();
-					foreach($listeSite as $site){
+					foreach($listeSites as $site){
 						?>
 							<tr>
 								<td><?php echo $site->getNom();?></td>
@@ -255,6 +266,7 @@
 <script type="text/javascript">
 	$(function(){
 		$('#administrationContent').tabs(<?php if(isset($_GET['active'])) echo "{active:".$_GET['active']."}";?>);
+		$('.sumoSelect').SumoSelect();
 	})
 </script>
 
@@ -262,9 +274,9 @@
 	//Affichage des modaux
 	
 	//Utilisateur
-	printModalEditionUtilisateur(null,null);
+	printModalEditionUtilisateur(null,null, $listeMoniteurs);
 	for($i = 0; $i<count($listeUtilisateurs);$i++){
-		printModalEditionUtilisateur($listeUtilisateurs[$i], $i);
+		printModalEditionUtilisateur($listeUtilisateurs[$i], $i, $listeMoniteurs);
 		printModalHistorique($listeUtilisateurs[$i], $i);
 		printModalDesactivationUtilisateur($listeUtilisateurs[$i], $i);
 		printModalResetMdpUtilisateur($listeUtilisateurs[$i], $i);
@@ -272,21 +284,21 @@
 	
 	//Moniteur
 	$aptitudes = AptitudeDao::getAll();
-	for($i = 0; $i<count($listeMoniteur);$i++){
-		printModalEditionMoniteur($listeMoniteur[$i], $aptitudes);
-		printModalDesactivationMoniteur($listeMoniteur[$i]);
+	for($i = 0; $i<count($listeMoniteurs);$i++){
+		printModalEditionMoniteur($listeMoniteurs[$i], $aptitudes);
+		printModalDesactivationMoniteur($listeMoniteurs[$i]);
 	}
 	printModalEditionMoniteur(null, $aptitudes);
 
 	//Embarcation
-	for($i = 0; $i<count($listeEmbarcation);$i++){
-		printModalEditionEmbarcation($listeEmbarcation[$i]);
-		printModalDesactivationEmbarcation($listeEmbarcation[$i]);
+	for($i = 0; $i<count($listeEmbarcations);$i++){
+		printModalEditionEmbarcation($listeEmbarcations[$i]);
+		printModalDesactivationEmbarcation($listeEmbarcations[$i]);
 	}
 	printModalEditionEmbarcation(null);
 
 	//Site
-	foreach($listeSite as $site){
+	foreach($listeSites as $site){
 		printModalEditionSite($site);
 		printModalDesactivationSite($site);
 	}
@@ -295,8 +307,8 @@
 ?>
 <script type="text/javascript">
 	<?php
-		for($i = 0; $i<count($listeMoniteur);$i++){
-			echo "$('#moniteur_".$listeMoniteur[$i]->getId()."_aptitudes').SumoSelect()\n";
+		for($i = 0; $i<count($listeMoniteurs);$i++){
+			echo "$('#moniteur_".$listeMoniteurs[$i]->getId()."_aptitudes').SumoSelect()\n";
 		}
 		echo "$('#moniteur_nouveau_aptitudes').SumoSelect()\n";
 	?>
@@ -307,9 +319,10 @@
 	/**
 	 * Affiche le modal de modification de l'utilisateur fourni en parametre ou le modal d'ajout d'un nouveau utilisateur
 	 * @param  Utilisateur $u
-	 * @param int          $index
+	 * @param  int         $index
+	 * @param  array       $listeMoniteurs
 	 */
-	function printModalEditionUtilisateur($u, $index){
+	function printModalEditionUtilisateur($u, $index, $listeMoniteurs){
 		?>
 			<form id="modal_edition_utilisateur_<?php echo ($u ? $index : "nouveau");?>"
 					method="POST"
@@ -352,6 +365,33 @@
 						<td class="align_right">Actif </td>
 						<td class="align_left">
 							<input type="checkbox" name="utilisateur_actif" value="actif" <?php if($u && $u->getActif() || $u == null) echo "checked";?>>
+						</td>
+					</tr>
+					<tr>
+						<td class="align_right">Moniteur associé </td>
+						<td class="align_left">
+							<select name="id_moniteur_associe" class="sumoSelect">
+								<?php
+									//Construction des options du select pour le moniteur associé
+									$optionSelected = false;
+									foreach($listeMoniteurs as $moniteur){
+										if($u && $u->getMoniteurAssocie() != null && $u->getMoniteurAssocie()->getId() == $moniteur->getId()){
+											$listeOptions.= "<option value='".$moniteur->getId()."' selected='selected'>".$moniteur->getPrenom()." ".$moniteur->getNom()."</option>";
+											$optionSelected = true;
+										}
+										else{
+											$listeOptions.= "<option value='".$moniteur->getId()."'>".$moniteur->getPrenom()." ".$moniteur->getNom()."</option>";
+										}
+									}
+
+									if($optionSelected)
+										$listeOptions = "<option value='-1'>Aucun</option>".$listeOptions;
+									else
+										$listeOptions = "<option value='-1' selected='selected'>Aucun</option>".$listeOptions;
+
+									echo $listeOptions;
+								?>
+							</select>
 						</td>
 					</tr>
 				</table>

@@ -8,6 +8,9 @@
 
 	require_once("../classloader.php");
 
+
+	echo "<h1>Test aptitude</h1><br/>";
+
 	$test_number = rand(1,100);
 
 	/* Test getAll*/

@@ -37,7 +37,7 @@
 		}
 
 		/**
-		 * Renvoi le moniteur d'id spécifié
+		 * Renvoi le moniteur d'id spécifié si il existe ou null si il n'existe pas
 		 * @param  int $id
 		 * @return Moniteur
 		 */
@@ -157,7 +157,6 @@
 					$moniteur->setEmail($row['email']);
 					$moniteur->setTelephone($row['telephone']);
 					$moniteur->setActif($row['actif']);
-
 					$arrayResultat[] = $moniteur;
 				}
 				return $arrayResultat;

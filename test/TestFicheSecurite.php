@@ -8,6 +8,9 @@
 
 	require_once("../classloader.php");
 
+
+	echo "<h1>Test fiche securite</h1><br/>";
+
 	$test_number = rand(0, 100);
 
 	/* Test getAll*/
@@ -70,8 +73,7 @@
 
 	/* Test delete */
 		/* Test insert */
-		echo "<br/><br/><br/><h1>TEST DELETE</h1><br/>";
-		echo "<br/><h3>Création fiche</h3><br/>";
+		echo "<br/><br/><br/><h3>TEST DELETE</h3>";
 		$ficheSecurite = new FicheSecurite(null);
 		$ficheSecurite->setEmbarcation(EmbarcationDao::getById(1));
 		$ficheSecurite->setDirecteurPlonge(MoniteurDao::getById(1));
@@ -79,12 +81,10 @@
 		$ficheSecurite->setSite(SiteDao::getById(3));
 		$ficheSecurite->setEtat(FicheSecurite::etatCreer);
 		$ficheSecurite = FicheSecuriteDao::insert($ficheSecurite, "test");
-		echo "<br/>FicheSecuriteDao::insert() (version a ".$ficheSecurite->getVersion().")<br/>";
 
 
 		// Création de 2 palanquées
 				// Palanquée 1
-				echo "<br/><h3>Création palanquée 1</h3><br/>";
 				$test_number = rand(0, 100);
 				$palanque = new Palanque(null);
 				$palanque->setIdFicheSecurite($ficheSecurite->getId());
@@ -95,11 +95,9 @@
 				$palanque->setProfondeurPrevue(6);
 				$palanque->setDureePrevue(600);
 				$palanque = PalanqueDao::insert($palanque);
-				echo "<br/>PalanqueDao::insert() (version a ".$palanque->getVersion().")<br/>";
 
 						// Ajout d'un plongeur
 						$test_number = rand(0, 100);
-						echo "<br/><h3>Ajout plongeur 1</h3><br/>";
 						$plongeur = new Plongeur(null);
 						$plongeur->setIdPalanque($palanque->getId());
 						$plongeur->setIdFicheSecurite(999999);
@@ -108,10 +106,8 @@
 						$plongeur->setAptitudes(array());
 						$plongeur->setDateNaissance("01/01/1990");
 						$plongeur = PlongeurDao::insert($plongeur);
-						echo "<br/>PlongeurDao::insert() (version a ".$plongeur->getVersion().")<br/>";
 						// Ajout d'un 2eme plongeur
 						$test_number = rand(0, 100);
-						echo "<br/><h3>Ajout plongeur 2</h3><br/>";
 						$plongeur = new Plongeur(null);
 						$plongeur->setIdPalanque($palanque->getId());
 						$plongeur->setIdFicheSecurite(999999);
@@ -120,10 +116,8 @@
 						$plongeur->setAptitudes(array());
 						$plongeur->setDateNaissance("01/01/1990");
 						$plongeur = PlongeurDao::insert($plongeur);
-						echo "<br/>PlongeurDao::insert() (version a ".$plongeur->getVersion().")<br/>";
 
 				// Palanquée 2
-				echo "<br/><h3>Création palanquée 2</h3><br/>";
 				$test_number = rand(0, 100);
 				$palanque = new Palanque(null);
 				$palanque->setIdFicheSecurite($ficheSecurite->getId());
@@ -134,11 +128,9 @@
 				$palanque->setProfondeurPrevue(6);
 				$palanque->setDureePrevue(600);
 				$palanque = PalanqueDao::insert($palanque);
-				echo "<br/>PalanqueDao::insert() (version a ".$palanque->getVersion().")<br/>";
 
 						// Ajout d'un plongeur
 						$test_number = rand(0, 100);
-						echo "<br/><h3>Ajout plongeur 3</h3><br/>";
 						$plongeur = new Plongeur(null);
 						$plongeur->setIdPalanque($palanque->getId());
 						$plongeur->setIdFicheSecurite(999999);
@@ -147,10 +139,8 @@
 						$plongeur->setAptitudes(array());
 						$plongeur->setDateNaissance("01/01/1990");
 						$plongeur = PlongeurDao::insert($plongeur);
-						echo "<br/>PlongeurDao::insert() (version a ".$plongeur->getVersion().")<br/>";
 						// Ajout d'un 2eme plongeur
 						$test_number = rand(0, 100);
-						echo "<br/><h3>Ajout plongeur 4</h3><br/>";
 						$plongeur = new Plongeur(null);
 						$plongeur->setIdPalanque($palanque->getId());
 						$plongeur->setIdFicheSecurite(999999);
@@ -159,22 +149,21 @@
 						$plongeur->setAptitudes(array());
 						$plongeur->setDateNaissance("01/01/1990");
 						$plongeur = PlongeurDao::insert($plongeur);
-						echo "<br/>PlongeurDao::insert() (version a ".$plongeur->getVersion().")<br/>";
 
 		//Affichage de la fiche
-		echo "<br/><h3>Affichage de la fiche (avant le delete)</h3><br/>";
+		echo "<h3>Affichage de la fiche (avant le delete)</h3>";
 		$ficheSecurite = FicheSecuriteDao::getById($ficheSecurite->getId());
-		echo "<br/>FicheSecuriteDao::getByid(): $ficheSecurite<br/>";
+		echo "FicheSecuriteDao::getByid(): $ficheSecurite<br/>";
 		
 		// Supression de la fiche
 		FicheSecuriteDao::delete($ficheSecurite);
 		 
 		//Affichage de la fiche (apres supression) 
-		echo "<br/><h3>Affichage de la fiche (APRES le delete)</h3><br/>";
+		echo "<h3>Affichage de la fiche (APRES le delete)</h3>";
 		$ficheSecurite = FicheSecuriteDao::getById($ficheSecurite->getId());
 		
 		if($ficheSecurite != null)
-			echo "<br/>FicheSecuriteDao::getById(): $ficheSecurite<br/>";
+			echo "FicheSecuriteDao::getById(): $ficheSecurite<br/>";
 		else
 			echo "La fiche n'existe pas";
 ?>

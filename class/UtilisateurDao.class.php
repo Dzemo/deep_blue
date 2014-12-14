@@ -4,11 +4,14 @@
 	 * @author Raphaël Bideau - 3iL
 	 * @package Dao
 	 */
+	
 	/**
 	 * Classe permettant d'interagir avec la base de données concernant les Utilisateur
 	 */
 	class UtilisateurDao extends Dao{
+		
 		/* Public */
+		
 		/**
 		 * Renvoi tout les utilisateurs dans la base.
 		 * @return array
@@ -16,6 +19,7 @@
 		public static function getAll(){
 			return self::getByQuery("SELECT * FROM db_utilisateur");
 		}
+
 		/**
 		 * Renvoi tout les utilisateurs actif.
 		 * @return array
@@ -23,6 +27,7 @@
 		public static function getAllActif(){
 			return self::getByQuery("SELECT * FROM db_utilisateur WHERE actif = TRUE");
 		}
+
 		/**
 		 * Recherche un utilisateur par login. Renvoi null si aucun utilisateur pour ce login.
 		 * @param  string $login
@@ -35,6 +40,20 @@
 			else
 				return null;
 		}
+
+		/**
+		 * Retourne l'utilisateur associé au moniteur dont l'id est en paramêtre. Null si ce moniteur n'a pas d'utilisateur associé
+		 * @param  int $id_moniteur 
+		 * @return Utilisateur              
+		 */
+		public static function getByMoniteurAssocie($id_moniteur){
+			$result = self::getByQuery("SELECT * FROM db_utilisateur WHERE id_moniteur = ?", [$id_moniteur]);
+			if($result != null && count($result) == 1)
+				return $result[0];
+			else
+				return null;
+		}		
+
 		/**
 		 * Enregistre de utilisateur passé en parametre et le renvoi ou renvoi null en cas d'erreur
 		 * @param  Utilisateur $utilisateur
@@ -51,7 +70,7 @@
 
 			$utilisateur->updateVersion();
 
-			$stmt = parent::getConnexion()->prepare("INSERT INTO db_utilisateur (login,nom, prenom, mot_de_passe, administrateur, email, actif, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+			$stmt = parent::getConnexion()->prepare("INSERT INTO db_utilisateur (login,nom, prenom, mot_de_passe, administrateur, email, actif, id_moniteur, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			$result = $stmt->execute([
 				$utilisateur->getLogin(), 
 				$utilisateur->getNom(), 
@@ -60,6 +79,7 @@
 				$utilisateur->isAdministrateur(), 
 				$utilisateur->getEmail(), 
 				$utilisateur->getActif(),
+				$utilisateur->getMoniteurAssocie() != null ? $utilisateur->getMoniteurAssocie()->getId() : null,
 				$utilisateur->getVersion()
 				]);
 			if($result)
@@ -67,6 +87,7 @@
 			else
 				return null;
 		}
+
 		/**
 		 * Met à jours en base de donnée l'utilisateur passé en parametre SAUF SON MOT DE PASSE et le renvoi ou renvoi null en cas d'erreur.
 		 * Augmente automatiquement sa version de 1.
@@ -85,13 +106,14 @@
 			}
 			
 			$utilisateur->updateVersion();
-			$stmt = parent::getConnexion()->prepare("UPDATE db_utilisateur SET nom = ?, prenom = ?, administrateur = ?, email = ?, actif = ?, version = ? WHERE login = ?");
+			$stmt = parent::getConnexion()->prepare("UPDATE db_utilisateur SET nom = ?, prenom = ?, administrateur = ?, email = ?, actif = ?, id_moniteur = ?, version = ? WHERE login = ?");
 			$result = $stmt->execute([
 				$utilisateur->getNom(), 
 				$utilisateur->getPrenom(), 
 				$utilisateur->isAdministrateur(), 
 				$utilisateur->getEmail(), 
 				$utilisateur->getActif(),
+				$utilisateur->getMoniteurAssocie() != null ? $utilisateur->getMoniteurAssocie()->getId() : null,
 				$utilisateur->getVersion(),
 				$utilisateur->getLogin()
 				]);
@@ -100,6 +122,7 @@
 			else
 				return null;
 		}
+
 		/**
 		 * Met à jours en base de donnée le mot de passe de l'utilisateur et le renvoi ou renvoi null en cas d'erreur.
 		 * Augmente automatiquement sa version de 1.
@@ -125,6 +148,7 @@
 			else
 				return null;
 		}
+
 		/**
 		 * Tente de rechercher en base un utilisateur actif correspondent au identifiant passé en parametre.
 		 * Renvoi l'Utilisateur si les identifiants correspondent, ou null sinon.
@@ -140,7 +164,9 @@
 			else
 				return null;
 		}
+
 		/* Private */
+
 		/**
 		 * Execute la requere $query avec les parametres optionnels contenus dans le tableau $param.
 		 * Renvoi un tableau de Utilisateur.
@@ -160,6 +186,7 @@
 					$utilisateur->setAdministrateur($row['administrateur']);
 					$utilisateur->setEmail($row['email']);
 					$utilisateur->setActif($row['actif']);
+					$utilisateur->setMoniteurAssocie(MoniteurDao::getById($row['id_moniteur']));
 					$arrayUtilisateur[] = $utilisateur;
 				}
 				return $arrayUtilisateur;

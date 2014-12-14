@@ -21,7 +21,7 @@
 		$operationMsg = "ajoutée";
 		$operationHistorique = "Ajout";
 	}
-	
+
 	//Récupération version
 	if(filter_input(INPUT_POST, 'utilisateur_version', FILTER_VALIDATE_INT)){
 		$utilisateur_version = intval($_POST['utilisateur_version']);
@@ -82,7 +82,20 @@
 	else{
 		$utilisateur_edit->setActif(false);
 	}
-	
+
+	//Récupération du moniteur associé
+	if(filter_input(INPUT_POST, 'id_moniteur_associe', FILTER_VALIDATE_INT)){
+		$id_moniteur_associe = intval($_POST['id_moniteur_associe']);
+		if($id_moniteur_associe == -1)
+			$utilisateur_edit->setMoniteurAssocie(null);
+		else{
+			$utilisateur_edit->setMoniteurAssocie(MoniteurDao::getById($id_moniteur_associe));
+		}
+	}
+	else{
+			$utilisateur_edit->setMoniteurAssocie(null);
+	}
+
 	
 	//Erreur ? on envoie et on quitte
 	if(strlen($msg) != 0){

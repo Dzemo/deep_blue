@@ -6,7 +6,11 @@
 	 * Fichier permettend de tester Palanque et PalanqueDao
 	 */
 	require_once("../classloader.php");
+
+	echo "<h1>Test palanquee</h1><br/>";
+
 	$test_number = rand(0, 100);
+
 	/* Test insert */
 	$palanque = new Palanque(null);
 	$palanque->setIdFicheSecurite(2);
@@ -21,6 +25,7 @@
 	$palanque->setDureeRealiseeMoniteur(602);
 	$palanque = PalanqueDao::insert($palanque);
 	echo "<br/>PalanqueDao::insert() (version a ".$palanque->getVersion().")<br/>";
+
 	/*Test getById*/
 	$palanque = PalanqueDao::getById($palanque->getId());
 	echo "<br/>PalanqueDao::getById(): $palanque<br/>";
@@ -38,9 +43,11 @@
 	$palanque->setDureeRealiseeMoniteur(601);
 	$palanque = PalanqueDao::update($palanque);
 	echo "<br/>PalanqueDao::update() (version a ".$palanque->getVersion().")<br/>";
+
 	/*Test getById*/
 	$palanque = PalanqueDao::getById($palanque->getId());
 	echo "<br/>PalanqueDao::getById(): $palanque<br/>";
+
 	/* Test getByIdFicheSecurite*/
 	echo "<br/>PalanqueDao::getByIdFicheSecurite()<br/>";
 	$array = PalanqueDao::getByIdFicheSecurite(2);
@@ -49,13 +56,9 @@
 	}
 
 
-
-
-
 	/*Suppression des inserts du test*/
 	Dao::execute("DELETE FROM db_palanquee WHERE id_palanquee = ?",[$palanque->getId()]);
 	echo "<br/> *** <br/>Test Palanque effectue avec succes<br/> ***<br/>";
-
 
 	/* Test Suppression de la palanquée */
 	echo "<br/><br/><br/><h1>TEST SUPPRESSION</h1><br/>";

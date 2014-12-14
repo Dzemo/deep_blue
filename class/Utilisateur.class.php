@@ -58,9 +58,15 @@
 		 * @var boolean
 		 */
 		private $actif;
+
+		/**
+		 * Moniteur auquel est associé cette utilisateur, null si pas de moniteur
+		 * @var Moniteur
+		 */
+		private $moniteurAssocie;
 		
 		/**
-		 * Version de ce utilisateur, utilisé pour la synchronisation entre l'interface web
+		 * moniteur de ce utilisateur, utilisé pour la synchronisation entre l'interface web
 		 * et l'application de plongé. Timestamps de dernière modification
 		 * @var int
 		 */
@@ -86,11 +92,14 @@
 			$this->administrateur = false;
 			$this->email = null;
 			$this->actif = null;
+			$this->moniteurAssocie = null;
 			$this->version = $version != 0 ? $version : time();
 		}
+
 		///////////////////////////////
 		// Getter and Setter Debut //
 		///////////////////////////////
+		
 		/**
 		 * @param string $login
 		 */
@@ -116,6 +125,7 @@
 		public function getNom(){
 			return $this->nom;
 		}
+		
 		/**
 		 * @param string $prenom
 		 */
@@ -128,6 +138,7 @@
 		public function getPrenom(){
 			return $this->prenom;
 		}
+		
 		/**
 		 * Attend un mot de passe haché.
 		 * @param string $mot_de_passe
@@ -142,6 +153,7 @@
 		public function getMotDePasse(){
 			return $this->mot_de_passe;
 		}
+		
 		/**
 		 * @param boolean $administrateur
 		 */
@@ -154,6 +166,7 @@
 		public function isAdministrateur(){
 			return $this->administrateur;
 		}
+		
 		/**
 		 * @param string $email
 		 */
@@ -166,6 +179,7 @@
 		public function getEmail(){
 			return $this->email;
 		}
+		
 		/**
 		 * @return boolean
 		 */
@@ -178,6 +192,20 @@
 		public function setActif($actif){
 			$this->actif = $actif ;
 		}
+
+		/**
+		 * @return Moniteur
+		 */
+		public function getMoniteurAssocie(){
+			return $this->moniteurAssocie ;
+		}
+		/**
+		 * @param Moniteur $moniteurAssocie
+		 */
+		public function setMoniteurAssocie($moniteurAssocie){
+			$this->moniteurAssocie = $moniteurAssocie ;
+		}
+		
 		/**
 		 * @return int
 		 */
@@ -197,13 +225,15 @@
 		/////////////////////////////
 		/**
 		 * Affiche le utilisateur sous forme de chaine de caractere
-		 * Exemple: Login: 'test', Nom prenom: 'test ' Mot de passe (hache): '098f6bcd4621d373cade4e832627b4f6' Role: 'UTILISATEUR' Email: 'raphael.bideau@gmail.com' Actif: oui Version: 0
 		 * @return string
 		 */
 		public function __toString(){
-			return "Login: '".$this->login."', Nom prenom: '".$this->nom." ".$this->prenom."' Mot de passe (hache): '".
-					$this->mot_de_passe."' Administrateur: '".($this->administrateur ? "oui" : "non")."' Email: '".$this->email."' Actif: ".
-					($this->actif? "oui" : "non")." Version: ".$this->getVersion() ;
+			$string = "Utilisateur : Login: '".$this->login."', Nom prenom: '".$this->nom." ".$this->prenom."<br>";
+			$string.= "&nbsp;&nbsp;Moniteur associé: ".($this->moniteurAssocie != null ? $this->moniteurAssocie->getPrenom()." ".$this->moniteurAssocie->getNom()." (".$this->moniteurAssocie->getId().")" : "aucun")."<br>";
+			$string.= "&nbsp;&nbsp;Mot de passe (hache): '".$this->mot_de_passe."' Email: '".$this->email."'<br>";
+			$string.= "&nbsp;&nbsp;Actif: ".($this->actif? "oui" : "non")." Administrateur: '".($this->administrateur ? "oui" : "non")." Version: ".$this->version."<br>";
+
+			return $string;
 		}
 		/////////////////
 		// Utils Fin //

@@ -7,6 +7,8 @@
 	 */
 
 	require_once("../classloader.php");
+	
+	echo "<h1>Test embarcation</h1><br/>";
 
 	/* Test getAll*/
 	echo "<br/>EmbarcationDao::getAll()<br/>";

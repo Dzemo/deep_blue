@@ -52,7 +52,7 @@
 			$this->id = $id;
 			$this->nom = "";
 			$this->commentaire = "";
-			$this->version = $version != null ? $version : now();
+			$this->version = $version != null ? $version : time();
 		}
 
 		///////////////////////////////
@@ -121,7 +121,7 @@
 		 * @return string
 		 */
 		public function __toString(){
-			return "Id: ".$this->id." Nom: ".$this->nom." Commentaire: ".$this->commentaire;
+			return "Id: ".$this->id." Nom: ".$this->nom." Commentaire: ".$this->commentaire." Version: ".$this->version;
 		}
 		/////////////////
 		// Utils Fin //

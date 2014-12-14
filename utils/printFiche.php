@@ -188,7 +188,9 @@ function printFiche($numero_fiche) {
 	</table>
 	<table id="bouttons">
 		<tr>
-			<td><span onclick="location.href='index.php?page=modification_fiche&id=<?php echo $numero_fiche;?>'" class="button purple save-button">Modifier Fiche</span></td>
+			<?php if($ficheSecurite->getEtat() != FicheSecurite::etatArchive) {?>
+				<td><span onclick="location.href='index.php?page=modification_fiche&id=<?php echo $numero_fiche;?>'" class="button purple save-button">Modifier Fiche</span></td>
+			<?php } ?>
 			<td><span onclick="location.href='index.php?page=liste_fiches'" class="button orange save-button">Retour</span></td>
 		</tr>
 	</table>

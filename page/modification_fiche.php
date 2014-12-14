@@ -10,7 +10,10 @@
 		$fiche = FicheSecuriteDao::getById($id_fiche);
 
 		if($fiche != null){
-			printFormFicheSecurite('index.php?page=consulter_fiche&id='.$id_fiche, $fiche);
+			if($fiche->getEtat() == FicheSecurite::etatArchive)
+			echo "<div class='sous-titre'>La fiche ".$id_fiche." est archivée</div>";
+			else
+				printFormFicheSecurite('index.php?page=consulter_fiche&id='.$id_fiche, $fiche);
 		}
 		else{
 			echo "<br>La fiche ".$id_fiche." n'existe pas";

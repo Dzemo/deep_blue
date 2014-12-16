@@ -125,6 +125,34 @@
 		}
 	}
 
+	//Aide
+	else if(filter_input(INPUT_POST, 'aide_id', FILTER_VALIDATE_INT)){
+		$aide_id = intval($_POST['aide_id']);
+		echo "id = ".$aide_id;
+		$aide = AideDao::getById($aide_id);
+		if($aide != null){
+			if($aide->getDisponible() == FALSE)
+				$aide->setDisponible(true);
+			else
+				$aide->setDisponible(false);
+			$aide = AideDao::update($aide);
+						
+			//Ajout de l'historique
+			$historique = new Historique($utilisateur->getLogin(), time(), null);
+			$historique->setSource(Historique::sourceWeb);
+			$historique->setCommentaire("Disponibilité Aide ".$aide->getQuestion()." mise à jour");
+			$historique = HistoriqueDao::insert($historique);
+			
+			//Renvoi vers l'administration avec un message
+			redirectMessage("Aide ".$aide->getQuestion()." mise à jours", "succes",4);	
+		
+		}
+		else{
+			//erreur bdd
+			redirectMessage("Erreur lors de l'accès à la base de données", "erreur",4);	
+		}
+	}
+
 	//Redirection si aucun id specifier
 	else{
 		redirectMessage("", "",0);	

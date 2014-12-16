@@ -19,7 +19,7 @@
 		 * Id de l'aide, utile pour faire des liens
 		 * @var int
 		 */
-		private $id;
+		private $id_question;
 
 		/**
 		 * Question de cette élément d'aide
@@ -45,6 +45,12 @@
 		 */
 		private $voir_aussi;
 
+		/**
+		 * Etat de cet élément d'aide (disponible, ou pas)
+		 * @var boolean
+		 */
+		private $disponible;
+
 		//////////////////////
 		// Varibables Fin //
 		// Constructeur  //
@@ -52,14 +58,15 @@
 
 		/**
 		 * Initialise les valeurs à null, avec éventuellement la version spécifié
-		 * @param int $id Optionnel
+		 * @param int $id_question Optionnel
 		 */
-		public function Template($id){
-			$this->id = $id;
+		public function Aide($id_question){
+			$this->id_question = $id_question;
 			$this->question = null;
 			$this->reponse = null;
 			$this->tag = null;
 			$this->voir_aussi = array();
+			$this->disponible = 1;
 		}
 
 		///////////////////////////////
@@ -70,13 +77,13 @@
 		 * @return int
 		 */
 		public function getId(){
-			return $this->id ;
+			return $this->id_question ;
 		}
 		/**
 		 * @param int $id
 		 */
-		public function setId($id){
-			$this->id = $id ;
+		public function setId($id_question){
+			$this->id_question = $id_question ;
 		}
 
 		/**
@@ -130,6 +137,19 @@
 		public function setVoirAussi($voir_aussi){
 			$this->voir_aussi = $voir_aussi ;
 		}
+
+		/**
+		 * @return boolean
+		 */
+		public function getDisponible(){
+			return $this->disponible ;
+		}
+		/**
+		 * @param boolean $disponible
+		 */
+		public function setDisponible($disponible){
+			$this->disponible = $disponible ;
+		}
 		
 		/////////////////////////////
 		// Getter and Setter Fin //
@@ -150,7 +170,7 @@
 		 * @return string
 		 */
 		public function __toString(){
-			return "Id: ".$this->id." Question: ".$this->question." Réponse: ".$this->reponse." Tag: ".$this->tag." Rélié à ".count($this->voir_aussi)." autres aides";
+			return "Id_question: ".$this->id_question." Disponible: ".$this->disponible." Question: ".$this->question." Réponse: ".$this->reponse." Tag: ".$this->tag." Rélié à ".count($this->voir_aussi)." autres aides";
 		}
 
 		/////////////////

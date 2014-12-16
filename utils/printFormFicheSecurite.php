@@ -73,7 +73,7 @@ function printFormFicheSecurite($redirect, FicheSecurite $f = null){
 										</tr>
 										
 										<tr>
-											<td><label for="directeur_plonge">Directeur de plongé</label></td>
+											<td><label for="directeur_plonge">Directeur de plongée</label></td>
 											<td>
 												<input 	type="text" 
 														id="directeur_plonge" 

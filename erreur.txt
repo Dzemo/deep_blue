@@ -1,0 +1,80 @@
+[10-Dec-2014 15:22:06 Europe/Paris] PHP Notice:  Undefined property: Palanque::$getProfondeurPrevue in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 75
+[10-Dec-2014 15:49:52 Europe/Paris] PHP Catchable fatal error:  Argument 1 passed to Plongeur::ajouterAptitude() must be an instance of Aptitude, null given, called in /home/searchan/www/deep_blue/test/TestPalanqueeValidation.php on line 98 and defined in /home/searchan/www/deep_blue/class/Plongeur.class.php on line 282
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Warning:  Missing argument 3 for peutEtrePlongeurBonus(), called in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 94 and defined in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 293
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Notice:  Undefined variable: profondeur in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 298
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Warning:  Missing argument 3 for peutEtrePlongeurBonus(), called in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 94 and defined in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 293
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Notice:  Undefined variable: profondeur in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 298
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Warning:  Missing argument 3 for peutEtrePlongeurBonus(), called in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 94 and defined in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 293
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Notice:  Undefined variable: profondeur in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 298
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Warning:  Missing argument 3 for peutEtrePlongeurBonus(), called in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 94 and defined in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 293
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Notice:  Undefined variable: profondeur in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 298
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Warning:  Missing argument 3 for peutEtrePlongeurBonus(), called in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 94 and defined in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 293
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Notice:  Undefined variable: profondeur in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 298
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Warning:  Missing argument 3 for peutEtrePlongeurBonus(), called in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 94 and defined in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 293
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Notice:  Undefined variable: profondeur in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 298
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Warning:  Missing argument 3 for peutEtrePlongeurBonus(), called in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 94 and defined in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 293
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Notice:  Undefined variable: profondeur in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 298
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Warning:  Missing argument 3 for peutEtrePlongeurBonus(), called in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 94 and defined in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 293
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Notice:  Undefined variable: profondeur in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 298
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Warning:  Missing argument 3 for peutEtrePlongeurBonus(), called in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 94 and defined in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 293
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Notice:  Undefined variable: profondeur in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 298
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Warning:  Missing argument 3 for peutEtrePlongeurBonus(), called in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 94 and defined in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 293
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Notice:  Undefined variable: profondeur in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 298
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Warning:  Missing argument 3 for peutEtrePlongeurBonus(), called in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 94 and defined in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 293
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Notice:  Undefined variable: profondeur in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 298
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Warning:  Missing argument 3 for peutEtrePlongeurBonus(), called in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 94 and defined in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 293
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Notice:  Undefined variable: profondeur in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 298
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Warning:  Missing argument 3 for peutEtrePlongeurBonus(), called in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 94 and defined in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 293
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Notice:  Undefined variable: profondeur in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 298
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Warning:  Missing argument 3 for peutEtrePlongeurBonus(), called in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 94 and defined in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 293
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Notice:  Undefined variable: profondeur in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 298
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Warning:  Missing argument 3 for peutEtrePlongeurBonus(), called in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 94 and defined in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 293
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Notice:  Undefined variable: profondeur in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 298
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Warning:  Missing argument 3 for peutEtrePlongeurBonus(), called in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 74 and defined in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 293
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Notice:  Undefined variable: profondeur in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 298
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Warning:  Missing argument 3 for peutEtrePlongeurBonus(), called in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 74 and defined in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 293
+[10-Dec-2014 16:29:54 Europe/Paris] PHP Notice:  Undefined variable: profondeur in /home/searchan/www/deep_blue/utils/validation_palanquee.php on line 298
+[11-Dec-2014 12:23:02 Europe/Paris] PHP Notice:  Undefined offset: 0 in /home/searchan/www/deep_blue/page/aide.php on line 10
+[11-Dec-2014 12:23:02 Europe/Paris] PHP Fatal error:  Call to a member function getId() on a non-object in /home/searchan/www/deep_blue/page/aide.php on line 15
+[11-Dec-2014 15:45:33 Europe/Paris] PHP Notice:  Array to string conversion in /home/searchan/www/deep_blue/page/aide.php on line 31
+[11-Dec-2014 15:45:33 Europe/Paris] PHP Notice:  Array to string conversion in /home/searchan/www/deep_blue/page/aide.php on line 31
+[11-Dec-2014 15:45:33 Europe/Paris] PHP Notice:  Array to string conversion in /home/searchan/www/deep_blue/page/aide.php on line 31
+[11-Dec-2014 15:48:34 Europe/Paris] PHP Notice:  Undefined offset: 0 in /home/searchan/www/deep_blue/page/aide.php on line 31
+[11-Dec-2014 15:48:34 Europe/Paris] PHP Notice:  Undefined offset: 0 in /home/searchan/www/deep_blue/page/aide.php on line 31
+[11-Dec-2014 15:53:08 Europe/Paris] PHP Parse error:  syntax error, unexpected '}' in /home/searchan/www/deep_blue/page/aide.php on line 34
+[11-Dec-2014 15:53:48 Europe/Paris] PHP Notice:  Undefined variable: question in /home/searchan/www/deep_blue/page/aide.php on line 11
+[11-Dec-2014 15:53:48 Europe/Paris] PHP Fatal error:  Call to a member function getId() on a non-object in /home/searchan/www/deep_blue/page/aide.php on line 11
+[11-Dec-2014 15:54:07 Europe/Paris] PHP Notice:  Undefined variable: question in /home/searchan/www/deep_blue/page/aide.php on line 11
+[11-Dec-2014 15:54:07 Europe/Paris] PHP Fatal error:  Call to a member function getId() on a non-object in /home/searchan/www/deep_blue/page/aide.php on line 11
+[11-Dec-2014 15:55:02 Europe/Paris] PHP Notice:  Undefined variable: question in /home/searchan/www/deep_blue/page/aide.php on line 11
+[11-Dec-2014 15:55:02 Europe/Paris] PHP Fatal error:  Call to a member function getId() on a non-object in /home/searchan/www/deep_blue/page/aide.php on line 11
+[11-Dec-2014 16:17:05 Europe/Paris] PHP Parse error:  syntax error, unexpected ';' in /home/searchan/www/deep_blue/page/administration.php on line 861
+[11-Dec-2014 16:17:26 Europe/Paris] PHP Fatal error:  Cannot redeclare printModalEditionEmbarcation() (previously declared in /home/searchan/www/deep_blue/page/administration.php:639) in /home/searchan/www/deep_blue/page/administration.php on line 883
+[11-Dec-2014 16:17:59 Europe/Paris] PHP Fatal error:  Cannot redeclare printModalEditionEmbarcation() (previously declared in /home/searchan/www/deep_blue/page/administration.php:639) in /home/searchan/www/deep_blue/page/administration.php on line 883
+[11-Dec-2014 16:18:24 Europe/Paris] PHP Notice:  Undefined offset: 0 in /home/searchan/www/deep_blue/page/administration.php on line 274
+[11-Dec-2014 16:18:24 Europe/Paris] PHP Fatal error:  Call to a member function getId() on a non-object in /home/searchan/www/deep_blue/page/administration.php on line 277
+[11-Dec-2014 16:21:28 Europe/Paris] PHP Parse error:  syntax error, unexpected '}' in /home/searchan/www/deep_blue/page/administration.php on line 295
+[11-Dec-2014 16:21:46 Europe/Paris] PHP Notice:  Undefined offset: 0 in /home/searchan/www/deep_blue/page/administration.php on line 349
+[11-Dec-2014 16:21:46 Europe/Paris] PHP Fatal error:  Call to undefined function printModalDesactivationAide() in /home/searchan/www/deep_blue/page/administration.php on line 350
+[11-Dec-2014 16:26:24 Europe/Paris] PHP Fatal error:  Call to a member function getId() on a non-object in /home/searchan/www/deep_blue/page/administration.php on line 827
+[11-Dec-2014 16:50:16 Europe/Paris] PHP Fatal error:  Call to a member function getId() on a non-object in /home/searchan/www/deep_blue/page/administration.php on line 828
+[11-Dec-2014 16:51:09 Europe/Paris] PHP Fatal error:  Call to a member function getId() on a non-object in /home/searchan/www/deep_blue/page/administration.php on line 829
+[11-Dec-2014 16:51:53 Europe/Paris] PHP Fatal error:  Call to a member function getId() on a non-object in /home/searchan/www/deep_blue/page/administration.php on line 829
+[11-Dec-2014 16:53:57 Europe/Paris] PHP Fatal error:  Call to a member function getId() on a non-object in /home/searchan/www/deep_blue/page/administration.php on line 829
+[11-Dec-2014 16:55:31 Europe/Paris] PHP Fatal error:  Call to a member function getId() on a non-object in /home/searchan/www/deep_blue/page/administration.php on line 826
+[11-Dec-2014 17:00:26 Europe/Paris] PHP Notice:  Undefined variable: e in /home/searchan/www/deep_blue/page/administration.php on line 901
+[11-Dec-2014 17:00:26 Europe/Paris] PHP Fatal error:  Call to a member function getDisponible() on a non-object in /home/searchan/www/deep_blue/page/administration.php on line 901
+[11-Dec-2014 17:28:32 Europe/Paris] PHP Fatal error:  Call to undefined method AideDao::update() in /home/searchan/www/deep_blue/traitement/edition_aide_traitement.php on line 89
+[11-Dec-2014 17:36:16 Europe/Paris] PHP Parse error:  syntax error, unexpected ')' in /home/searchan/www/deep_blue/class/AideDao.class.php on line 66
+[11-Dec-2014 17:36:18 Europe/Paris] PHP Parse error:  syntax error, unexpected ')' in /home/searchan/www/deep_blue/class/AideDao.class.php on line 66
+[11-Dec-2014 17:36:24 Europe/Paris] PHP Parse error:  syntax error, unexpected ')' in /home/searchan/www/deep_blue/class/AideDao.class.php on line 66
+[11-Dec-2014 17:36:59 Europe/Paris] PHP Parse error:  syntax error, unexpected ')' in /home/searchan/www/deep_blue/class/AideDao.class.php on line 66
+[11-Dec-2014 17:38:02 Europe/Paris] PHP Parse error:  syntax error, unexpected ')' in /home/searchan/www/deep_blue/class/AideDao.class.php on line 64
+[11-Dec-2014 17:42:20 Europe/Paris] PHP Parse error:  syntax error, unexpected ')' in /home/searchan/www/deep_blue/class/AideDao.class.php on line 64
+[11-Dec-2014 17:42:40 Europe/Paris] PHP Parse error:  syntax error, unexpected ')' in /home/searchan/www/deep_blue/class/AideDao.class.php on line 64
+[11-Dec-2014 17:42:52 Europe/Paris] PHP Parse error:  syntax error, unexpected ')' in /home/searchan/www/deep_blue/class/AideDao.class.php on line 64
+[11-Dec-2014 17:43:28 Europe/Paris] PHP Parse error:  syntax error, unexpected ')' in /home/searchan/www/deep_blue/class/AideDao.class.php on line 64
+[11-Dec-2014 17:44:06 Europe/Paris] PHP Parse error:  syntax error, unexpected ')' in /home/searchan/www/deep_blue/class/AideDao.class.php on line 64
+[11-Dec-2014 17:45:16 Europe/Paris] PHP Parse error:  syntax error, unexpected ')' in /home/searchan/www/deep_blue/class/AideDao.class.php on line 64
+[11-Dec-2014 17:45:20 Europe/Paris] PHP Parse error:  syntax error, unexpected ')' in /home/searchan/www/deep_blue/class/AideDao.class.php on line 64
+[11-Dec-2014 17:56:27 Europe/Paris] PHP Parse error:  syntax error, unexpected 'else' (T_ELSE) in /home/searchan/www/deep_blue/class/AideDao.class.php on line 80

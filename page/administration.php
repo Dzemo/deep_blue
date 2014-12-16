@@ -30,6 +30,7 @@
 		<li><a href="#adminMoniteurs">Moniteurs</a></li>
 		<li><a href="#adminEmbarcations">Embarcations</a></li>
 		<li><a href="#adminSites">Sites de plongé</a></li>
+		<li><a href="#adminAides">Aide</a></li>
 	</ul>
 
 	<!-- Utilisateurs -->
@@ -260,9 +261,62 @@
 					>Ajouter un site</span>
 		</div>
 	</div>
-
+<!-- Aide -->
+	<div id="adminAides" class="tableAdmin">
+		<div class="sous-titre">Aide</div>
+		<table class="dataTable">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Question</th>
+				<th>Réponse</th>
+				<th>Disponible</th>
+				<th>Tag</th>
+				<th>Voir Aussi</th>
+				<th colspan="2">Modifier / Desactiver</th>
+			<tr/>
+			</thead>
+			<tbody>
+				<?php	
+					$listeAide = AideDao::getAll();
+					foreach($listeAide as $aide){
+						?>
+							<tr>
+								<td><?php echo $aide->getId();?></td>
+								<td><?php echo $aide->getQuestion();?></td>
+								<td><?php echo $aide->getReponse();?></td>
+								<td><?php printBool($aide->getDisponible());?></td>
+								<td><?php echo $aide->getTag();?></td>
+								<td><?php foreach($aide->getVoirAussi() as $seeAlso){
+									echo $seeAlso->getQuestion()." ; ";
+								}
+								?></td>
+								<td>
+									<div 	class='icone-crayon'
+											style='cursor: pointer;'
+											onclick='$("#modal_edition_aide_<?php echo $aide->getId();?>").bPopup()'
+										></div>
+								</td>
+								<td>
+									<div 	class='<?php echo (!$aide->getDisponible() ? 'icone-activer' : 'icone-poubelle');?>'
+											style='cursor: pointer;'
+											onclick='$("#modal_desactivation_aide_<?php echo $aide->getId();?>").bPopup()'
+										></div>
+								</td>
+							</tr>
+						<?php
+					}
+				?>	
+			</tbody>
+		</table>
+		<div class="buttons">
+			<span 	class="button blue"
+					style='cursor: pointer;'
+					onclick='$("#modal_edition_aide_nouvelle").bPopup()'
+					>Ajouter une Question/Réponse</span>
+		</div>
+	</div>
 </div>
-
 <script type="text/javascript">
 	$(function(){
 		$('#administrationContent').tabs(<?php if(isset($_GET['active'])) echo "{active:".$_GET['active']."}";?>);
@@ -303,6 +357,13 @@
 		printModalDesactivationSite($site);
 	}
 	printModalEditionSite(null);
+
+	//Aide
+	foreach($listeAide as $aide){
+		printModalEditionAide($aide);
+		printModalDesactivationAide($aide);
+	}
+	printModalEditionAide(null);
 	
 ?>
 <script type="text/javascript">
@@ -792,6 +853,116 @@
 						<td>
 							<span 	class="button red" 
 									onclick='$("#modal_desactivation_site_<?php echo $s->getId();?>").bPopup().close()'
+									>Annuler
+							</span>
+						</td>
+					</tr>
+				</table>
+			</form>
+		<?php
+	}
+
+	/**
+	 * Affiche le modal de modification de l'aide fourni en parametre ou le modal d'ajout d'une nouvelle aide
+	 * @param  Aide $a 
+	 */
+	function printModalEditionAide($a){
+		?>
+			<form id="modal_edition_aide_<?php echo ($a ? $a->getId() : "nouvelle");?>"
+					method="POST"
+					class="modal_form_administration"
+					action="traitement/edition_aide_traitement.php">
+				<div class="sous-titre">
+					<?php 
+						if($a) echo "Modification de l'aide '".$a->getQuestion()."':";
+						else   echo "Création d'une nouvelle aide:";
+					?>
+				</div>
+				<input type="hidden" name="aide_id" value="<?php if($a) echo $a->getId();?>">
+				<table class="form_content">
+					<tr>
+						<td class="align_right">Question </td>
+						<td class="align_left">
+							<textarea rows="3" cols="50" type="text" name="aide_question"><?php if($a) echo $a->getQuestion();?></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td class="align_right">Réponse </td>
+						<td class="align_left">
+							<textarea rows="3" cols="50" type="text" name="aide_reponse"><?php if($a) echo $a->getReponse();?></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td class="align_right">Disponible </td>
+						<td class="align_left">
+							<input size="50" type="text" name="aide_disponible" value="<?php if($a) echo $a->getDisponible();?>">
+						</td>
+					</tr>
+					<tr>
+						<td class="align_right">Tag </td>
+						<td class="align_left">
+							<input size="50" type="text" name="aide_tag" value="<?php if($a) echo $a->getTag();?>">
+						</td>
+					</tr>
+					<tr>
+						<td class="align_right">Voir Aussi</td>
+						<td class="align_left">
+							<input size="50" type="text" name="aide_voir_aussi" value="<?php 
+							if($a) {
+								foreach($a->getVoirAussi() as $seeAlso)
+								echo $seeAlso->getId()." ; ";
+							}
+							?>">
+						</td>
+					</tr>
+				</table>
+				<table class="form_buttons">
+					<tr>
+						<td>
+							<span 	class="button green" 
+									onclick="$('#modal_edition_aide_<?php echo ($a ? $a->getId() : "nouvelle");?>').submit()"
+									>Enregistrer
+							</span>
+						</td>
+						<td>
+							<span 	class="button red" 
+									onclick='$("#modal_edition_aide_<?php echo ($a ? $a->getId() : "nouvelle");?>").bPopup().close()'
+									>Annuler
+							</span>
+						</td>
+					</tr>
+				</table>
+			</form>
+		<?php
+	}
+
+	/**
+	 * Affiche le modal contenant le formulaire de desactivation/activation d'une aide
+	 * @param  Aide $a 
+	 */
+	function printModalDesactivationAide($a){
+		if($a == null) return;
+		?>
+			<form id="modal_desactivation_aide_<?php echo $a->getId();?>"
+					method="POST"
+					class="modal_form_administration"
+					action="traitement/toggle_active_traitement.php">
+				<div class="">
+					Voulez-vous marquer comme <span class="<?php echo (!$a->getDisponible() ? "ouiColor" :"nonColor");?>"><?php if($a->getDisponible()) echo "in";?>disponible</span> la question '<?php echo $a->getQuestion();?>' ?
+				</div>
+				<input type="hidden" name="aide_id" value="<?php echo $a->getId();?>">
+				<input type="hidden" name="aide_disponible" value="<?php echo (!$a->getDisponible() ? "1" : "0");?>">
+				<table class="form_buttons">
+					<tr>
+						<td>
+							<span 	class="button green" 
+									onclick="$('#modal_desactivation_aide_<?php echo $a->getId();?>').submit()"
+									>Rendre <?php if($a->getDisponible()) echo "in";?>disponible
+							</span>
+						</td>
+						<td>
+							<span 	class="button red" 
+									onclick='$("#modal_desactivation_aide_<?php echo $a->getId();?>").bPopup().close()'
 									>Annuler
 							</span>
 						</td>

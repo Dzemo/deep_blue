@@ -121,7 +121,7 @@
 		 * @return string
 		 */
 		public function __toString(){
-			return "Id: ".$this->id." Nom: ".$this->nom." Commentaire: ".$this->commentaire." Version: ".$this->version;
+			return "&nbsp;&nbsp; Site : Id: ".$this->id." Nom: ".$this->nom." Commentaire: ".$this->commentaire." Version: ".$this->version;
 		}
 		/////////////////
 		// Utils Fin //

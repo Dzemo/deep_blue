@@ -35,6 +35,15 @@
 		}
 
 		/**
+		 * Renvoi tout les sites dont la version est superieur à celle spécifié
+		 * @param  int $versionMax 
+		 * @return array             
+		 */
+		public static function getFromVersion($versionMax){
+			return self::getByQuery("SELECT * FROM db_site WHERE version > ?",[$versionMax]);
+		}
+
+		/**
 		 * Ajoute un site en base de données et le retourne ou renvoi null en cas d'erreur
 		 * @param  Site   $site 
 		 * @return Site 

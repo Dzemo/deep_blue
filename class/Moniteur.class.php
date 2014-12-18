@@ -8,7 +8,7 @@
 	/**
 	 * Classe Moniteur
 	 */
-	class Moniteur{
+	class Moniteur implements JsonSerializable {
 		///////////////////////
 		// Variables Debut //
 		///////////////////////
@@ -242,11 +242,34 @@
 				$stringAptitudes = $stringAptitudes."]";
 			}
 
-			$string = "Moniteur ".$this->id.": ".$this->nom." ".$this->prenom."<br>";
-			$string.= "&nbsp;&nbsp;Aptitudes: ".$stringAptitudes." Actif: ".($this->actif ? 'oui' : 'non')." DirecteurPlonge: ".($this->directeurPlonge ? 'oui' : 'non')."'<br>";
-			$string.= "&nbsp;&nbsp;Email: '".$this->email."' Telephone: '".$this->telephone."' Version: ".$this->version ."<br>";
+			$string = "&nbsp;&nbsp;Moniteur ".$this->id.": ".$this->nom." ".$this->prenom."<br>";
+			$string.= "&nbsp;&nbsp;&nbsp;&nbsp;Aptitudes: ".$stringAptitudes." Actif: ".($this->actif ? 'oui' : 'non')." DirecteurPlonge: ".($this->directeurPlonge ? 'oui' : 'non')."'<br>";
+			$string.= "&nbsp;&nbsp;&nbsp;&nbsp;Email: '".$this->email."' Telephone: '".$this->telephone."' Version: ".$this->version ."<br>";
 
 			return $string;
+		}
+
+		/**
+		 * Serialize cette aptitude en un array acceptable par json_encode
+		 * @return array 
+		 */
+		public function jsonSerialize(){
+			$arrayAptitudes = array();
+			foreach ($this->aptitudes as $aptitude) {
+				$arrayAptitudes[] = $aptitude;
+			}
+
+			return [
+				'idWeb' => $this->id,
+				'nom' => $this->nom,
+				'prenom' => $this->prenom,
+				'aptitudes' => $arrayAptitudes,
+				'actif' => $this->actif,
+				'directeurPlongee' => $this->directeurPlonge,
+				'email' => $this->email,
+				'telephone' => $this->telephone,
+				'version' => $this->version,
+			];
 		}
 
 		/////////////////

@@ -64,6 +64,15 @@
 		}
 
 		/**
+		 * Renvoi toutes les aptitudes dont la version est superieur à celle spécifié
+		 * @param  int $versionMax 
+		 * @return array             
+		 */
+		public static function getFromVersion($versionMax){
+			return self::getByQuery("SELECT * FROM db_aptitude WHERE version > ?",[$versionMax]);
+		}
+
+		/**
 		 * Ajoute une aptitude dans la base et la retourne ou renvoi null en cas d'erreur
 		 * @param  Aptitude $aptitude
 		 * @return Aptitude

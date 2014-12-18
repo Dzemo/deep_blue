@@ -34,6 +34,15 @@
 		 */
 		public static function getAllActifDirecteurPlonge(){
 			return self::getByQuery("SELECT * FROM db_moniteur WHERE directeur_plonge = TRUE AND actif = TRUE");
+		}	
+
+		/**
+		 * Renvoi tout les moniteur dont la version est superieur à celle spécifié
+		 * @param  int $versionMax 
+		 * @return array             
+		 */
+		public static function getFromVersion($versionMax){
+			return self::getByQuery("SELECT * FROM db_moniteur WHERE version > ?",[$versionMax]);
 		}
 
 		/**

@@ -7,9 +7,9 @@
 	
 	/**
 	 * Classe représentant une embarcation, utiliser pour faire des sortis de plongé
-	 */
-	
-	class Embarcation{
+	 */	
+	class Embarcation implements JsonSerializable {
+
 		///////////////////////
 		// Variables Debut //
 		///////////////////////
@@ -147,19 +147,43 @@
 		public function updateVersion(){
 			$this->version = time();
 		}
+
 		/////////////////////////////
 		// Getter and Setter Fin //
 		// Utils Debut
 		/////////////////////////////
+		
 		/**
 		 * Renvoie une string représentant l'embarcation
 		 * Example: Id: 7 Libelle: 'EMB-3' Commentaire: 'Embarcation-3, creer lors d'un test, indisponible' Disponible: non Version: 0
 		 * @return string
 		 */
 		public function __toString(){
-			return "Id: ".$this->id." Libelle: '".$this->libelle."' Contenance Maximum: ".$this->maxpersonne."' Commentaire: '".$this->commentaire."' Disponible: ".
-					($this->disponible ? "oui" : "non")." Version: ".$this->version;
+			$string = "&nbsp;&nbsp;Embarcation Id: ".$this->id."<br/>";
+			$string.= "&nbsp;&nbsp;&nbsp;&nbsp;Libelle: '".$this->libelle."'<br/>";
+			$string.= "&nbsp;&nbsp;&nbsp;&nbsp;Commentaire: '".$this->commentaire."'<br/>";
+			$string.= "&nbsp;&nbsp;&nbsp;&nbsp;Contenance Maximum: ".$this->maxpersonne."'<br/>";
+			$string.= "&nbsp;&nbsp;&nbsp;&nbsp;Disponible: ".($this->disponible ? "oui" : "non")." Version: ".$this->version."<br/>";
+			
+			return $string;
 		}
+
+		/**
+		 * Serialize cette embarcation en un array acceptable par json_encode
+		 * @return array 
+		 */
+		public function jsonSerialize(){
+			return [
+				'idWeb' => $this->id,
+				'libelle' => $this->libelle,
+				'contenance' => $this->maxpersonne,
+				'commentaire' => $this->commentaire,
+				'disponible' => $this->disponible,
+				'version' => $this->version
+			];
+		}
+
+
 		/////////////////
 		// Utils Fin //
 		/////////////////

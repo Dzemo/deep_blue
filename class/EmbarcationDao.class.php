@@ -9,7 +9,9 @@
 	 * Classe permettant d'interagir avec la base de données concernant les Embarcation
 	 */
 	class EmbarcationDao extends Dao {
+		
 		/* Public */
+		
 		/**
 		 * Renvoie toute les embarcations en base.
 		 * @return array
@@ -17,6 +19,7 @@
 		public static function getAll(){
 			return self::getByQuery("SELECT * FROM db_embarcation");
 		}
+
 		/**
 		 * Recherche une Dmbarcation par son id. Renvoie l'embarcation ou null si elle n'existe pas.
 		 * @param  int $id
@@ -29,6 +32,7 @@
 			else
 				return null;
 		}
+
 		/**
 		 * Renvoie toute les Embarcation disponible
 		 * @return array
@@ -36,6 +40,16 @@
 		public static function getAllDisponible(){
 			return self::getByQuery("SELECT * FROM db_embarcation WHERE disponible = TRUE");
 		}
+
+		/**
+		 * Renvoi toutes les embarcations dont la version est superieur à celle spécifié
+		 * @param  int $versionMax 
+		 * @return array             
+		 */
+		public static function getFromVersion($versionMax){
+			return self::getByQuery("SELECT * FROM db_embarcation WHERE version > ?",[$versionMax]);
+		}
+
 		/**
 		 * Ajoute une Embarcation en base de données, avec pour version 0, et la renvoi ou renvoi null en cas d'erreur.
 		 * @param  Embarcation $embarcation

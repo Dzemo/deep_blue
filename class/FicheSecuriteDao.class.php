@@ -19,7 +19,14 @@
 			return self::getByQuery("SELECT * FROM db_fiche_securite ORDER BY timestamp DESC");
 		}
 
-
+		/**
+		 * Renvoi toutes les fiches de sécurité dont la version est superieur à celle spécifié
+		 * @param  int $versionMax 
+		 * @return array             
+		 */
+		public static function getFromVersion($versionMax){
+			return self::getByQuery("SELECT * FROM db_fiche_securite WHERE version > ?",[$versionMax]);
+		}
 		
 		/**
 		 * Renvoi un tableau contenant toute les fiches de sécurité dans la base trié par date décroissant
@@ -34,6 +41,7 @@
 		public static function getAllNonArchivee(){
 			return self::getByQuery("SELECT * FROM db_fiche_securite WHERE etat != '".FicheSecurite::etatArchive."' ORDER BY timestamp DESC");
 		}
+
 		/**
 		 * Recherche une fiche de sécurité par id
 		 * @param  int $id
@@ -46,6 +54,7 @@
 			else
 				return null;
 		}
+
 		/**
 		 * Enregistre une fiche de sécurite en base et la renvoi. Renvoi null en cas d'erreur. 
 		 * Si la fiche a été créer sur l'application mobile et est maintenant synchroniser vers le pc, le login sera alors null.

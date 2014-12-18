@@ -10,7 +10,7 @@
 	 * Le plus souvent (mais selon ses aptitudes), il pourra aussi éventuellement encadrer des sorties, il sera donc
 	 * référencé sur la fiche de sécurité correspondente
 	 */
-	class Utilisateur{
+	class Utilisateur implements JsonSerializable {
 		
 		///////////////////////
 		// Variables Debut //
@@ -223,6 +223,7 @@
 		// Getter and Setter Fin //
 		// Utils Debut
 		/////////////////////////////
+		
 		/**
 		 * Affiche le utilisateur sous forme de chaine de caractere
 		 * @return string
@@ -235,6 +236,25 @@
 
 			return $string;
 		}
+
+		/**
+		 * Serialize cette utilisateur en un array acceptable par json_encode
+		 * @return array 
+		 */
+		public function jsonSerialize(){
+			return [
+				'login' => $this->login,
+				'nom' => $this->nom,
+				'prenom' => $this->prenom,
+				'moniteurAssocie' => $this->moniteurAssocie != null ? $this->moniteurAssocie : null,
+				'motDePasse' => $this->mot_de_passe,
+				'email' => $this->email,
+				'actif' => $this->actif,
+				'administrateur' => $this->administrateur,
+				'version' => $this->version,
+			];
+		}
+
 		/////////////////
 		// Utils Fin //
 		/////////////////

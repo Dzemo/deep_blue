@@ -42,6 +42,15 @@
 		}
 
 		/**
+		 * Renvoi tout les utilisateur dont la version est superieur à celle spécifié
+		 * @param  int $versionMax 
+		 * @return array             
+		 */
+		public static function getFromVersion($versionMax){
+			return self::getByQuery("SELECT * FROM db_utilisateur WHERE version > ?",[$versionMax]);
+		}
+
+		/**
 		 * Retourne l'utilisateur associé au moniteur dont l'id est en paramêtre. Null si ce moniteur n'a pas d'utilisateur associé
 		 * @param  int $id_moniteur 
 		 * @return Utilisateur              

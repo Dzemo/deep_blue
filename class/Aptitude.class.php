@@ -8,7 +8,7 @@
 	 * Classe Aptitude représentent les aptitudes que peut avoir un directeur de plongé, un moniteur
 	 * ou un plongeur 
 	 */
-	class Aptitude{
+	class Aptitude implements JsonSerializable {
 		///////////////////////
 		// Variables Debut //
 		///////////////////////
@@ -327,6 +327,7 @@
 			}
 			return $result."\"";
 		}
+
 		/**
 		 * Transforme un tableau d'aptitudes en une chaine de caractère contenant le libelle de ces aptitudes séparé par une virgule
 		 * Exemple  	PA-40, PA-60 	
@@ -344,6 +345,7 @@
 			}
 			return $stringAptitudes;
 		}
+
 		/**
 		 * Renvoie une string représentant l'Aptitude
 		 * Exemple Id: 1 LibelleCourt: PA-12 LibelleLong: Plongé autonome 12m Version: 0
@@ -364,6 +366,30 @@
 
 			return $string;
 		}
+
+		/**
+		 * Serialize cette aptitude en un array acceptable par json_encode
+		 * @return array 
+		 */
+		public function jsonSerialize(){
+			return [
+				'idWeb' => $this->id,
+				'libelleCourt' => $this->libelle_court,
+				'libelleLong' => $this->libelle_long,
+
+				'techniqueMax' => $this->technique_max,
+				'encadreeMax' => $this->encadree_max,
+				'autonomeMax' => $this->autonome_max,
+
+				'nitroxMax' => $this->nitrox_max,
+				'ajoutMax' => $this->ajout_max,
+
+				'enseignementAirMax' => $this->enseignement_air_max,
+				'enseignementNitroxMax' => $this->enseignement_nitrox_max,
+				'encadrementMax' => $this->encadremement_max,
+			];
+		}
+
 		/////////////////
 		// Utils Fin //
 		/////////////////

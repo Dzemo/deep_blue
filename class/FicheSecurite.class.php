@@ -263,9 +263,17 @@
 		 * @return string
 		 */
 		public function __toString(){
-			return "Id: ".$this->id." Embarcation: (Id: ".($this->embarcation != null ? $this->embarcation->getId() : "").") DirecteurPlonge: (Login: ".
-					($this->directeurPlonge != null ? $this->directeurPlonge->getNom() : "" ).") NbrPalanques: ".count($this->palanques)." NbrPlongeur: ".count($this->getPlongeurs())." Date: ".$this->getTime()." ".$this->getDate().
-					" Site: ".$this->site." Etat: ".$this->etat." Version: ".$this->version;
+			$string = "Fiche de sécurité: Id: ".$this->id."<br/>";
+			$string.= ($this->embarcation != null ? $this->embarcation : "pas d'embarcation");
+			$string.= "&nbsp;&nbsp;DirecteurPlongee: ". ($this->directeurPlonge != null ? $this->directeurPlonge : "pas de directeur de plongée" );
+			$string.= "&nbsp;&nbsp;NbrPalanques: ".count($this->palanques)."<br/>";
+			$string.= "&nbsp;&nbsp;NbrPlongeur: ".count($this->getPlongeurs())."<br>";
+			$string.= "&nbsp;&nbsp;Date: ".$this->getDate()."<br/>";
+			$string.= "&nbsp;&nbsp;".($this->site != null ? $this->site : "pas de site");
+			$string.= "&nbsp;&nbsp;Etat: ".$this->etat." Version: ".$this->version;
+			
+
+			return $string;
 		}
 		/////////////////
 		// Utils Fin //

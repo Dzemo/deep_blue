@@ -7,7 +7,7 @@
 	/**
 	 * Classe palanquee
 	 */
-	class Palanque{
+	class Palanque implements JsonSerializable {
 		
 		////////////////////////
 		// Constantes Debut //
@@ -348,6 +348,7 @@
 		// Getter and Setter Fin //
 		// Utils Debut
 		/////////////////////////////
+		
 		/**
 		 * Renvoie une string représentant Palanque
 		 * Exemple TODO
@@ -365,6 +366,34 @@
 
 			return $string;
 		}
+
+		/**
+		 * Serialize cette palanquee en un array acceptable par json_encode
+		 * @return array 
+		 */
+		public function jsonSerialize(){
+			$arrayPlongeurs = array();
+			foreach ($this->plongeurs as $plongeur) {
+				$arrayPlongeurs[] = $plongeur;
+			}
+
+			return [
+				'idWeb' => $this->id,
+				'idFicheSecurite' => null,
+				'moniteur' => $this->moniteur,
+				'numero' => $this->numero,
+				'typePlonge' => $this->type_plonge,
+				'typeGaz' => $this->type_gaz,
+				'profondeurPrevue' => $this->profondeur_prevue,
+				'profondeurRealiseeMoniteur' => $this->profondeur_realisee_moniteur,
+				'dureePrevue' => $this->duree_prevue,
+				'dureeRealiseeMoniteur' => $this->duree_realisee_moniteur,
+				'heure' => $this->heure,
+				'version' => $this->version,
+				'plongeurs' => $arrayPlongeurs
+			];
+		}
+
 		/////////////////
 		// Utils Fin //
 		/////////////////

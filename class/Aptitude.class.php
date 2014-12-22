@@ -387,6 +387,8 @@
 				'enseignementAirMax' => $this->enseignement_air_max,
 				'enseignementNitroxMax' => $this->enseignement_nitrox_max,
 				'encadrementMax' => $this->encadremement_max,
+
+				'version' => $this->version
 			];
 		}
 

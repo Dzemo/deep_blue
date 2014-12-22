@@ -11,7 +11,7 @@
 	 * Classe représentent une fiche de sécurité.
 	 * Dans le cas d'une fiche de sécurité, le directeur de plongé est un utilisateur
 	 */
-	class FicheSecurite{
+	class FicheSecurite implements JsonSerializable {
 
 		////////////////////////
 		// Constantes Debut //
@@ -275,6 +275,29 @@
 
 			return $string;
 		}
+
+		/**
+		 * Serialize cette fiche de sécuritée en un array acceptable par json_encode
+		 * @return array 
+		 */
+		public function jsonSerialize(){
+			$arrayPalanquee = array();
+			foreach ($this->palanques as $palanquee) {
+				$arrayPalanquee[] = $palanquee;
+			}
+
+			return [
+				'idWeb' => $this->id,
+				'embarcation' => $this->embarcation,
+				'site' => $this->site,
+				'directeurPlonge' => $this->directeurPlonge,
+				'timestamp' => $this->timestamp,
+				'etat' => $this->etat,
+				'version' => $this->version,
+				'palanquees' => $arrayPalanquee
+			];
+		}
+
 		/////////////////
 		// Utils Fin //
 		/////////////////

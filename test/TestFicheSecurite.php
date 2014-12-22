@@ -14,7 +14,7 @@
 	$test_number = rand(0, 100);
 
 	/* Test getAll*/
-	echo "<br/>FicheSecurite::getAll()<br/>";
+	echo "<br/><h3>FicheSecurite::getAll()</h3><br/>";
 	$array = FicheSecuriteDao::getAll();
 	foreach ($array as $elem) {
 		echo "$elem<br/>";
@@ -28,11 +28,11 @@
 	$ficheSecurite->setSite(SiteDao::getById(1));
 	$ficheSecurite->setEtat(FicheSecurite::etatCreer);
 	$ficheSecurite = FicheSecuriteDao::insert($ficheSecurite, "test");
-	echo "<br/>FicheSecuriteDao::insert() (version a ".$ficheSecurite->getVersion().")<br/>";
+	echo "<br/><h3>FicheSecuriteDao::insert() (version a ".$ficheSecurite->getVersion().")</h3><br/>";
 
 	/*Test getById*/
 	$ficheSecurite = FicheSecuriteDao::getById($ficheSecurite->getId());
-	echo "<br/>FicheSecuriteDao::getByid(): $ficheSecurite<br/>";
+	echo "<br/><h3>FicheSecuriteDao::getByid()</h3>: $ficheSecurite<br/>";
 
 	/*Test update*/
 	$ficheSecurite->setEmbarcation(EmbarcationDao::getById(1));
@@ -40,26 +40,43 @@
 	$ficheSecurite->setTimestamp(1412969841-267116);
 	$site = new Site();$site->setNom("site-$test_number");$site->setCommentaire("Site de test de la fiche de sécurité ".$ficheSecurite->getId());
 	$ficheSecurite->setSite($site);
-	$ficheSecurite->setEtat(FicheSecurite::etatSynchronise);
+	$ficheSecurite->setEtat(FicheSecurite::etatModifie);
 	$ficheSecurite = FicheSecuriteDao::update($ficheSecurite);
-	echo "<br/>FicheSecuriteDao::update() (version a ".$ficheSecurite->getVersion().")<br/>";
+	echo "<br/><h3>FicheSecuriteDao::update() </h3>(version a ".$ficheSecurite->getVersion().")<br/>";
 	
 	/*Test getById*/
 	$ficheSecurite = FicheSecuriteDao::getById($ficheSecurite->getId());
-	echo "<br/>FicheSecuriteDao::getByid(): $ficheSecurite<br/>";
+	echo "<br/><h3>FicheSecuriteDao::getByid()</h3>: $ficheSecurite<br/>";
 
 	/*Test getAllByEtat*/
-	echo "<br/>FicheSecuriteDao::getAllByEtat()<br/>";
-	$array = FicheSecuriteDao::getAllByEtat(FicheSecurite::etatSynchronise);
+	echo "<br/><h3>FicheSecuriteDao::getAllByEtat()</h3><br/>";
+	$array = FicheSecuriteDao::getAllByEtat(FicheSecurite::etatModifie);
 	foreach ($array as $elem) {
 		echo "$elem<br/>";
 	}
 
+	/*Test updateEtat*/
+	$ficheSecurite = FicheSecuriteDao::updateEtat($ficheSecurite, FicheSecurite::etatSynchronise);
+
+	/*Test getById*/
+	$ficheSecurite = FicheSecuriteDao::getById($ficheSecurite->getId());
+	echo "<br/><h3>FicheSecuriteDao::getByid()</h3>: $ficheSecurite<br/>";
+
 	/*Test des dates*/
-	echo "<br>Test dates:<br>";
+	echo "<br><h3>Test dates:</h3><br>";
 	echo "getDate: ".$ficheSecurite->getDate()."<br>";
 	echo "getDateLong: ".$ficheSecurite->getDateLong()."<br>";
-	echo "getTime: ".$ficheSecurite->getTime()."<br>";
+
+	/*Test getFromVersionIdDpTimestamps*/
+	$ficheSecuriteMaxVersion = 0;
+	$idDirecteurPlongee = 1;
+	$minTimestamps = 0;
+	$maxTimestamps = time() + 2000000;
+	echo "<br><h3>Test getFromVersionIdDpTimestamps</h3> (ficheSecuriteMaxVersion=$ficheSecuriteMaxVersion, idDirecteurPlongee=$idDirecteurPlongee, minTimestamps=$minTimestamps, maxTimestamps=$maxTimestamps)<br>";
+	$array = FicheSecuriteDao::getFromVersionIdDpTimestamps($ficheSecuriteMaxVersion, $idDirecteurPlongee, $minTimestamps, $maxTimestamps);
+	foreach ($array as $elem) {
+		echo "$elem<br/>";
+	}
 
 	/*Suppression des inserts du test*/
 	Dao::execute("DELETE FROM db_fiche_securite WHERE id_fiche_securite = ?",[$ficheSecurite->getId()]);

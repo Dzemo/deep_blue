@@ -9,7 +9,7 @@
 	 * Classe Site
 	 * Représentent un site de plongé disponible ou un site utilisé dans une fiche
 	 */
-	class Site{
+	class Site implements JsonSerializable {
 
 		///////////////////////
 		// Variables Debut //
@@ -121,7 +121,21 @@
 		 * @return string
 		 */
 		public function __toString(){
-			return "&nbsp;&nbsp; Site : Id: ".$this->id." Nom: ".$this->nom." Commentaire: ".$this->commentaire." Version: ".$this->version;
+			return "&nbsp;&nbsp; Site : Id: ".$this->id." Nom: ".$this->nom." Commentaire: ".$this->commentaire." Version: ".$this->version."<br>";
+		}
+
+		/**
+		 * Serialize ce site en un array acceptable par json_encode
+		 * @return array 
+		 */
+		public function jsonSerialize(){
+			return [
+				'idWeb' => $this->id,
+				'nom' => $this->nom,
+				'commentaire' => $this->commentaire,
+				'desactive' => false,
+				'version' => $this->version,
+			];
 		}
 		/////////////////
 		// Utils Fin //

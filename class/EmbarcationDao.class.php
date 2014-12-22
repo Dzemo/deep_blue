@@ -42,12 +42,13 @@
 		}
 
 		/**
-		 * Renvoi toutes les embarcations dont la version est superieur à celle spécifié
+		 * Renvoi toutes les embarcations dont la version est superieur à celle spécifié (strictement superieur pour version > 0 ou superieur égal pour version = 0)
 		 * @param  int $versionMax 
 		 * @return array             
 		 */
 		public static function getFromVersion($versionMax){
-			return self::getByQuery("SELECT * FROM db_embarcation WHERE version > ?",[$versionMax]);
+			//Quand versionMax vaut zero on veut inclure les version local à 0 car il s'agit de la première synchronisation pour une application
+			return self::getByQuery("SELECT * FROM db_embarcation WHERE version ".($versionMax == 0 ? ">=" : ">")." ?",[$versionMax]);
 		}
 
 		/**

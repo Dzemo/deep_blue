@@ -56,6 +56,29 @@
 		}
 
 		/**
+		 * Récupère les fiches dont la version est supérieur à ficheSecuriteMaxVersion et le timestamps compris entre minTimesptas et maxTimestamps. Si un idDirecteurPlongee est spécifié, alors ne récupère que les fiches dont le directeur de plongee correspond à cet id
+		 * Utilisé pour envoyé les nouvelles fiches lors de la synchronisation
+		 * @param  int $ficheSecuriteMaxVersion (strictement superieur pour ficheSecuriteMaxVersion > 0 ou superieur égal pour ficheSecuriteMaxVersion = 0)
+		 * @param  int $idDirecteurPlongee      
+		 * @param  int $minTimestamps           
+		 * @param  int $maxTimestamps           
+		 * @return array                          
+		 */
+		public static function getFromVersionIdDpTimestamps($ficheSecuriteMaxVersion, $idDirecteurPlongee, $minTimestamps, $maxTimestamps){
+			//Quand ficheSecuriteMaxVersion vaut zero on veut inclure les version local à 0 car il s'agit de la première synchronisation pour une application
+			$query = "SELECT * FROM db_fiche_securite WHERE etat != '".FicheSecurite::etatArchive."' AND version ".($ficheSecuriteMaxVersion == 0 ? ">=" : ">")." ? AND timestamp > ? AND timestamp < ?";
+			$params = [$ficheSecuriteMaxVersion, $minTimestamps, $maxTimestamps];
+
+			if($idDirecteurPlongee != null){
+				$query .= " AND id_directeur_plonge = ?";
+				$params[] = $idDirecteurPlongee;
+			}
+
+			$result = self::getByQuery($query, $params);
+			return $result;
+		}
+
+		/**
 		 * Enregistre une fiche de sécurite en base et la renvoi. Renvoi null en cas d'erreur. 
 		 * Si la fiche a été créer sur l'application mobile et est maintenant synchroniser vers le pc, le login sera alors null.
 		 * 
@@ -137,6 +160,36 @@
 			else
 				return null;
 		}
+
+		/**
+		 * Met à jour uniquement l'état de la FicheSecurite passé en parametre et met à jour sa version puis la renvoi ou
+		 * renvoi null en cas d'erreur.
+		 * @param  FicheSecurite $ficheSecurite
+		 * @return FicheSecurite
+		 */
+		public static function updateEtat(FicheSecurite $ficheSecurite, $etat){
+			if($ficheSecurite == null || $ficheSecurite->getId() == null ||
+				$etat == null || strlen($etat) == 0 ||
+				$ficheSecurite->getVersion() === null)
+				return null;
+
+
+			$ficheSecurite->updateVersion();
+			$ficheSecurite->setEtat($etat);
+
+			$stmt = parent::getConnexion()->prepare("UPDATE db_fiche_securite SET etat = ?, version = ? WHERE id_fiche_securite = ?");
+			$result = $stmt->execute([
+							$ficheSecurite->getEtat(),
+							$ficheSecurite->getVersion(),
+							$ficheSecurite->getId()
+							]);
+			if($result){
+				return $ficheSecurite;
+			}
+			else
+				return null;
+		}
+
 		/**
 		 * Supprime la FicheSecurite passé en parametre ainsi que l'ensemble de ses contenus ou
 		 * renvoi null en cas d'erreur. Supprime également les palanqués et plongeurs de la fiche de sécurité.
@@ -158,7 +211,9 @@
 			$stmt = parent::getConnexion()->prepare("DELETE FROM db_fiche_securite WHERE id_fiche_securite = ?");
 			return $stmt->execute([$ficheSecurite->getId()]);
 		}
+
 		/* Private */
+
 		/**
 		 * Execute la requere $query avec les parametres optionnels contenus dans le tableau $param.
 		 * Renvoi un tableau de FicheSecurite.

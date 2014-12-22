@@ -8,7 +8,7 @@
 	/**
 	 * Classe Plongeur
 	 */
-	class Plongeur{
+	class Plongeur implements JsonSerializable {
 		
 		///////////////////////
 		// Variables Debut //
@@ -275,6 +275,7 @@
 		// Getter and Setter Fin //
 		// Utils Debut
 		/////////////////////////////
+		
 		/**
 		 * Permet d'ajouter une aptitude à un plongeur
 		 * @param  Aptitude $aptitude 
@@ -282,6 +283,7 @@
 		public function ajouterAptitude(Aptitude $aptitude){
 			$this->aptitudes[] = $aptitude;
 		}
+
 		/**
 		 * Renvoie une string représentant Template
 		 * Exemple Id: '8', IdFicheSecurite/IdPalanque: 2/4 Nom prenom: 'Dunam Olivia' Fonction: PLONGEUR' Aptitudes: [ PA-40] Version: 0
@@ -305,6 +307,33 @@
 
 			return $string;
 		}
+
+		/**
+		 * Serialize ce plongeur en un array acceptable par json_encode
+		 * @return array 
+		 */
+		public function jsonSerialize(){
+			$arrayAptitudes = array();
+			foreach ($this->aptitudes as $aptitude) {
+				$arrayAptitudes[] = $aptitude;
+			}
+
+			return [
+				'idWeb' => $this->id,
+				//'idPalanquee' => null,
+				//'idFicheSecurite' => null,
+				'nom' => $this->nom,
+				'prenom' => $this->prenom,
+				'telephone' => $this->telephone,
+				'telephoneUrgence' => $this->telephone_urgence,
+				'dateNaissance' => $this->date_naissance,
+				'profondeurRealisee' => $this->profondeur_realisee,
+				'dureeRealisee' => $this->duree_realisee,
+				'version' => $this->version,
+				'aptitudes' => $arrayAptitudes
+			];
+		}
+
 		/////////////////
 		// Utils Fin //
 		/////////////////

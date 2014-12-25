@@ -133,7 +133,7 @@
 				'idWeb' => $this->id,
 				'nom' => $this->nom,
 				'commentaire' => $this->commentaire,
-				'desactive' => false,
+				'desactive' => 'false',
 				'version' => $this->version,
 			];
 		}

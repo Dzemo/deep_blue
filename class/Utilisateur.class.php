@@ -249,8 +249,8 @@
 				'moniteurAssocie' => $this->moniteurAssocie != null ? $this->moniteurAssocie : null,
 				'motDePasse' => $this->mot_de_passe,
 				'email' => $this->email,
-				'actif' => $this->actif,
-				'administrateur' => $this->administrateur,
+				'actif' => $this->actif ? 'true' : 'false',
+				'administrateur' => $this->administrateur ? 'true' : 'false',
 				'version' => $this->version,
 			];
 		}

@@ -178,7 +178,7 @@
 				'libelle' => $this->libelle,
 				'contenance' => $this->maxpersonne,
 				'commentaire' => $this->commentaire,
-				'disponible' => $this->disponible,
+				'disponible' => $this->disponible ? 'true' : 'false',
 				'version' => $this->version
 			];
 		}

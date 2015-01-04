@@ -44,8 +44,8 @@
 					<th>Prénom</th>
 					<th>Email</th>
 					<th>Administrateur</th>
-					<th>Actif</th>
 					<th>Moniteur<br>associé</th>
+					<th>Actif</th>
 					<th colspan="2">Modifier /<br>Desactiver</th>
 					<th>Réinitialiser le <br>mot de passe</th>
 					<th>Historique</th>

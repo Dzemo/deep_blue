@@ -1,6 +1,6 @@
 <?php
-	require_once("../classloader.php");
-	require_once("../config.php");
+	require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."classloader.php");
+	require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."config.php");
 
 
 	echo "<h1>Test lien</h1><br/>";

@@ -1,5 +1,5 @@
 <?php
-require_once("../session.php");
+	require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."session.php");
 if($connecte){
 	if(isset($_GET['id'])){
 		$id_fiche = intval($_GET['id']);

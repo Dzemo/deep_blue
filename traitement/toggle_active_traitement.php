@@ -1,6 +1,6 @@
 <?php
-	require_once("../session.php");
-	require_once("../utils/DateStringUtils.php");
+	require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."session.php");
+	require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."utils".DIRECTORY_SEPARATOR."DateStringUtils.php");
 
 	//////////////////////////////////////////////////////
 	//Vérification qu'un utilisateur est bien connecté //

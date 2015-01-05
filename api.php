@@ -1,7 +1,6 @@
 <?php
-	require_once("config.php");
-	require_once("classloader.php");
-
+	require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."config.php");
+	require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."classloader.php");
 
 	//Si pas de données json, on repond 'no-data'
 	if(!isset($_POST['data'])){		

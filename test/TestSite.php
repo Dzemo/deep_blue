@@ -6,7 +6,7 @@
 	 * Fichier permettend de tester Site et SiteDao
 	 */
 
-	require_once("../classloader.php");
+	require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."classloader.php");
 
 	echo "<h1>Test site</h1><br/>";
 

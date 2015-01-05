@@ -6,7 +6,7 @@
 	 * Fichier permettend de tester FicheSecurite et FicheSecuriteDao
 	 */
 
-	require_once("../classloader.php");
+	require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."classloader.php");
 
 
 	echo "<h1>Test fiche securite</h1><br/>";

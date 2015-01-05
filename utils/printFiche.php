@@ -1,5 +1,7 @@
 <?php
-require_once('utils/DateStringUtils.php');
+
+require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."DateStringUtils.php");
+
 /**
  * Fonction permettant d'afficher une fiche avec toutes ses caractéristiques, selon un numéro de fiche
  * @param  [mediumint] $numero_fiche

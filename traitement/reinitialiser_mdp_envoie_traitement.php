@@ -1,6 +1,6 @@
 <?php
-	require_once("../session.php");
-	require_once("../utils/envoieEmail.php");
+	require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."session.php");
+	require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."utils".DIRECTORY_SEPARATOR."envoieEmail.php");
 
 	if(isset($_POST['login']) && strlen($_POST['login']) > 0){
 		$login = filter_var($_POST['login'], FILTER_SANITIZE_STRING);

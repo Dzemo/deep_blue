@@ -1,6 +1,8 @@
 <?php
-require_once("config.php");
-require_once("utils/DateStringUtils.php");
+
+require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."config.php");
+require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."DateStringUtils.php");
+
 /**
  * Affiche le formulaire de modification ou de création d'une fiche de sécurité
  * @param  string 			$redirect	l'addresse à laquel rediriger l'utilisateur quand il clique sur le bouton annulé

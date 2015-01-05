@@ -1,7 +1,7 @@
 <?php
-	require_once("classloader.php");
-	require_once("utils/lessmake.php");
-	require_once("session.php");
+
+	require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."session.php");
+	require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."utils".DIRECTORY_SEPARATOR."lessmake.php");
 	
 	if($connecte){
 		$page = "liste_fiches";

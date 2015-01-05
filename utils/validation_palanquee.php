@@ -4,8 +4,8 @@
  * @package Utils
  */
 
-require_once("../classloader.php");
-require_once("DateStringUtils.php");
+require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."classloader.php");
+require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."utils".DIRECTORY_SEPARATOR."DateStringUtils.php");
 
 
 /**

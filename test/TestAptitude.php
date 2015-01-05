@@ -6,7 +6,7 @@
 	 * Test Aptitude et AptitudeDao
 	 */
 
-	require_once("../classloader.php");
+	require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."classloader.php");
 
 
 	echo "<h1>Test aptitude</h1><br/>";

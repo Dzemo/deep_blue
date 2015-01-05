@@ -2,7 +2,7 @@
 
 <?php
 
-	require_once($_SERVER['DOCUMENT_ROOT']."/deep_blue/utils/printFormFicheSecurite.php");
+	require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."utils".DIRECTORY_SEPARATOR."printFormFicheSecurite.php");
 
 	if(isset($_GET['id'])){
 		$id_fiche = intval($_GET['id']);

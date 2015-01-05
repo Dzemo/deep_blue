@@ -115,7 +115,7 @@
 				while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
 					//initialisation des objets
-					$site = new Site(intval($row['id_site'],$row['version']));
+					$site = new Site(intval($row['id_site']) ,$row['version']);
 					$site->setNom($row['nom']);
 					$site->setCommentaire($row['commentaire']);
 

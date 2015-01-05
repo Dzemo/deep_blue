@@ -47,7 +47,8 @@
 		 */
 		public static function insert(Aide $aide){
 			if($aide == null || 
-				$aide->getQuestion() == null || strlen($aide->getQuestion()) == 0 )
+				$aide->getQuestion() == null || strlen($aide->getQuestion()) == 0 ||
+				$aide->getReponse() == null || strlen($aide->getReponse()) == 0)
 				return null;
 			
 			$stmt = parent::getConnexion()->prepare("INSERT INTO db_aide (question, reponse, tag, voir_aussi, disponible) VALUES (?, ?, ? , ?, ?)");
@@ -75,10 +76,9 @@
 		public static function update(Aide $aide){
 			if($aide == null ||	$aide->getId() == null ||
 				$aide->getQuestion() == null || strlen($aide->getQuestion()) == 0 ||
-				$aide->getReponse() == null || strlen($aide->getReponse()) == 0 ||
-				$aide->getTag() == null)
+				$aide->getReponse() == null || strlen($aide->getReponse()) == 0)
 				return null;
-			echo "CA APPELLE AU MOINS NON?";
+
 			$stmt = parent::getConnexion()->prepare("UPDATE db_aide SET question = ?, reponse = ?, tag = ?, voir_aussi = ?, disponible = ? WHERE id_question = ?");
 			$result = $stmt->execute([$aide->getQuestion(), 
 							$aide->getReponse(),
@@ -87,11 +87,9 @@
 							$aide->getDisponible(),
 							$aide->getId()]);
 			if($result){
-				echo "CA MARCHE MOYEN";
 				return $aide;
 				}
 			else{
-				echo "CA MARCHE PAS";
 				return null;
 			}
 				

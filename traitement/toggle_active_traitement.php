@@ -128,7 +128,6 @@
 	//Aide
 	else if(filter_input(INPUT_POST, 'aide_id', FILTER_VALIDATE_INT)){
 		$aide_id = intval($_POST['aide_id']);
-		echo "id = ".$aide_id;
 		$aide = AideDao::getById($aide_id);
 		if($aide != null){
 			if($aide->getDisponible() == FALSE)

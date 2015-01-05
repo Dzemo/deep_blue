@@ -534,14 +534,14 @@ function printFormFicheSecuritePalanque($aptitudes, Palanque $pal = null){
 								<input 	type="text" 
 										name="pal<?php if($m) echo $pal->getNumero();?>_profondeur_prevue" 
 										id="pal<?php if($m) echo $pal->getNumero();?>_profondeur_prevue" 
-										value="<?php if($m) echo $pal->getProfondeurPrevue(); else echo Palanque::plongeDefaultProf; ?>"/>
+										value="<?php if($m) echo $pal->getProfondeurPrevue(); else echo $GLOBALS['plongeDefaultProf']; ?>"/>
 							</td>
 							<td class="duree">
 								
 								<input 	type="text" 
 										name="pal<?php if($m) echo $pal->getNumero();?>_duree_prevue" 
 										id="pal<?php if($m) echo $pal->getNumero();?>_duree_prevue" 
-										value="<?php if($m) echo $pal->getDureePrevue(); else echo Palanque::plongeDefaultDuree;?>"/>
+										value="<?php if($m) echo $pal->getDureePrevue(); else echo $GLOBALS['plongeDefaultDuree'];?>"/>
 							</td>
 							<td>								
 								<input 	type="text" 

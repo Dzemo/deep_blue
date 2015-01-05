@@ -10,6 +10,10 @@
 
 	//Nombre de plongeur suggéré dans le formulaire d'édition
 	$GLOBALS['nombre_plongeur_suggerer'] = 15;
+	// Profondeur par défaut (en metres)
+	$GLOBALS['plongeDefaultProf'] = 20;
+	// Durée par défaut (en metre)
+	$GLOBALS['plongeDefaultDuree'] = 40;
 
 	//Info envoi de mail
 	$GLOBALS['email']['nom_expediteur'] = "Oxygen";

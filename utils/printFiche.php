@@ -59,8 +59,8 @@ function printFiche($numero_fiche) {
 				<th>Gaz</th>
 				<th>Profondeur <br>prévu (m)</th>
 				<th>Profondeur <br>réalisé (m)</th>
-				<th>Temps d'immersion <br>prévu</th>
-				<th>Temps d'immersion <br>réalisé</th>
+				<th>Temps d'immersion <br>prévu (min)</th>
+				<th>Temps d'immersion <br>réalisé (min)</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -125,7 +125,7 @@ function printFiche($numero_fiche) {
 							echo "<td>".$palanquee->getProfondeurRealiseeMoniteur()."</td>";
 							if($firstIteration){
 						//Temps d'immersion prévu
-								echo "<td rowspan='".$nbPersonnes."'>".convertToMinSec($palanquee->getDureePrevue())."</td>";
+								echo "<td rowspan='".$nbPersonnes."'>".$palanquee->getDureePrevue()."</td>";
 							}
 						//Temps d'immersion réalisé
 							echo "<td>".$palanquee->getDureeRealiseeMoniteur()."</td>";
@@ -174,10 +174,10 @@ function printFiche($numero_fiche) {
 								echo "<td>".$plongeur->getProfondeurRealisee()."</td>";
 								if($firstIteration){
 									//Temps d'immersion prévu
-									echo "<td rowspan='".$nbPersonnes."'>".convertToMinSec($palanquee->getDureePrevue())."</td>";
+									echo "<td rowspan='".$nbPersonnes."'>".$palanquee->getDureePrevue()." </td>";
 								}
 								//Temps d'immersion réalisé
-								echo "<td>".convertToMinSec($plongeur->getDureeRealisee())."</td>";
+								echo "<td>".$plongeur->getDureeRealisee()." </td>";
 
 							echo "</tr>";						
 							$firstIteration = FALSE;
@@ -192,6 +192,7 @@ function printFiche($numero_fiche) {
 		<tr>
 			<?php if($ficheSecurite->getEtat() != FicheSecurite::etatArchive) {?>
 				<td><span onclick="location.href='index.php?page=modification_fiche&id=<?php echo $numero_fiche;?>'" class="button purple save-button">Modifier Fiche</span></td>
+				<td><span onclick="fs_delete(<?php echo $ficheSecurite->getId();?>)" class="button red save-button">Supprimer Fiche</span></td>			
 			<?php } ?>
 			<td><span onclick="location.href='index.php?page=liste_fiches'" class="button orange save-button">Retour</span></td>
 		</tr>
@@ -228,3 +229,4 @@ function printFiche($numero_fiche) {
 		}
 	}
 ?>
+<script src="js/supprimer_fiche_securite.js" type="text/javascript"></script>

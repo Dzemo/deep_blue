@@ -55,13 +55,13 @@
 	 * @return string
 	 */
 	function englishDayToJourFrancais($string){
-		$map = array('Monday' 	=> 'Lundi',
-					'Tuesday' 	=> 'Mardi',
-					'Wednesday' => 'Mercredi',
-					'Thirday' 	=> 'Jeudi',
-					'Friday' 	=> 'Vendredi',
-					'Saturday' => 'Samedi',
-					'Sunday' 	=> 'Dimanche',
+		$map = array('Monday' 	=> 'LUNDI',
+					 'Tuesday' 	=> 'MARDI',
+					'Wednesday' => 'MERCREDI',
+					'Thirday' 	=> 'JEUDI',
+					'Friday' 	=> 'VENDREDI',
+					'Saturday' => 'SAMEDI',
+					'Sunday' 	=> 'DIMANCHE',
 					'January' 	=> 'Janvier',
 					'February' 	=> 'Février',
 					'March' 	=> 'Mars',
@@ -86,6 +86,7 @@
 					'Oct' 		=> 'Octobre',
 					'Nov' 		=> 'Novembre',
 					'Dec' 		=> 'Décembre');
+		
 		return str_replace(array_keys($map), $map, $string);
 	}
 	

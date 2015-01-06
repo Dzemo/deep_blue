@@ -34,7 +34,7 @@
 		 * @return Utilisateur
 		 */
 		public static function getByLogin($login){
-			$result = self::getByQuery("SELECT * FROM db_utilisateur WHERE login = ?", [$login]);
+			$result = self::getByQuery("SELECT * FROM db_utilisateur WHERE login = ?", array($login));
 			if($result != null && count($result) == 1)
 				return $result[0];
 			else
@@ -48,7 +48,7 @@
 		 */
 		public static function getFromVersion($versionMax){
 			//Quand versionMax vaut zero on veut inclure les version local à 0 car il s'agit de la première synchronisation pour une application
-			return self::getByQuery("SELECT * FROM db_utilisateur WHERE version ".($versionMax == 0 ? ">=" : ">")." ?",[$versionMax]);
+			return self::getByQuery("SELECT * FROM db_utilisateur WHERE version ".($versionMax == 0 ? ">=" : ">")." ?", array($versionMax));
 		}
 
 		/**
@@ -57,7 +57,7 @@
 		 * @return Utilisateur              
 		 */
 		public static function getByMoniteurAssocie($id_moniteur){
-			$result = self::getByQuery("SELECT * FROM db_utilisateur WHERE id_moniteur = ?", [$id_moniteur]);
+			$result = self::getByQuery("SELECT * FROM db_utilisateur WHERE id_moniteur = ?", array($id_moniteur));
 			if($result != null && count($result) == 1)
 				return $result[0];
 			else

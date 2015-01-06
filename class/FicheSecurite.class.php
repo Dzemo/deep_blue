@@ -76,6 +76,13 @@
     	 */
     	private $version;
 
+    	/**
+    	 * Etat de la fiche. Utilisé pour la suppression.
+    	 * Initialisé à 1
+    	 * @var boolean
+    	 */
+    	private $disponible;
+
 		//////////////////////
 		// Varibables Fin //
 		// Constructeur  //
@@ -95,6 +102,7 @@
 			$this->site = null;
 			$this->etat = null;
 			$this->version = $version != 0 ? $version : time();
+			$this->disponible = 1;
 		}
 
 		///////////////////////////////
@@ -204,6 +212,19 @@
 		public function updateVersion(){
 			$this->version = time();
 		}
+
+		/**
+		 * @return boolean
+		 */
+		public function getDisponible(){
+			return $this->disponible ;
+		}
+		/**
+		 * @param boolean $disponible
+		 */
+		public function setDisponible($disponible){
+			$this->disponible = $disponible;
+		}
 		
 		/////////////////////////////
 		// Getter and Setter Fin //
@@ -271,6 +292,7 @@
 			$string.= "&nbsp;&nbsp;Date: ".$this->getDate()."<br/>";
 			$string.= "&nbsp;&nbsp;".($this->site != null ? $this->site : "pas de site");
 			$string.= "&nbsp;&nbsp;Etat: ".$this->etat." Version: ".$this->version;
+			$string.= "&nbsp;&nbsp;Disponible: ".$this->disponible;
 			
 
 			return $string;
@@ -294,6 +316,7 @@
 				'timestamp' => $this->timestamp,
 				'etat' => $this->etat,
 				'version' => $this->version,
+				'disponible' => $this->disponible,
 				'palanquees' => $arrayPalanquee
 			];
 		}

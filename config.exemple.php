@@ -1,6 +1,6 @@
 <?php
 		
-	$GLOBALS['dns'] = "http://127.0.0.1/deep_blue/";
+	$GLOBALS['dns'] = "http://127.0.0.1/path_to_oxygen/";
 	
 	//Info base de données
 	$dbhost="localhost";
@@ -17,14 +17,14 @@
 
 	//Info envoi de mail
 	$GLOBALS['email']['nom_expediteur'] = "Oxygen";
-	$GLOBALS['email']['adresse_expediteur'] = "Oxygen@deep_blue.com";
+	$GLOBALS['email']['adresse_expediteur'] = "contact@oxygen.com";
 	$GLOBALS['duree_validite_lien_reinitialisation'] = 24*60*60; //en seconde, 24h pour l'instant
 	$GLOBALS['nom_application'] = "Oxygen";
 
 	error_reporting(E_ALL);
 	ini_set('display_errors','1'); 
 	ini_set("log_errors", '1');
-	ini_set("error_log", $_SERVER['DOCUMENT_ROOT']."/deep_blue/log/erreur.txt");
-	$force_css_compile= true;
-	$GLOBALS['dns'] = "http://oxygen.com/";
+	ini_set("error_log", dirname(__FILE__).DIRECTORY_SEPARATOR."log".DIRECTORY_SEPARATOR."erreur.txt");
+	
+	$force_css_compile= false;
 ?>

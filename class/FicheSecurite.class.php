@@ -5,7 +5,7 @@
 	 * @package Modele
 	 */
 	
-	require_once($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.'deep_blue'.DIRECTORY_SEPARATOR.'utils'.DIRECTORY_SEPARATOR."DateStringUtils.php");
+	require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."utils".DIRECTORY_SEPARATOR."DateStringUtils.php");
 	
 	/**
 	 * Classe représentent une fiche de sécurité.

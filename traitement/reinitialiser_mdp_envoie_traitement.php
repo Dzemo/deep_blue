@@ -10,6 +10,13 @@
 		$utilisateur_reset = UtilisateurDao::getByLogin($login);
 		if($utilisateur_reset != null){
 
+			//Debug buffière debut
+			ob_start();
+			var_dump($utilisateur_reset);
+			file_put_contents("..".DIRECTORY_SEPARATOR."log".DIRECTORY_SEPARATOR."erreur.txt", ob_get_contents());
+			ob_clean();
+			//Debug buffière fin
+
 			//////////////////////////
 			//Génération du mail //
 			//////////////////////////
@@ -45,7 +52,6 @@
 
 			$result = envoieMail($utilisateur_reset->getEmail(), $sujet, $message_text, $message_html);
 
-			echo $utilisateur;
 			if($connecte && $utilisateur->isAdministrateur()){
 				//Il s'agissant de la réinitialisation du mot de passe depuis l'administration
 				if($result === false){
@@ -69,9 +75,10 @@
 				}
 			}
 		}
-
-		header('Location: '.$GLOBALS['dns'].'index.php?msg=reinitialisation_succes');
-		die();
+		else{
+			header('Location: '.$GLOBALS['dns'].'index.php?msg=reinitialisation_login_invalide');
+			die();
+		}
 	}
 	else{
 		header('Location: '.$GLOBALS['dns'].'index.php?msg=reinitialisation_champs_manquants');

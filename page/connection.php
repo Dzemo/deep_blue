@@ -66,6 +66,9 @@
 							else if($_GET['msg'] == "reinitialisation_mail_erreur"){
 								echo "Une erreur est survenu lors de l'envoi de l'e-mail";
 							}
+							else if($_GET['msg'] == "reinitialisation_login_invalide"){
+								echo "Ce login n'est associé à aucun compte utilisateur";
+							}
 						}
 					?>
 				</span>

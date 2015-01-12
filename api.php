@@ -401,10 +401,9 @@ function enregistreFichesEtHistoriqueAvecJson($arrayRequest, $utilisateurSynch){
 				if(isset($ficheJson['site']['idWeb']) && intval($ficheJson['site']['idWeb']) > 0){
 					$ficheSecurite->setSite(SiteDao::getById($ficheJson['site']['idWeb']));
 				} else{
-					$site = new Site(-1, $ficheJson['site']['version']);
+					$site = new Site(null, $ficheJson['site']['version']);
 					$site->setNom($ficheJson['site']['nom']);
 					$site->setCommentaire($ficheJson['site']['commentaire']);
-					$site->setDesactive(false);
 					$ficheSecurite->setSite($site);
 				}
 			} else{
@@ -443,7 +442,7 @@ function enregistreFichesEtHistoriqueAvecJson($arrayRequest, $utilisateurSynch){
 				$idFicheSecuriteJson = $idDistantFicheSecurite;
 				$arrayMapIdsFiche[$idFicheSecuriteJson] = $ficheSecurite->getId();
 			} else{
-				//TODO ajouter au log les erreurs de récupération de fiche contenu dans $erreurRecuperationFiche
+                            error_log($erreurRecuperationFiche);
 			}
 		}
 	}

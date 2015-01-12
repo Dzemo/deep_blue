@@ -288,7 +288,7 @@
 								<td><?php printBool($aide->getDisponible());?></td>
 								<td><?php echo $aide->getTag();?></td>
 								<td><?php foreach($aide->getVoirAussi() as $seeAlso){
-									echo $seeAlso->getQuestion()." ; ";
+									echo $seeAlso->getQuestion()." ";
 								}
 								?></td>
 								<td>
@@ -910,7 +910,7 @@
 							<input size="50" type="text" name="aide_voir_aussi" value="<?php 
 							if($a) {
 								foreach($a->getVoirAussi() as $seeAlso)
-								echo $seeAlso->getId()." ; ";
+								echo $seeAlso->getId()." ";
 							}
 							?>">
 						</td>

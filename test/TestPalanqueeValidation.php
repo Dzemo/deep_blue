@@ -4,13 +4,15 @@
 	require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."classloader.php");
 	require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."utils".DIRECTORY_SEPARATOR."validation_palanquee.php");
 
+	$execution = false;
 
 	echo "<h1>Test validation palanquee</h1><br/>";
 
+
 	/* TEST 3 : Test des plongées techniques (enseignement) */
-	echo "<h3>Test des plongées techniques (enseignement)</h1>";
-	echo "<h3>Test d'une plongée techniques en effectif minimal</h1>";
-	$palanque = new Palanque(rand(0,100));
+	echo "<h1>Test des plongées techniques (enseignement)</h1>";
+	echo "<h3>Test d'une plongée techniques en effectif minimal</h3>";
+	$palanque = new Palanque(666);
 	$palanque->setTypeGaz(Palanque::gazAir);
 	$palanque->setTypePlonge(Palanque::plongeTechnique);
 	$palanque->setProfondeurPrevue(20.0);
@@ -24,7 +26,9 @@
 	$plongeur1->ajouterAptitude(AptitudeDao::getByLibelleCourt("PE-12"));
 	$palanque->setPlongeurs($plongeur1);
 
-	testPalanque($palanque, true);
+
+	if($execution)
+		testPalanque($palanque, true);
 
 	echo "<h3>Test d'une plongée techniques en effectif maximal classique (4 plongeurs + 1 moniteur)</h1>";
 	$palanque = new Palanque(rand(0,100));

@@ -113,11 +113,16 @@
 							$ficheSecurite->getVersion(),
 							$ficheSecurite->getDisponible()
 							]);
+
 			if($result){
 				$ficheSecurite->setId(parent::getConnexion()->lastInsertId());
+				
 				foreach ($ficheSecurite->getPalanques() as $palanque) {
+					if($palanque != null){
+
 					$palanque->setIdFicheSecurite($ficheSecurite->getId());
 					PalanqueDao::insert($palanque);
+					}					
 				}
 				return $ficheSecurite;
 			}

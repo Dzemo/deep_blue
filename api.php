@@ -404,7 +404,7 @@ function enregistreFichesEtHistoriqueAvecJson($arrayRequest, $utilisateurSynch){
 					$site = new Site(-1, $ficheJson['site']['version']);
 					$site->setNom($ficheJson['site']['nom']);
 					$site->setCommentaire($ficheJson['site']['commentaire']);
-					$site->setDesactive($ficheJson['site']['desactive']);
+					$site->setDesactive(false);
 					$ficheSecurite->setSite($site);
 				}
 			} else{

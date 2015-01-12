@@ -307,7 +307,8 @@
 			foreach ($this->palanques as $palanquee) {
 				$arrayPalanquee[] = $palanquee;
 			}
-			$result = array(
+                        
+			return array(
 				'idWeb' => $this->id,
 				'embarcation' => $this->embarcation,
 				'site' => $this->site,
@@ -315,10 +316,8 @@
 				'timestamp' => $this->timestamp,
 				'etat' => $this->etat,
 				'version' => $this->version,
-				'disponible' => $this->disponible,
 				'palanquees' => $arrayPalanquee
 			);
-			return $result;
 		}
 
 		/////////////////

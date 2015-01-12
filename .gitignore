@@ -5,3 +5,4 @@ log/*
 config.php
 css/styles.css
 sftp-config.json
+nbproject/*

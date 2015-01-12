@@ -153,7 +153,7 @@
 			$stmt = parent::getConnexion()->prepare($query);
 			$stmt->execute($arrayParam);
 			
-			//Met a jours les plongeurs dans le tableau
+			//Met a jours les palanquee dans le tableau
 			foreach ($ficheSecurite->getPalanques() as $palanquee) {
 				if($palanquee->getId() != null)
 					self::update($palanquee);

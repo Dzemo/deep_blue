@@ -753,7 +753,8 @@ function printRawSourceAutocompleteMoniteur(){
 function printRawSourceAutocompletePlongeur(){
 	$arrayPlongeur = PlongeurDao::getLastX($GLOBALS['nombre_plongeur_suggerer']);
 	$result = "";
-	foreach($arrayPlongeur as $plongeur){
+	if(!empty($arrayPlongeur)){
+		foreach($arrayPlongeur as $plongeur){
 		if(strlen($result) > 0)
 			$result .= ",";
 		$stringAptitude = "";
@@ -768,7 +769,9 @@ function printRawSourceAutocompletePlongeur(){
 					."', telephone: '".$plongeur->getTelephone()
 					."', telephone_urgence: '".$plongeur->getTelephoneUrgence()
 					."',  aptitudes: ".Aptitude::toJsIdArray($plongeur->getAptitudes())."}";
+		}
 	}
+	
 	echo $result;
 }
 ////////////

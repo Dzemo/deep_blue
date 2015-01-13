@@ -2,8 +2,8 @@
 
 <?php
 	//Récupération des listes d'utilisateur/moniteur/embarcation/site en base
-	$listeUtilisateurs = UtilisateurDao::getAll();
-	$listeMoniteurs = MoniteurDao::getAll();
+	$listeUtilisateurs = UtilisateurDao::getAllActif();
+	$listeMoniteurs = MoniteurDao::getAllActif();
 	$listeEmbarcations = EmbarcationDao::getAll();
 	$listeSites = SiteDao::getAll();
 
@@ -45,8 +45,8 @@
 					<th>Email</th>
 					<th>Administrateur</th>
 					<th>Moniteur<br>associé</th>
-					<th>Actif</th>
-					<th colspan="2">Modifier /<br>Desactiver</th>
+					<!--<th>Actif</th>   Les inactifs ne sont plus affichés -->
+					<th colspan="2">Modifier /<br>Supprimer</th>
 					<th>Réinitialiser le <br>mot de passe</th>
 					<th>Historique</th>
 				<tr/>
@@ -71,7 +71,7 @@
 										echo 'Aucun';
 									}
 								?></td>
-								<td><?php printBool($utilisateur->getActif());?></td>
+								<!--<td><?php /*printBool($utilisateur->getActif());*/?></td> Les inactifs ne sont plus affichés -->
 								<td>
 									<div 	class='icone-crayon' 
 											style='cursor: pointer;' 
@@ -124,8 +124,8 @@
 					<th>Email</th>
 					<th>Téléphone</th>
 					<th>Directeur de plongée</th>
-					<th>Actif</th>
-					<th colspan="2">Modifier /<br>Desactiver</th>
+					<!-- <th>Actif</th> Les inactifs ne sont plus affichés -->
+					<th colspan="2">Modifier /<br>Supprimer</th>
 				<tr/>
 			</thead>	
 			<tbody>
@@ -140,7 +140,7 @@
 								<td><?php echo $moniteur->getEmail();?></td>
 								<td><?php echo $moniteur->getTelephone();?></td>
 								<td><?php printBool($moniteur->estDirecteurPlonge());?></td>
-								<td><?php printBool($moniteur->estActif());?></td>
+								<!-- <td><?php /* printBool($moniteur->estActif()); */?></td>  Les inactifs ne sont plus affichés -->
 								<td>
 									<div 	class='icone-crayon' 
 											style='cursor: pointer;' 
@@ -802,7 +802,7 @@
 					<tr>
 						<td class="align_right">Commentaire </td>
 						<td class="align_left">
-							<input type="text" name="site_commentaire" value="<?php if($s) echo $s->getCommentaire();?>">
+							<textarea type="text" name="site_commentaire"><?php if($s) echo $s->getCommentaire();?></textarea>
 						</td>
 					</tr>
 				</table>

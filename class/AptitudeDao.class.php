@@ -86,7 +86,7 @@
 				$aptitude->setLibelleLong("");
 
 			$aptitude->updateVersion();
-			$stmt = parent::getConnexion()->prepare("INSERT INTO db_aptitude (libelle_court, libelle_long, technique_max, encadree_max, autonome_max, nitrox_max, ajout_max, enseignement_air_max, enseignement_nitrox_max, encadremement_max, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			$stmt = parent::getConnexion()->prepare("INSERT INTO db_aptitude (libelle_court, libelle_long, technique_max, encadree_max, autonome_max, nitrox_max, ajout_max, enseignement_air_max, enseignement_nitrox_max, encadremement_max, pour_moniteur, pour_plongeur, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			$result = $stmt->execute([$aptitude->getLibelleCourt(),
 							$aptitude->getLibelleLong(),
 							$aptitude->getTechniqueMax(),
@@ -97,6 +97,8 @@
 							$aptitude->getEnseignementAirMax(),
 							$aptitude->getEnseignementNitroxMax(),
 							$aptitude->getEncadrementMax(),
+                                                        $aptitude->isPourMoniteur(),
+                                                        $aptitude->isPourPlongeur(),
 							$aptitude->getVersion()
 							]);
 			if($result){
@@ -124,7 +126,7 @@
 
 			$aptitude->updateVersion();
 
-			$stmt = parent::getConnexion()->prepare("UPDATE db_aptitude SET libelle_court = ?, libelle_long = ?, technique_max = ?, encadree_max = ?, autonome_max = ?, nitrox_max = ?, ajout_max = ?, enseignement_air_max = ?, enseignement_nitrox_max = ?, encadremement_max = ?, version = ? WHERE id_aptitude = ?");			
+			$stmt = parent::getConnexion()->prepare("UPDATE db_aptitude SET libelle_court = ?, libelle_long = ?, technique_max = ?, encadree_max = ?, autonome_max = ?, nitrox_max = ?, ajout_max = ?, enseignement_air_max = ?, enseignement_nitrox_max = ?, encadremement_max = ?, pour_moniteur = ?, pour_plongeur = ?, version = ? WHERE id_aptitude = ?");			
 			$result = $stmt->execute([$aptitude->getLibelleCourt(),
 							$aptitude->getLibelleLong(),
 							$aptitude->getTechniqueMax(),
@@ -136,6 +138,8 @@
 							$aptitude->getEnseignementNitroxMax(),
 							$aptitude->getEncadrementMax(),
 							$aptitude->getVersion(),
+                                                        $aptitude->isPourMoniteur(),
+                                                        $aptitude->isPourPlongeur(),
 							$aptitude->getId()
 							]);
 			if($result)
@@ -170,6 +174,8 @@
 					$aptitude->setEnseignementAirMax($row['enseignement_air_max']);
 					$aptitude->setEnseignementNitroxMax($row['enseignement_nitrox_max']);
 					$aptitude->setEncadrementMax($row['encadremement_max']);
+                                        $aptitude->setPourMoniteur($row['pour_moniteur']);
+                                        $aptitude->setPourPlongeur($row['pour_plongeur']);
 					$arrayResultat[$aptitude->getId()] = $aptitude;
 				}
 				return $arrayResultat;

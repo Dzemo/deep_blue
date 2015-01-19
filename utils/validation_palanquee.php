@@ -31,7 +31,7 @@ function validePalanquee(Palanque $palanque){
 	//	présence d'un moniteur
 	//	nombre de plongeur (avec l'eventuelle ajout en fonction de la profondeur)
 	//	
-	//Vérification du type de plongé et du gazen fonction de la profondeur
+	//Vérification du type de plongé et du gaz en fonction de la profondeur
 	//	les plongeurs peuvent bien plongé à cette profondeur avec ce type de plongé
 	//	si il y a un moniteur, il peut bien encadré ce type de plongé à cette profondeur avec ce gaz
 	//	les plongeurs peuvent bien plongé à cette profondeur avec ce gaz
@@ -103,7 +103,7 @@ function validePalanquee(Palanque $palanque){
 		}
 	}
 	else{
-		//Plongé autonome, minimum 3 plongeurs
+		//Plongé autonome, maximum 3 plongeurs
 		if(count($palanque->getPlongeurs()) > 3){
 			$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Il faut au maximum <stong>3</strong> plongeurs pour une plongée '.typePlongeToString($palanque->getTypePlonge())];
 		}

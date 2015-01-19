@@ -107,6 +107,9 @@ function validePalanquee(Palanque $palanque){
 		if(count($palanque->getPlongeurs()) > 3){
 			$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Il faut au maximum <stong>3</strong> plongeurs pour une plongée '.typePlongeToString($palanque->getTypePlonge())];
 		}
+		elseif(count($palanque->getPlongeurs()) < 2){
+			$erreurs[] = ['numero' => $palanque->getNumero(), 'type' => 'gestion', 'msg' => 'Il faut au minimum <stong>2</strong> plongeurs pour une plongée '.typePlongeToString($palanque->getTypePlonge())];
+		}
 	}
 	
 	

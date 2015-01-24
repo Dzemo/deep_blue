@@ -15,7 +15,7 @@
 		 * @return Palanque
 		 */
 		public static function getById($id_palanquee){
-			$result = self::getByQuery("SELECT * FROM db_palanquee WHERE id_palanquee = ?", [$id_palanquee]);
+			$result = self::getByQuery("SELECT * FROM db_palanquee WHERE id_palanquee = ?", false, [$id_palanquee]);
 			if($result != null && count($result) == 1)
 				return $result[0];
 			else
@@ -25,10 +25,16 @@
 		 * Retourne un tableau contenant les palanqués de la fiche de sécurité d'id spécifié
 		 * Le tableau est trié par ordre croissant de numéro de palanqué
 		 * @param  int $id_fiche_securite 
+                 * @param  boolean $avecDesactive Inclue les palanquées et plongeurs desactive
 		 * @return array                    Tableau de palanqués
 		 */
-		public static function getByIdFicheSecurite($id_fiche_securite){
-			return self::getByQuery("SELECT * FROM db_palanquee WHERE id_fiche_securite = ? ORDER BY numero ASC", [$id_fiche_securite]);
+		public static function getByIdFicheSecurite($id_fiche_securite, $avecDesactive = false){
+                    if($avecDesactive){
+			return self::getByQuery("SELECT * FROM db_palanquee WHERE id_fiche_securite = ? ORDER BY numero ASC", true, [$id_fiche_securite]);
+                    }
+                    else{
+			return self::getByQuery("SELECT * FROM db_palanquee WHERE id_fiche_securite = ? AND desactive = FALSE ORDER BY numero ASC", false, [$id_fiche_securite]);
+                    }
 		}
 		/**
 		 * Ajoute à la base la palanqué passé en parametre, et ses plongeur.
@@ -39,13 +45,8 @@
 		 * @return Palanque             
 		 */
 		public static function insert(Palanque $palanquee){
-			if($palanquee == null ||
-				$palanquee->getIdFicheSecurite() == null ||
-				$palanquee->getNumero() == null ||
-				$palanquee->getTypePlonge() == null || strlen($palanquee->getTypePlonge()) == 0 ||
-				$palanquee->getTypeGaz() == null || strlen($palanquee->getTypeGaz()) == 0 
-				)
-				return null;
+			if($palanquee == null || $palanquee->getIdFicheSecurite() == null)
+                            return null;
 
 			$palanquee->updateVersion();
 
@@ -64,11 +65,16 @@
 								]);
 			if($result){
 				$palanquee->setId(parent::getConnexion()->lastInsertId());
-				foreach ($palanquee->getPlongeurs() as $plongeur) {
-					$plongeur->setIdPalanque($palanquee->getId());
-					$plongeur->setIdFicheSecurite($palanquee->getIdFicheSecurite());
-					PlongeurDao::insert($plongeur);
-				}
+                                
+                                //Mise à jours des plongeurs
+                                $arrayPlongeurs = $palanquee->getPlongeurs();
+                                for($i = 0; $i < count($arrayPlongeurs) ; $i++){
+                                        $arrayPlongeurs[$i]->setIdPalanque($palanquee->getId());
+					$arrayPlongeurs[$i]->setIdFicheSecurite($palanquee->getIdFicheSecurite());
+					$arrayPlongeurs[$i] = PlongeurDao::insert($arrayPlongeurs[$i]);
+                                }
+				$palanquee->setPlongeurs($arrayPlongeurs);
+                                
 				return $palanquee;
 			}
 			else
@@ -82,17 +88,13 @@
 		 * @return Palanque la palanqué mis à jours ou null en cas d'erreur         
 		 */
 		public static function update(Palanque $palanquee){
+                                        
 			if($palanquee == null || $palanquee->getId() == null ||
-				$palanquee->getIdFicheSecurite() == null ||
-				$palanquee->getNumero() == null ||
-				$palanquee->getTypePlonge() == null || strlen($palanquee->getTypePlonge()) == 0 ||
-				$palanquee->getTypeGaz() == null || strlen($palanquee->getTypeGaz()) == 0 ||
-				$palanquee->getVersion() === null
-				)
-				return null;				
+				$palanquee->getIdFicheSecurite() == null)
+				return null;		
 
 			$palanquee->updateVersion();
-			$stmt = parent::getConnexion()->prepare("UPDATE db_palanquee SET id_fiche_securite = ?, id_moniteur = ?, numero = ?, type_plonge = ?, type_gaz = ?, profondeur_prevue = ?, duree_prevue = ?, heure = ?, profondeur_realisee_moniteur = ?, duree_realisee_moniteur = ?, version = ? WHERE id_palanquee = ?");
+			$stmt = parent::getConnexion()->prepare("UPDATE db_palanquee SET id_fiche_securite = ?, id_moniteur = ?, numero = ?, type_plonge = ?, type_gaz = ?, profondeur_prevue = ?, duree_prevue = ?, heure = ?, profondeur_realisee_moniteur = ?, duree_realisee_moniteur = ?, version = ?, desactive = ? WHERE id_palanquee = ?");
 			$result = $stmt->execute([$palanquee->getIdFicheSecurite(),
 									($palanquee->getMoniteur() != null ? $palanquee->getMoniteur()->getId() : null),
 									$palanquee->getNumero(),
@@ -104,11 +106,11 @@
 									$palanquee->getProfondeurRealiseeMoniteur(),
 									$palanquee->getDureeRealiseeMoniteur(),
 									$palanquee->getVersion(),
+                                                                        $palanquee->getDesactive(),
 									$palanquee->getId()
 								]);
 			if($result){
-				PlongeurDao::updatePlongeursFromPalanque($palanquee);
-				return $palanquee;
+				return PlongeurDao::updatePlongeursFromPalanque($palanquee);
 			}
 			else
 				return null;
@@ -124,14 +126,17 @@
 				$palanquee->getIdFicheSecurite() == null)
 				return null;	
 
+                        
 			// Suppression des plongeurs
 			for($i = 0; $i < count($palanquee->getPlongeurs()); $i++) {
 				PlongeurDao::delete($palanquee->getPlongeurs()[$i]->getId());
 			}
 
+                        
+                        $palanquee->updateVersion();
 			// Supprimer la palanquée
-			$stmt = parent::getConnexion()->prepare("DELETE FROM db_palanquee WHERE id_palanquee = ?");
-			return $stmt->execute([$palanquee->getId()]);
+			$stmt = parent::getConnexion()->prepare("UPDATE db_palanquee SET desactive = TRUE, version = ? WHERE id_palanquee = ?");
+			return $stmt->execute([$palanquee->getVersion(), $palanquee->getId()]);
 		}
 		/**
 		 * Met à jours les palanqué de la fiche de sécurité passé en parametre:
@@ -142,10 +147,11 @@
 		 * @return FicheSecurite Renvoi la fiche de sécurité ou null
 		 */
 		public static function updatePalanquesFromFicheSecurite(FicheSecurite $ficheSecurite){
+                        
 			//Suppression des palanquées qui ont été supprimées de la fiche
 			$arrayParam = array();
 			$arrayParam[] = $ficheSecurite->getId();
-			$query = "DELETE FROM db_palanquee WHERE id_fiche_securite = ? ";
+			$query = "UPDATE db_palanquee SET desactive = TRUE WHERE id_fiche_securite = ? ";
 			for($i = 0; $i < count($ficheSecurite->getPalanques()); $i++) {
 				$query = $query." AND id_palanquee != ?";
 				$arrayParam[] = $ficheSecurite->getPalanques()[$i]->getId();
@@ -154,12 +160,17 @@
 			$stmt->execute($arrayParam);
 			
 			//Met a jours les palanquee dans le tableau
-			foreach ($ficheSecurite->getPalanques() as $palanquee) {
-				if($palanquee->getId() != null)
-					self::update($palanquee);
-				else
-					self::insert($palanquee);
-			}
+                        $arrayPalanquees = $ficheSecurite->getPalanques();
+                        for($i = 0; $i < count($arrayPalanquees) ; $i++){
+                            if($arrayPalanquees[$i]->getId() != null && $arrayPalanquees[$i]->getId() > 0){
+                                $arrayPalanquees[$i] = self::update($arrayPalanquees[$i]);
+                            }
+                            else{
+                                $arrayPalanquees[$i] = self::insert($arrayPalanquees[$i]);
+                            }
+                        }
+                        $ficheSecurite->setPalanques($arrayPalanquees);
+                        
 			return $ficheSecurite;
 		}
 		/* Private */
@@ -167,15 +178,15 @@
 		 * Execute la requere $query avec les parametres optionnels contenus dans le tableau $param.
 		 * Renvoi un tableau de Palanque.
 		 * @param  string $query
+                 * @param  boolean $avecDesactive
 		 * @param  array $param
 		 * @return array
 		 */
-		private static function getByQuery($query, $param = null){
+		private static function getByQuery($query, $avecDesactive = false, $param = null){
 			$stmt = parent::getConnexion()->prepare($query);
 			if($stmt->execute($param) && $stmt->rowCount() > 0){
 				$arrayResultat = array();
 				while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-
 
 					$palanquee = new Palanque($row['id_palanquee'], $row['version']);
 					$palanquee->setIdFicheSecurite($row['id_fiche_securite']);
@@ -185,15 +196,16 @@
 					$palanquee->setProfondeurPrevue($row['profondeur_prevue']);
 					$palanquee->setDureePrevue($row['duree_prevue']);
 					$palanquee->setHeure($row['heure']);
-					$palanquee->setPlongeurs(PlongeurDao::getByIdPalanque($palanquee->getId()));
+					$palanquee->setPlongeurs(PlongeurDao::getByIdPalanque($palanquee->getId(), $avecDesactive));
 					$palanquee->setProfondeurRealiseeMoniteur($row['profondeur_realisee_moniteur']);
 					$palanquee->setDureeRealiseeMoniteur($row['duree_realisee_moniteur']);
+                                        $palanquee->setDesactive($row['desactive']);
 					//Récupération du moniteur
 					if($row['id_moniteur'] != null){
 						$moniteur = MoniteurDao::getById($row['id_moniteur']);
 						$palanquee->setMoniteur($moniteur);
 					}
-
+                                        
 					$arrayResultat[] = $palanquee;
 				}
 				return $arrayResultat;

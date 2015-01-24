@@ -70,7 +70,7 @@
 				<head>
 					<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 					<meta name="viewport" content="width=device-width, initial-scale=1">
-					<title>Deep Blue Project</title>
+					<title><?php echo $GLOBALS['email']['nom_expediteur']; ?></title>
 					<meta name="keywords" content="" />
 					<meta name="description" content="" />
 					<!-- JQUERY -->

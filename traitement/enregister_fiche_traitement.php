@@ -50,7 +50,7 @@
 	//Récupération date/heure/minute
 	//Utilisation de flag binaire pour repéré les champs du timestamps manquant
 	$erreur_timestamps = 0;
-	if(!filter_input(INPUT_POST, 'date', FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^\s*(0[1-9]|1\d|2\d|30|31)\/(0[1-9]|1[0-2])\/(2\d\d\d)\s*$/"))))
+	if(!filter_input(INPUT_POST, 'date', FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^\s*(0[1-9]|1\d|2\d|30|31)\/(0[1-9]|1[0-2])\/([12]\d\d\d)\s*$/"))))
 	{
 		$erreurs[] = ['numero' => 0, 'type' => 'val_abs', 'msg' => '<strong>Date</strong> de plongée manquante ou invalide (Format JJ/MM/AAAA attendu)'];
 	}

@@ -16,7 +16,7 @@
 		 * @return array
 		 */
 		public static function getAll(){
-			return self::getByQuery("SELECT * FROM db_fiche_securite ORDER BY timestamp DESC WHERE disponible = 1");
+			return self::getByQuery("SELECT * FROM db_fiche_securite ORDER BY timestamp DESC WHERE desactive = FALSE", false);
 		}
 
 		/**
@@ -25,7 +25,7 @@
 		 * @return array             
 		 */
 		public static function getFromVersion($versionMax){
-			return self::getByQuery("SELECT * FROM db_fiche_securite WHERE disponible = 1 AND version > ? ",[$versionMax] );
+			return self::getByQuery("SELECT * FROM db_fiche_securite WHERE desactive = FALSE AND version > ? ",[$versionMax], false );
 		}
 		
 		/**
@@ -35,20 +35,21 @@
 		 * @return array
 		 */
 		public static function getAllByEtat($etat){
-			return self::getByQuery("SELECT * FROM db_fiche_securite WHERE disponible = 1 AND etat = ? ORDER BY timestamp DESC", [$etat]);
+			return self::getByQuery("SELECT * FROM db_fiche_securite WHERE desactive = FALSE AND etat = ? ORDER BY timestamp DESC", false, [$etat]);
 		}
 
 		public static function getAllNonArchivee(){
-			return self::getByQuery("SELECT * FROM db_fiche_securite WHERE disponible = 1 AND etat != '".FicheSecurite::etatArchive."' ORDER BY timestamp DESC");
+			return self::getByQuery("SELECT * FROM db_fiche_securite WHERE desactive = FALSE AND etat != '".FicheSecurite::etatArchive."' ORDER BY timestamp DESC", false);
 		}
 
 		/**
 		 * Recherche une fiche de sécurité par id
 		 * @param  int $id
+                 * @param  boolean $avecDesactive (Inclue ou pas les palanquées et plongeurs supprimé, pour la syncrhonisation)
 		 * @return Objet FicheSecurite contenant des Objets Palanquées - Plongeurs - Embarcation
 		 */
-		public static function getbyId($id){
-			$result = self::getByQuery("SELECT * FROM db_fiche_securite WHERE disponible = 1 AND id_fiche_securite = ?", [$id]);
+		public static function getbyId($id, $avecDesactive = false){
+			$result = self::getByQuery("SELECT * FROM db_fiche_securite WHERE id_fiche_securite = ?", $avecDesactive, [$id]);
 			if($result != null && count($result) == 1)
 				return $result[0];
 			else
@@ -66,7 +67,7 @@
 		 */
 		public static function getFromVersionIdDpTimestamps($ficheSecuriteMaxVersion, $idDirecteurPlongee, $minTimestamps, $maxTimestamps){
 			//Quand ficheSecuriteMaxVersion vaut zero on veut inclure les version local à 0 car il s'agit de la première synchronisation pour une application
-			$query = "SELECT * FROM db_fiche_securite WHERE disponible = 1 AND etat != '".FicheSecurite::etatArchive."' AND version ".($ficheSecuriteMaxVersion == 0 ? ">=" : ">")." ? AND timestamp > ? AND timestamp < ?";
+			$query = "SELECT * FROM db_fiche_securite WHERE etat != '".FicheSecurite::etatArchive."' AND version ".($ficheSecuriteMaxVersion == 0 ? ">=" : ">")." ? AND timestamp > ? AND timestamp < ?";
 			$params = [$ficheSecuriteMaxVersion, $minTimestamps, $maxTimestamps];
 
 			if($idDirecteurPlongee != null){
@@ -74,7 +75,8 @@
 				$params[] = $idDirecteurPlongee;
 			}
 
-			$result = self::getByQuery($query, $params);
+			$result = self::getByQuery($query, true, $params);
+                        
 			return $result;
 		}
 
@@ -91,11 +93,7 @@
 		 * @return FicheSecurite
 		 */
 		public static function insert(FicheSecurite $ficheSecurite, $fromSynchronisation = false){
-			if($ficheSecurite == null ||
-				$ficheSecurite->getDirecteurPlonge() == null || $ficheSecurite->getDirecteurPlonge()->getId() == null || 
-				$ficheSecurite->getTimestamp() == null ||
-				$ficheSecurite->getEtat() == null || strlen($ficheSecurite->getEtat()) == 0 ||
-				$ficheSecurite->getDisponible() == 0)
+			if($ficheSecurite == null)
 				return null;
 
 			//Enregistrement du site si il existe et n'a pas d'id
@@ -104,26 +102,27 @@
 
 			$ficheSecurite->updateVersion();
 
-			$stmt = parent::getConnexion()->prepare("INSERT INTO db_fiche_securite (id_embarcation, id_directeur_plonge, timestamp, id_site, etat, version, disponible) VALUES (?, ?, ?, ?, ?, ?, ?)");
-			$result = $stmt->execute([$ficheSecurite->getEmbarcation()->getId(),
-							$ficheSecurite->getDirecteurPlonge()->getId(),
+			$stmt = parent::getConnexion()->prepare("INSERT INTO db_fiche_securite (id_embarcation, id_directeur_plonge, timestamp, id_site, etat, version, desactive) VALUES (?, ?, ?, ?, ?, ?, ?)");
+			$result = $stmt->execute([$ficheSecurite->getEmbarcation() != null ? $ficheSecurite->getEmbarcation()->getId() : null,
+							$ficheSecurite->getDirecteurPlonge() != null ? $ficheSecurite->getDirecteurPlonge()->getId() : null,
 							$ficheSecurite->getTimestamp(),
 							$ficheSecurite->getSite() != null ? $ficheSecurite->getSite()->getId() : null,
 							$ficheSecurite->getEtat(),
 							$ficheSecurite->getVersion(),
-							$ficheSecurite->getDisponible()
+							$ficheSecurite->getDesactive()
 							]);
 
 			if($result){
 				$ficheSecurite->setId(parent::getConnexion()->lastInsertId());
 				
-				foreach ($ficheSecurite->getPalanques() as $palanque) {
-					if($palanque != null){
-
-					$palanque->setIdFicheSecurite($ficheSecurite->getId());
-					PalanqueDao::insert($palanque);
-					}					
-				}
+                                //Mise à jours des palanquées
+                                $arrayPalanquees = $ficheSecurite->getPalanques();
+                                for($i = 0; $i < count($arrayPalanquees) ; $i++){
+					$arrayPalanquees[$i]->setIdFicheSecurite($ficheSecurite->getId());
+					$arrayPalanquees[$i] = PalanqueDao::insert($arrayPalanquees[$i]);
+                                }
+				$ficheSecurite->setPalanques($arrayPalanquees);
+                                
 				return $ficheSecurite;
 			}
 			else
@@ -138,32 +137,29 @@
 		 * @return FicheSecurite
 		 */
 		public static function update(FicheSecurite $ficheSecurite){
-			if($ficheSecurite == null || $ficheSecurite->getId() == null ||
-				$ficheSecurite->getDirecteurPlonge() == null || $ficheSecurite->getDirecteurPlonge()->getId() == null || 
-				$ficheSecurite->getTimestamp() == null ||
-				$ficheSecurite->getEtat() == null || strlen($ficheSecurite->getEtat()) == 0 ||
-				$ficheSecurite->getVersion() === null)
+			if($ficheSecurite == null)
 				return null;
 
 			//Enregistrement du site si il existe et n'a pas d'id
-			if($ficheSecurite->getSite() != null && $ficheSecurite->getSite()->getId() == null)
+			if($ficheSecurite->getSite() != null && $ficheSecurite->getSite()->getId() == null){
 				$ficheSecurite->setSite(SiteDao::insert($ficheSecurite->getSite()));
+                        }
 
 			$ficheSecurite->updateVersion();
-
-			$stmt = parent::getConnexion()->prepare("UPDATE db_fiche_securite SET id_embarcation = ?, id_directeur_plonge = ?, timestamp = ?, id_site = ?, etat = ?, version = ?, disponible = ? WHERE id_fiche_securite = ?");
-			$result = $stmt->execute([$ficheSecurite->getEmbarcation()->getId(),
-							$ficheSecurite->getDirecteurPlonge()->getId(),
+                        
+			$stmt = parent::getConnexion()->prepare("UPDATE db_fiche_securite SET id_embarcation = ?, id_directeur_plonge = ?, timestamp = ?, id_site = ?, etat = ?, version = ?, desactive = ? WHERE id_fiche_securite = ?");
+			$result = $stmt->execute([$ficheSecurite->getEmbarcation() != null ? $ficheSecurite->getEmbarcation()->getId() : null,
+							$ficheSecurite->getDirecteurPlonge() != null ? $ficheSecurite->getDirecteurPlonge()->getId() : null,
 							$ficheSecurite->getTimestamp(),
 							$ficheSecurite->getSite() != null ? $ficheSecurite->getSite()->getId() : null,
 							$ficheSecurite->getEtat(),
 							$ficheSecurite->getVersion(),
-							$ficheSecurite->getDisponible(),
+							$ficheSecurite->getDesactive(),
 							$ficheSecurite->getId()
 							]);
 			if($result){
-				PalanqueDao::updatePalanquesFromFicheSecurite($ficheSecurite);
-				return $ficheSecurite;
+				
+				return PalanqueDao::updatePalanquesFromFicheSecurite($ficheSecurite);
 			}
 			else
 				return null;
@@ -210,9 +206,11 @@
 			if($ficheSecurite == null || $ficheSecurite->getId() == null)
 				return null;
 
+                        $ficheSecurite->updateVersion();
+                        
 			// Passer la fiche en indisponible
-			$stmt = parent::getConnexion()->prepare("UPDATE db_fiche_securite SET disponible = 0 WHERE id_fiche_securite = ?");
-			return $stmt->execute([$ficheSecurite->getId()]);
+			$stmt = parent::getConnexion()->prepare("UPDATE db_fiche_securite SET desactive = TRUE, version = ? WHERE id_fiche_securite = ?");
+			return $stmt->execute([$ficheSecurite->getVersion(), $ficheSecurite->getId()]);
 		}
 
 		/* Private */
@@ -221,10 +219,11 @@
 		 * Execute la requere $query avec les parametres optionnels contenus dans le tableau $param.
 		 * Renvoi un tableau de FicheSecurite.
 		 * @param  string $query
+                 * @param boolean $avecDesactive
 		 * @param  array $param
 		 * @return array
 		 */
-		private static function getByQuery($query, $param = null){
+		private static function getByQuery($query, $avecDesactive = false, $param = null){
 			$stmt = parent::getConnexion()->prepare($query);
 			if($stmt->execute($param) && $stmt->rowCount() > 0){
 				$arrayResultat = array();
@@ -235,11 +234,11 @@
 					$ficheSecurite = new FicheSecurite($row['id_fiche_securite'],$row['version']);
 					$ficheSecurite->setEmbarcation(EmbarcationDao::getById($row['id_embarcation']));
 					$ficheSecurite->setDirecteurPlonge(MoniteurDao::getById($row['id_directeur_plonge']));
-					$ficheSecurite->setPalanques(PalanqueDao::getByIdFicheSecurite($ficheSecurite->getId()));
+					$ficheSecurite->setPalanques(PalanqueDao::getByIdFicheSecurite($ficheSecurite->getId(), $avecDesactive));
 					$ficheSecurite->setTimestamp($row['timestamp']);
 					$ficheSecurite->setSite(SiteDao::getById($row['id_site']));
 					$ficheSecurite->setEtat($row['etat']);
-					$ficheSecurite->setDisponible($row['disponible']);
+					$ficheSecurite->setDesactive($row['desactive']);
 					$arrayResultat[] = $ficheSecurite;
 					
 				}

@@ -9,7 +9,7 @@ require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."DateStringUtils.php");
  */
 function printFiche($numero_fiche) {
 	// Récupération de la fiche de sécurité en cours
-	$ficheSecurite = FicheSecuriteDao::getById($numero_fiche);
+	$ficheSecurite = FicheSecuriteDao::getById($numero_fiche, false);
 	?>
 	<div>
 		<table class="TableStyle infoFiche">
@@ -32,13 +32,13 @@ function printFiche($numero_fiche) {
 					?>
 				</td>
 				<td class="responsableColor bold">
-					<?php echo $ficheSecurite->getDirecteurPlonge()->getPrenom()." ".$ficheSecurite->getDirecteurPlonge()->getNom();?>
+                                        <?php if($ficheSecurite->getDirecteurPlonge() != null) {echo $ficheSecurite->getDirecteurPlonge()->getPrenom()." ".$ficheSecurite->getDirecteurPlonge()->getNom();}?>
 				</td>
 				<td>
-					<?php echo $ficheSecurite->getEmbarcation()->getLibelle();?>
+                                        <?php if($ficheSecurite->getEmbarcation() != null){ echo $ficheSecurite->getEmbarcation()->getLibelle();}?>
 				</td>
 				<td>
-					<?php echo $ficheSecurite->getEmbarcation()->getCommentaire();?>
+                                        <?php if($ficheSecurite->getEmbarcation() != null){ echo $ficheSecurite->getEmbarcation()->getCommentaire();}?>
 				</td>
 				<td>
 					<?php echo $ficheSecurite->getEtat();?>

@@ -121,7 +121,7 @@ function printListFiche($listeFichesSecurite, $dataTableId, $iconeModificationSu
 									}
 								?>
 								<td class='responsableColor bold'>
-									<?php echo $fiche->getDirecteurPlonge()->getPrenom()." ".$fiche->getDirecteurPlonge()->getNom();?>
+                                                                        <?php if($fiche->getDirecteurPlonge() != null){echo $fiche->getDirecteurPlonge()->getPrenom()." ".$fiche->getDirecteurPlonge()->getNom();}?>
 								</td>
 								<td>
 									<?php echo $fiche->getDate();?>
@@ -130,7 +130,7 @@ function printListFiche($listeFichesSecurite, $dataTableId, $iconeModificationSu
 									<?php echo ($fiche->getSite() != null ? $fiche->getSite()->getNom() : ""); ?>
 								</td>
 								<td>
-									<?php echo $fiche->getEmbarcation()->getLibelle();?>
+                                                                        <?php if($fiche->getEmbarcation() != null){echo $fiche->getEmbarcation()->getLibelle();}?>
 								</td>
 								<td>
 									<?php echo count($fiche->getPalanques())?>

@@ -22,17 +22,22 @@
 		 * @return array
 		 */
 		public static function getLastX($nombre){
-			return self::getByQuery("SELECT tmp.* FROM (SELECT p.* FROM db_plongeur p, db_fiche_securite f	WHERE p.id_fiche_securite = f.id_fiche_securite ORDER BY p.version DESC LIMIT ?) AS tmp GROUP BY tmp.nom, tmp.prenom, tmp.date_naissance ORDER BY tmp.version DESC LIMIT ?",[$nombre*2, $nombre]);
+			return self::getByQuery("SELECT tmp.* FROM (SELECT p.* FROM db_plongeur p, db_fiche_securite f	WHERE p.desactive = FALSE AND p.id_fiche_securite = f.id_fiche_securite ORDER BY p.version DESC LIMIT ?) AS tmp GROUP BY tmp.nom, tmp.prenom, tmp.date_naissance ORDER BY tmp.version DESC LIMIT ?",[$nombre*2, $nombre]);
 		}
 		/**
 		 * Retourne tout les plongeurs appartenant à la palanqué spécifié.
 		 * Si un moniteur est présent il sera en premier élément du tableau
 		 * @param  int $id_palanquee
+                 * @param  boolean $avecDesactive Récupère également les plongeurs desactivé
 		 * @return array
 		 */
-		public static function getByIdPalanque($id_palanquee){
-			return self::getByQuery("SELECT * FROM db_plongeur WHERE id_palanquee = ? ORDER BY date_naissance ASC",[$id_palanquee]);
-		}
+		public static function getByIdPalanque($id_palanquee, $avecDesactive){
+                    if ($avecDesactive) {
+                        return self::getByQuery("SELECT * FROM db_plongeur WHERE id_palanquee = ? ORDER BY date_naissance ASC", [$id_palanquee]);
+                    } else {
+                        return self::getByQuery("SELECT * FROM db_plongeur WHERE id_palanquee = ? AND desactive = FALSE ORDER BY date_naissance ASC", [$id_palanquee]);
+                    }
+                }
 		/**
 		 * Retourne tout les plongeurs dont la palanqué appartient à la fiche de sécurité de l'id spécifié
 		 * Le tableau est trié par id_palanquee croissant
@@ -63,16 +68,28 @@
 		 */
 		public static function insert(Plongeur $plongeur){
 			if($plongeur == null ||
-				$plongeur->getNom() == null || strlen($plongeur->getNom()) == 0 ||
-				$plongeur->getPrenom() == null || strlen($plongeur->getPrenom()) == 0 ||
-				$plongeur->getDateNaissance() == null || strlen($plongeur->getDateNaissance()) == 0 ||
 				$plongeur->getIdPalanque() == null ||
 				$plongeur->getIdFicheSecurite() == null
 				){
 				return null;
 			}
-			if($plongeur->getTelephone() == null)$plongeur->setTelephone("");
-			if($plongeur->getTelephoneUrgence() == null)$plongeur->setTelephoneUrgence("");
+                        
+                        if($plongeur->getNom() == null || strlen($plongeur->getNom()) == 0){ 
+                            $plongeur->setNom("");
+                        }
+                        if($plongeur->getPrenom() == null || strlen($plongeur->getPrenom()) == 0){ 
+                            $plongeur->setPrenom("");
+                        }
+                         if($plongeur->getDateNaissance() == null || strlen($plongeur->getDateNaissance()) == 0){ 
+                            $plongeur->setDateNaissance("");
+                        }
+                        if($plongeur->getTelephone() == null || strlen($plongeur->getTelephone()) == 0){ 
+                            $plongeur->setTelephone("");
+                        }
+			if($plongeur->getTelephoneUrgence() == null || strlen($plongeur->getTelephoneUrgence()) == 0){ 
+                            $plongeur->setTelephoneUrgence("");
+                        }
+                       
 			$plongeur->updateVersion();
 
 			$stmt = parent::getConnexion()->prepare("INSERT INTO db_plongeur (id_palanquee, id_fiche_securite, nom, prenom, aptitudes, telephone, telephone_urgence, date_naissance, profondeur_realisee, duree_realisee, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -104,21 +121,32 @@
 		 * @return Plongeur
 		 */
 		public static function update(Plongeur $plongeur){
-			if($plongeur == null || $plongeur->getId() == null ||
-				$plongeur->getNom() == null || strlen($plongeur->getNom()) == 0 ||
-				$plongeur->getPrenom() == null || strlen($plongeur->getPrenom()) == 0 ||
-				$plongeur->getDateNaissance() == null || strlen($plongeur->getDateNaissance()) == 0 ||
+			if($plongeur == null ||
 				$plongeur->getIdPalanque() == null ||
-				$plongeur->getIdFicheSecurite() == null ||
-				$plongeur->getVersion() === null
-				)
+				$plongeur->getIdFicheSecurite() == null
+				){
 				return null;
-			if($plongeur->getTelephone() == null)$plongeur->setTelephone("");
-			
-			if($plongeur->getTelephoneUrgence() == null)$plongeur->setTelephoneUrgence("");
+			}
+                        
+                        if($plongeur->getNom() == null || strlen($plongeur->getNom()) == 0){ 
+                            $plongeur->setNom("");
+                        }
+                        if($plongeur->getPrenom() == null || strlen($plongeur->getPrenom()) == 0){ 
+                            $plongeur->setPrenom("");
+                        }
+                         if($plongeur->getDateNaissance() == null || strlen($plongeur->getDateNaissance()) == 0){ 
+                            $plongeur->setDateNaissance("");
+                        }
+                        if($plongeur->getTelephone() == null || strlen($plongeur->getTelephone()) == 0){ 
+                            $plongeur->setTelephone("");
+                        }
+			if($plongeur->getTelephoneUrgence() == null || strlen($plongeur->getTelephoneUrgence()) == 0){ 
+                            $plongeur->setTelephoneUrgence("");
+                        }
+                        
 			$plongeur->updateVersion();
 			
-			$stmt = parent::getConnexion()->prepare("UPDATE db_plongeur SET id_palanquee = ?, id_fiche_securite = ?, nom = ?, prenom = ?, aptitudes = ?, telephone = ?, telephone_urgence = ?, date_naissance = ?, profondeur_realisee = ?, duree_realisee = ?, version = ? WHERE id_plongeur = ?");
+			$stmt = parent::getConnexion()->prepare("UPDATE db_plongeur SET id_palanquee = ?, id_fiche_securite = ?, nom = ?, prenom = ?, aptitudes = ?, telephone = ?, telephone_urgence = ?, date_naissance = ?, profondeur_realisee = ?, duree_realisee = ?, version = ?, desactive = ? WHERE id_plongeur = ?");
 			$result = $stmt->execute([
 				$plongeur->getIdPalanque(),
 				$plongeur->getIdFicheSecurite(),
@@ -131,6 +159,7 @@
 				$plongeur->getProfondeurRealisee(),
 				$plongeur->getDureeRealisee(),
 				$plongeur->getVersion(),
+                                $plongeur->getDesactive(),
 				$plongeur->getId()
 				]);
 			if($result)
@@ -150,7 +179,7 @@
 			//Supprime les plongeurs qui appartenait a la palanqué mais qui ne sont pas dans le tableau
 			$arrayParam = array();
 			$arrayParam[] = $palanquee->getId();
-			$query = "DELETE FROM db_plongeur WHERE id_palanquee = ?";
+			$query = "UPDATE db_plongeur SET desactive = TRUE WHERE id_palanquee = ?";
 			for($i = 0; $i < count($palanquee->getPlongeurs()); $i++) {
 				$query = $query." AND id_plongeur != ?";
 				$arrayParam[] = $palanquee->getPlongeurs()[$i]->getId();
@@ -159,14 +188,18 @@
 			$stmt->execute($arrayParam);
 			
 			//Met a jours les plongeurs dans le tableau
-			if(count($palanquee->getPlongeurs()) > 0){
-				foreach ($palanquee->getPlongeurs() as $plongeur) {
-					if($plongeur->getId() != null)
-						self::update($plongeur);
-					else
-						self::insert($plongeur);
-				}
-			}
+                        $arrayPlongeurs = $palanquee->getPlongeurs();
+                        for($i = 0; $i < count($arrayPlongeurs) ; $i++){
+                            if($arrayPlongeurs[$i]->getId() != null && $arrayPlongeurs[$i]->getId() > 0){
+                                $arrayPlongeurs[$i] = self::update($arrayPlongeurs[$i]);
+                            }
+                            else{
+                                $arrayPlongeurs[$i] = self::insert($arrayPlongeurs[$i]);
+                            }
+                        }
+                        $palanquee->setPlongeurs($arrayPlongeurs);
+                        
+                        return $palanquee;
 		}
 		/**
 		 * Supprime le plongeur de la base dont l'id est passé en parametre
@@ -174,8 +207,8 @@
 		 * @return boolean  true si le plongeur à bien été supprimé, false sinon
 		 */
 		public static function delete($id_plongeur){
-			$stmt = parent::getConnexion()->prepare("DELETE FROM db_plongeur WHERE id_plongeur = ?");
-			return $stmt->execute([$id_plongeur]);
+			$stmt = parent::getConnexion()->prepare("UPDATE db_plongeur SET desactive = TRUE, version = ? WHERE id_plongeur = ?");
+			return $stmt->execute([time(), $id_plongeur]);
 		}
 		/* Private */
 		/**
@@ -201,6 +234,7 @@
 					$plongeur->setDateNaissance($row['date_naissance']);
 					$plongeur->setProfondeurRealisee($row['profondeur_realisee']);
 					$plongeur->setDureeRealisee($row['duree_realisee']);
+                                        $plongeur->setDesactive($row['desactive']);
 					$arrayResultat[] = $plongeur;
 				}
 				return $arrayResultat;

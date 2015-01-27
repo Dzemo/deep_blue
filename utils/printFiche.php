@@ -122,13 +122,13 @@ function printFiche($numero_fiche) {
 								echo "<td rowspan='".$nbPersonnes."'>".$palanquee->getProfondeurPrevue()."</td>";	
 							}			
 						//Profondeur réalisé
-							echo "<td>".$palanquee->getProfondeurRealiseeMoniteur()."</td>";
+							echo "<td>".($palanquee->getProfondeurRealiseeMoniteur() > 0 ? $palanquee->getProfondeurRealiseeMoniteur() : "")."</td>";
 							if($firstIteration){
 						//Temps d'immersion prévu
 								echo "<td rowspan='".$nbPersonnes."'>".$palanquee->getDureePrevue()."</td>";
 							}
 						//Temps d'immersion réalisé
-							echo "<td>".$palanquee->getDureeRealiseeMoniteur()."</td>";
+							echo "<td>".($palanquee->getDureeRealiseeMoniteur() > 0 ? $palanquee->getDureeRealiseeMoniteur() : "")."</td>";
 							
 							echo "</tr>";
 							$firstIteration = FALSE;
@@ -171,13 +171,13 @@ function printFiche($numero_fiche) {
 									echo "<td rowspan='".$nbPersonnes."'>".$palanquee->getProfondeurPrevue()."</td>";	
 								}			
 								//Profondeur réalisé
-								echo "<td>".$plongeur->getProfondeurRealisee()."</td>";
+								echo "<td>".($plongeur->getProfondeurRealisee() > 0 ? $plongeur->getProfondeurRealisee() : "")."</td>";
 								if($firstIteration){
 									//Temps d'immersion prévu
 									echo "<td rowspan='".$nbPersonnes."'>".$palanquee->getDureePrevue()." </td>";
 								}
 								//Temps d'immersion réalisé
-								echo "<td>".$plongeur->getDureeRealisee()." </td>";
+								echo "<td>".($plongeur->getDureeRealisee() > 0 ? $plongeur->getDureeRealisee() : "")." </td>";
 
 							echo "</tr>";						
 							$firstIteration = FALSE;
